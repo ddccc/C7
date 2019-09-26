@@ -2,7 +2,7 @@
 // Date: Wed May 15 15:50:09 2019
 // (C) OntoOO/ Dennis de Champeaux
 
-/*
+/* 
 // calculate the median of 3
 int med(void **A, int a, int b, int c,
 	int (*compareXY ) (const void *, const void * ) ) {
@@ -15,14 +15,12 @@ int med(void **A, int a, int b, int c,
 
 void d4c(void **, int, int, int, int (*)(const void*, const void*));
 
-long Cnt = 0;
 void d4(void **A, int N, int M, int (*compare)(const void*, const void*)) {
   //  printf("quicksort0 N %i M %i L %i\n", N, M, M-N);
   int L = M - N;
   if ( L <= 0 ) return;
   int depthLimit = 2.5 * floor(log(L));
   d4c(A, N, M, depthLimit, compare);
-  printf("d4 cnt %i\n", Cnt);
 } // end d3
 
 void d4c(void **A, int N, int M, int depthLimit, int (*compare)(const void*, const void*)) {

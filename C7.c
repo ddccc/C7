@@ -27,27 +27,11 @@ void cut7c(void **A, int N, int M, int depthLimit,
   L = M - N + 1;
   if ( L <= 1 ) return; 
 
-  // /*
-  // if ( L <= use1pivot ) {
-  // if ( L < 500 ) {
-  // if ( L < 550 ) {
-  if ( L < 600 ) {
-  // if ( L < 650 ) {
-    // quicksort0c(A, N, M, depthLimit, compare); 
-    // quicksort2c(A, N, M, depthLimit, compare);
-    // quickSortD(A, N, M+1, compare); 
-    d4c(A, N, M, depthLimit, compare);
-    // d5c(A, N, M, depthLimit, compare);
-    return;
-  }
-  // */ 
 
-  /*
-  if ( L < 8) { 
-    insertionsort(A, N, M, compare);
+  if ( L < 600 ) {
+    d4c(A, N, M, depthLimit, compare);
     return;
   }
-  */
   if ( depthLimit <= 0 ) {
     heapc(A, N, M, compare);
     return;
@@ -56,31 +40,6 @@ void cut7c(void **A, int N, int M, int depthLimit,
 
   int middlex = N + (L>>1); // N + L/2;
 
-  // const int use1pivot = 500; // 414848587 clocktime 10052
-  // const int use1pivot = 600; // 412019223 clocktime 10021
-  // const int use1pivot = 700; // 409704519 clocktime 10046
-  // const int use1pivot = 800; // 407776929 clocktime 10090
-  /*
-  if ( L < 500 ) { 
-    int p0 = middlex;
-    if ( 7 < L ) {
-      int pn = N;
-      int pm = M;
-      if ( 51 < L ) {
-	int d = (L-2)>>3; // L/8;
-	pn = med(A, pn, pn + d, pn + 2 * d, compare);
-	p0 = med(A, p0 - d, p0, p0 + d, compare);
-	pm = med(A, pm - 2 * d, pm - d, pm, compare);
-      }
-      p0 = med(A, pn, p0, pm, compare);
-    }
-    if ( middlex != p0 ) iswap(p0, middlex, A);
-    dflgm(A, N, M, middlex, cut7c, depthLimit, compare);
-    return;
-  } 
-  // */
-
-  // int middlex = N + (L>>1); // N + L/2;
   const int use1pivot = 500;
   const int use3sample = 700;
   const int use5sample = 900;
@@ -92,16 +51,6 @@ void cut7c(void **A, int N, int M, int depthLimit,
   i = lw = N; j = up = M;
   int N1, M1, k;
 
-  /*
-  if ( L <= use3sample ) { // using 3 elements
-    maxlx = N; minrx = M;
-    maxl = A[N]; middle = A[middlex]; minr = A[M];
-    swap2(maxlx, middlex, A, compare);
-    swap2(middlex, minrx, A, compare);
-    swap2(maxlx, middlex, A, compare);
-    lw = N; up = M;
-  } else {
-  */
   if ( L <= use5sample ) { // using 5 elements
     int e1, e2, e3, e4, e5;
     e1 = maxlx = N; e5 = minrx = M;
@@ -144,28 +93,8 @@ void cut7c(void **A, int N, int M, int depthLimit,
     // assemble the mini array [N1, M1]
     for (k = 0; k < probeLng; k++) // iswap(N1 + k, N + k * offset, A);
       { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
-    // /*
     // sort this mini array to obtain good pivots
     // protect against constant arrays
-    /*
-    if ( M1 - N1 <= use1pivot ) {
-      int p0 = middlex;
-      if ( 8 < L ) {
-	int pn = N;
-	int pm = M;
-	if ( 51 < L ) {
-	  int d = (L-2)>>3; // L/8;
-	  pn = med(A, pn, pn + d, pn + 2 * d, compare);
-	  p0 = med(A, p0 - d, p0, p0 + d, compare);
-	  pm = med(A, pm - 2 * d, pm - d, pm, compare);
-	}
-	p0 = med(A, pn, p0, pm, compare);
-      }
-      if ( middlex != p0 ) iswap(p0, middlex, A);
-      dflgm(A, N1, M1, middlex, cut7c, depthLimit, compare);
-    } else
-      cut7c(A, N1, M1, depthLimit, compare);
-    */
     cut7c(A, N1, M1, depthLimit, compare);
     // pivots
     maxl = A[maxlx]; middle = A[middlex]; minr = A[minrx];

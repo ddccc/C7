@@ -9,7 +9,7 @@ Execute with: ./a.exe
 
 The main function contains lines with the calls of the different 
 algorithms.
-The file fillarray allows to generate arrays of different sizes 
+The procedure fillarray allows to generate arrays of different sizes 
 with different content.
 */
 
