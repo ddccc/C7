@@ -1,10 +1,10 @@
-// File: c:/bsd/rigel/sort/C7/ComparisonCounting.c
+// File: c:/bsd/rigel/sort/C7/ComparisonCountingp.c
 // Date: Thu Sep 12 19:43:32 2019
 // (C) OntoOO/ Dennis de Champeaux
 
 /*
 How to use this driver:
-Compile with: gcc -O3 ComparisonCounting.c
+Compile with: gcc -O3 ComparisonCountingp.c
 Execute with: ./a.exe
 
 The main function contains lines with the calls of the different 
@@ -14,14 +14,17 @@ with different content.
 */
 
 /* 
-Counting comparisons & timings 
+Counting timings but not comparisons.
 */
+
 #include <stdio.h>
 #include <stddef.h>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#include <strings.h>
+// #include <strings.h>
+#include <sys/time.h>
+#include <math.h>
 
 // Example of objects that can be used to populate an array to be sorted:
   // To obtain the int field from X: ((struct intval *) X)->val
@@ -30,9 +33,6 @@ typedef struct intval {
   int val;
   float valf;
 } *Data;
-
-// #include <pthread.h>
-// #include <sys/time.h>
 
 /* 
 // These are included by the includes below
@@ -48,15 +48,18 @@ typedef struct intval {
 #include "C3sort.c" // tps member
 #include "C4.c"     // cut4 member
 #include "C7.c"
+#include "ParC7.c"
+#include "ParC2.c" // These file have commented out items that are in ParC7
+#include "ParC3.c"
+#include "ParC4.c"
 
 void callLQ();
 void callBentley();
-void quicksort0();
-void cut2();
+// void quicksort0();
+// void cut2();
 void tps();
 void cut4();
 void cut7();
-void c7p();
 void dpq();
 void cc();
 void part3(); // MPQ
@@ -69,11 +72,10 @@ long long cnt = 0;
 // **** NOTE, again **** 
 //      All the examples below use ::::
 //          the intval objects, and 
-//          the compareIntVal comparison function
-// int compareIntVal (const void *a, const void *b)
+//          the compareXY comparison function
 int compareXY (const void *a, const void *b)
 {
-  cnt++;
+  // cnt++;
   return ((struct intval *)a)->val - ((struct intval *)b)->val;
 }
 
@@ -89,16 +91,22 @@ int compareIntVal2 (const void **a, const void **b)
 int main (int argc, char *argv[]) {
   printf("Running ComparisonCounting ...\n");
      // 1 pivot
-  // cc("LQ     ", callLQ, compareIntVal2, 0);
-  // cc("bentley", callBentley, compareIntVal2, 0);
-  // cc("cut2   ", cut2, compareXY, 1);
+  // cc("LQ     ", callLQ, compareIntVal2, 0, 0);
+  // cc("bentley", callBentley, compareIntVal2, 0, 0);
+  // cc("cut2   ", cut2, compareXY, 1, 0);
      // 2 pivot
-  // cc("dpq    ", dpq, compareXY, 1);
-  // cc("tps    ", tps, compareXY, 1);
+  // cc("dpq    ", dpq, compareXY, 1, 0);
+  // cc("tps    ", tps, compareXY, 1, 0);
      // 3 pivot
-  // cc("mpq    ", part3, compareXY, 1);
-  // cc("cut4   ", cut4, compareXY, 1);
-  cc("c7     ", cut7, compareXY, 1);
+  // cc("mpq    ", part3, compareXY, 1, 0);
+  // cc("cut4   ", cut4, compareXY, 1, 0);
+  // cc("c7     ", cut7, compareXY, 1, 0);
+     // multi threaded versions; last argument is the # threads
+  int nt = 4;
+  cc("c2p    ", c2p, compareXY, 1, nt);
+  cc("c3p    ", c3p, compareXY, 1, nt);
+  cc("c4p    ", c4p, compareXY, 1, nt);
+  cc("c7p    ", c7p, compareXY, 1, nt);
      // Misc
   // testAlg();
   // validateAlg();
@@ -116,6 +124,7 @@ void *myMalloc(char* location, int size) {
 
 // fillarray assigns random values to the int-field of our objects
 void fillarray(void **A, int lng, int startv) {
+  // printf("fillarray startv %i\n", startv);
   int range = 32*1024*1024; // restrict the largest number
   // int range = 128; // limited # of different elements
   int i;
@@ -131,7 +140,7 @@ void fillarray(void **A, int lng, int startv) {
   }
   // */
   /*
-  // permutation of [0, lng), to avoid duplicates
+  // permutation of [0, lng) to avoid duplicates
   srand(startv);
   for ( i = 0; i < lng; i++) {
     pi = (struct intval *)A[i];
@@ -146,54 +155,97 @@ void fillarray(void **A, int lng, int startv) {
 
 } // end of fillarray
 
-double comparisons; int clocktime; 
+double comparisons; double clocktime; 
 
-void countcomparisons(int siz, void (*alg1)(), 
-		      int (*compar )(), int seed, int bool) {
-  // printf("%s on size: %d ", label, siz);
+void countcomparisons(int siz2, void (*alg1)(), 
+		      int (*compar )(), int seedx, int bool, int numThreads) {
+  //seedx not used 
+  double algTime, T;
+  int seed;
+  int seedLimit = 3;
+  int z;
+  int siz = siz2;
+  printf("timeTest()  on size: %d \n", siz);
+  // construct array
   struct intval *pi;
-  // void **A = myMalloc("countcomparisons 1", sizeof(pi) * siz);
-  void **A = myMalloc("countcomparisons 1", sizeof(pi) * siz);
+  void **A = myMalloc("timeTest 1", sizeof(pi) * siz);
   int i;
   for (i = 0; i < siz; i++) {
-    pi = myMalloc("countcomparisons 2", sizeof (struct intval));
+    pi = myMalloc("timeTest 2", sizeof (struct intval));
     A[i] = pi;
   };
-  // int reps = 30;
-  int reps = 5;
-  for (i = 0; i < reps; i++) fillarray(A, siz, seed); // warm up
-  int TFill = clock();
-  for (i = 0; i < reps; i++) fillarray(A, siz, seed+i);
-  TFill = clock() - TFill;
-  int T = clock();
-  cnt = 0;
-  for (i = siz; i < siz + reps; i++) { 
-    // fill its content
-    fillarray(A, siz, i);
-    // sort it
-    if ( bool ) 
-      (*alg1)(A, 0, siz-1, compar);
-    else
-      (*alg1)(A, siz, compar);
+
+  // warm up the process
+  fillarray(A, siz, 666); 
+  float sumTimes = 0;
+  int reps = 3;
+  // int reps = 1;
+  for (z = 0; z < reps; z++) { // repeat to check stability
+    algTime = 0;
+    // measure the array fill time
+    // int TFill = clock();
+    
+      struct timeval tim;
+      gettimeofday(&tim, NULL);
+      double TFILL=tim.tv_sec+(tim.tv_usec/1000000.0);
+    
+    for (seed = 0; seed < seedLimit; seed++) 
+      fillarray(A, siz, seed);
+      // here alternative ways to fill the array
+      // int k;
+      // for ( k = 0; k < siz; k++ ) A[k] = 0;
+      // for ( k = 0; k < siz; k++ ) A[k] = k%5;
+      // for ( k = 0; k < siz; k++ ) A[k] = siz-k;
+    // TFill = clock() - TFill;
+    gettimeofday(&tim, NULL);
+    TFILL=tim.tv_sec+(tim.tv_usec/1000000.0) - TFILL;
+    // now we know how much time it takes to fill the array
+    // measure the time to fill & sort the array
+    // T = clock();
+    gettimeofday(&tim, NULL);
+    T=tim.tv_sec+(tim.tv_usec/1000000.0);
+    for (seed = 0; seed < seedLimit; seed++) { 
+      fillarray(A, siz, seed);
+      // for ( k = 0; k < siz; k++ ) A[k] = 0;
+      // for ( k = 0; k < siz; k++ ) A[k] = k%5;
+      // for ( k = 0; k < siz; k++ ) A[k] = siz-k;
+      if ( bool ) {
+	if ( numThreads <= 0 )
+	  (*alg1)(A, 0, siz-1, compar);
+	else 
+	  (*alg1)(A, siz, compar, numThreads);
+      }
+      else
+	(*alg1)(A, siz, compar);
+    }
+    // ... and subtract the fill time to obtain the sort time
+    // algTime = clock() - T - TFill;
+    gettimeofday(&tim, NULL);
+    algTime=tim.tv_sec+(tim.tv_usec/1000000.0) - T - TFILL;
+    printf("algTime: %f \n", algTime);
+    // sumTimes = sumTimes + algTime;
+    clocktime += algTime;
   }
-  int algTime = (clock() - T - TFill)/reps;
-  cnt = cnt/reps;
-  // printf("is %g time %i\n", cnt, algTime);
-  comparisons += cnt;
-  clocktime += algTime;
+  // cnt = cnt/(reps*seedLimit);
+  // comparisons += cnt;
+
   // free array
   for (i = 0; i < siz; i++) {
     free(A[i]); 
   };
   free(A);
+
 } // end countcomparisons
 
-int siz = 1024*1024*16;
+// int siz = 1024*1024*16;
+int siz = 1024*1024 *4;
 // int siz = 1024*1024;
 // int siz = 1024*32;
+// int siz = 1024*5;
 // int siz = 1024;
 
-void cc(char* label, void (*alg1)(), int (*compar )(), int bool) {
+void cc(char* label, void (*alg1)(), int (*compar )(), 
+	int bool, int numThreads) {
   // printf("cc %s ", label);
   int size = siz;
   // int repeat = 0;
@@ -202,21 +254,21 @@ void cc(char* label, void (*alg1)(), int (*compar )(), int bool) {
   int repeat = 4;
   int reps = 1;
   int i;
-  while ( repeat < 5) { // no reps with with 5
-    double nln = size * log(size) / log(2.0);
+  while ( repeat < 5) {
+    // double nln = size * log(size) / log(2.0);
     // printf("cc %s size %d min # comparisons: %12.0f\n", label, size, nln);
     printf("cc %s ", label);
     comparisons = 0;
     clocktime = 0;
     for ( i = 0; i < reps; i++)
-      countcomparisons(size, alg1, compar, i, bool);
+      countcomparisons(size, alg1, compar, i, bool, numThreads);
     comparisons = comparisons / reps; clocktime = clocktime / reps;
 
     // printf("size %i comparisons %g clocktime %i clock2 %8.2f\n",
     // printf("size %i comparisons %lld clocktime %i clock2 %8.2f\n",
     //         size, comparisons, clocktime, 1000000 * clocktime/ nln);
-    printf("size %i comparisons %10.0f clocktime %i\n",
-	   size, comparisons, clocktime);
+    printf("size %i comparisons %1.0f clocktime average %f\n",
+	   size, comparisons, clocktime/3);
     size *= 2; repeat++;
   }
   

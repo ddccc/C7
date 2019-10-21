@@ -1,29 +1,29 @@
-// c:/bsd/rigel/sort/CC/C7.c
-// Date: Wed Apr 10 12:28:44 2019
+// c:/bsd/rigel/sort/C7/Cut7p.c
+// Date: Tue Oct 15 16:48:12 2019
 // (C) OntoOO/ Dennis de Champeaux
 
 
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
-void cut7c(void **, int, int, int, int (*)(const void*, const void*));
+void cut7pc(void **, int, int, int, int (*)(const void*, const void*));
 
-void cut7(void **A, int N, int M, int (*compare)()) {
+void cut7p(void **A, int N, int M, int (*compare)()) {
   // printf("cut7 N %i M %i \n", N, M);
   int L = M - N;
   if ( L <= 0 ) return;
   int depthLimit = 1 + 2.5 * floor(log(L));
-  cut7c(A, N, M, depthLimit, compare);
+  cut7pc(A, N, M, depthLimit, compare);
 } // end cut7
 
 // int callCnt;
-void cut7c(void **A, int N, int M, int depthLimit,
+void cut7pc(void **A, int N, int M, int depthLimit,
 		int (*compare)(const void*, const void*)) {
   int L;
   int i, j; // running indices
   void *ai, *aj;
 
  Start:
-  //  printf("cut7c N %i M %i L %i\n", N, M, M-N);
+  // printf("cut7pc N %i M %i L %i\n", N, M, M-N);
   L = M - N + 1;
   if ( L <= 1 ) return; 
 
@@ -95,7 +95,7 @@ void cut7c(void **A, int N, int M, int depthLimit,
       { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
     // sort this mini array to obtain good pivots
     // protect against constant arrays
-    cut7c(A, N1, M1, depthLimit, compare);
+    cut7pc(A, N1, M1, depthLimit, compare);
     // pivots
     maxl = A[maxlx]; middle = A[middlex]; minr = A[minrx];
   }
@@ -104,7 +104,7 @@ void cut7c(void **A, int N, int M, int depthLimit,
   if ( compare(maxl, middle) == 0 || 
        compare(middle, minr) == 0 ) {
     // no good pivots available, thus escape
-    dflgm(A, N, M, middlex, cut7c, depthLimit, compare);
+    dflgm(A, N, M, middlex, cut7pc, depthLimit, compare);
     return;
   }
   if ( use5sample < L ) {
@@ -189,9 +189,9 @@ void cut7c(void **A, int N, int M, int depthLimit,
  GapClosed: ;
 
   // +++++++++++++++ gap closed+++++++++++++++++++
-  /*      L     ML                        MR     R
-       |-----]------]------------------[------[-----|
-       N     i     lw                  up     j     M
+  /*      L     ML                     MR     R
+       |-----]--------------][-------------[-----|
+       N     i             lwup            j     M
   */
   // int k; // for testing
 
@@ -209,10 +209,6 @@ void cut7c(void **A, int N, int M, int depthLimit,
       }
     for ( k = up; k < j; k++ ) 
       if ( compare(A[k], middle) <= 0 || compare(minr, A[k]) <= 0) {
-	struct intval *pk, *pmr;
-	// pk = A[326327]; pmr = minr;
-	// printf("pk %i minr %i\n", pk->val, pmr->val);
-	// printf("Err0 MR k: %i callCnt %i \n",k, callCnt);
 	printf("Err0 MR k: %i\n",k);
 	printf("Err0 N %i i %i lw %i up %i j %i M %i\n",N,i,lw,up,j,M);
 	exit(0);
@@ -225,35 +221,33 @@ void cut7c(void **A, int N, int M, int depthLimit,
     // printf("Rcall N %i i %i lw %i up %i j %i M %i\n",N,i,lw,up,j,M);
     // */
 
-  if ( lw-N < M-lw ) {
-    cut7c(A, N, i, depthLimit, compare);
-    cut7c(A, i+1, lw, depthLimit, compare);
-    if ( j-up < M-j ) {
-      cut7c(A, up, j-1, depthLimit, compare);
-      // cut7c(A, j, M, depthLimit, compare);
-      // return;
-      N = j;
-      goto Start;
-    }
-    cut7c(A, j, M, depthLimit, compare);
-    // cut7c(A, z+1, j-1, depthLimit, compare);
-    // return;
-    N = up; M = j-1;
-    goto Start;
-  }
-  cut7c(A, up, j-1, depthLimit, compare);
-  cut7c(A, j, M, depthLimit, compare);
-  if ( i-N < lw-i ) {
-    cut7c(A, N, i, depthLimit, compare);
-    // cut7c(A, i+1, z, depthLimit, compare);
-    // return;
-    N = i+1; M = lw;
-    goto Start;
-  }
-  cut7c(A, i+1, lw, depthLimit, compare);
-  // cut7c(A, N, i, depthLimit, compare);
-  M = i;
-  goto Start;
-} // end 3-pivot module end cut7
+  /*      L     ML                     MR     R
+       |-----]--------------][-------------[-----|
+       N     i             lwup            j     M
+  */
+	if ( lw-N < M-up ) {
+	  if ( j-up < M-j ) {
+	    addTaskSynchronized(ll, newTask(A, j, M, depthLimit, compare));
+	    addTaskSynchronized(ll, newTask(A, up, j-1, depthLimit, compare));
+	  } else {
+	    addTaskSynchronized(ll, newTask(A, up, j-1, depthLimit, compare));
+	    addTaskSynchronized(ll, newTask(A, j, M, depthLimit, compare));
+	  }
+	  addTaskSynchronized(ll, newTask(A, i+1, lw, depthLimit, compare));
+	  M = i;
+	  goto Start;
+	}
+	if ( i-N < lw-i ) {
+	  addTaskSynchronized(ll, newTask(A, N, i, depthLimit, compare));
+	  addTaskSynchronized(ll, newTask(A, i+1, lw, depthLimit, compare));
+	} else {
+	  addTaskSynchronized(ll, newTask(A, i+1, lw, depthLimit, compare));
+	  addTaskSynchronized(ll, newTask(A, N, i, depthLimit, compare));
+	}
+	addTaskSynchronized(ll, newTask(A, j, M, depthLimit, compare));
+	N = up; M = j-1;
+	goto Start;
+
+} // end 3-pivot module end cut7p
 
 

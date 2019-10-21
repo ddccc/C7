@@ -2,6 +2,9 @@
 // Date: Wed May 15 15:50:09 2019
 // (C) OntoOO/ Dennis de Champeaux
 
+// d4 is a quicksort to be applied only on small arrays; the generated partitions
+// or not ordered for recursive processing; the right one is handled by tail iteration.
+
 /* 
 // calculate the median of 3
 int med(void **A, int a, int b, int c,
@@ -16,7 +19,7 @@ int med(void **A, int a, int b, int c,
 void d4c(void **, int, int, int, int (*)(const void*, const void*));
 
 void d4(void **A, int N, int M, int (*compare)(const void*, const void*)) {
-  //  printf("quicksort0 N %i M %i L %i\n", N, M, M-N);
+  //  printf("d4 N %i M %i L %i\n", N, M, M-N);
   int L = M - N;
   if ( L <= 0 ) return;
   int depthLimit = 2.5 * floor(log(L));

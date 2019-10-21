@@ -1,8 +1,9 @@
-// File: c:/bsd/rigel/sort/c4.c
+// File: c:/bsd/rigel/sort/C7/C4.c
 // Date: Thu Jan 26 14:34:54 2017
 // (C) OntoOO/ Dennis de Champeaux
 
 const int cut4Limit = 500; // 1-pivot prefix bound
+// const int cut4Limit = 1200; // 1-pivot prefix bound
 
 void cut4c();
 // cut4 is doing 4-partitioning using 3 pivots
@@ -30,27 +31,14 @@ void cut4c(void **A, int N, int M, int depthLimit, int (*compareXY)())
   L = M - N +1; 
   if ( L <= 1 ) return;
 
-  // /*
+
   // alternative prefix
   if ( L < cut4Limit ) {
     // cut2c(A, N, M, depthLimit, compareXY);  // alternative
     // quicksort0c(A, N, M, depthLimit, compareXY); 
-    // quicksort2c(A, N, M, depthLimit, compareXY);
-    // quickSortD(A, N, M+1, compareXY); 
-    // d3c(A, N, M, depthLimit, compareXY); 
     d4c(A, N, M, depthLimit, compareXY); 
-    // d5c(A, N, M, depthLimit, compareXY);
     return; 
     }
-  // */
-
-  /*
-  // if ( L < 8 ) { // insertionsort
-  if ( L < 14 ) { // insertionsort
-    insertionsort(A, N, M, compareXY);
-    return;
-  }
-  //  */
 
   if ( depthLimit <= 0 ) {
     heapc(A, N, M, compareXY);
@@ -58,105 +46,7 @@ void cut4c(void **A, int N, int M, int depthLimit, int (*compareXY)())
   }
   depthLimit--;
 
-  /*
-  // if ( L < cut4Limit ) { // best value 
-  if ( L < 500 ) { 
-    int middlex = N + (L>>1); // N + L/2;
-    int p0 = middlex;
-    if ( 7 < L ) {
-      int pn = N;
-      int pm = M;
-      if ( 51 < L ) {
-	int d = (L-2)>>3; // L/8;
-	pn = med(A, pn, pn + d, pn + 2 * d, compareXY);
-	p0 = med(A, p0 - d, p0, p0 + d, compareXY);
-	pm = med(A, pm - 2 * d, pm - d, pm, compareXY);
-      }
-      p0 = med(A, pn, p0, pm, compareXY);
-    }
-    if ( L < 500 ) {
-      if ( middlex != p0 ) iswap(p0, middlex, A);
-      dflgm(A, N, M, middlex, cut4c, depthLimit, compareXY);
-      return;
-    }
-  
-    /*
-    if ( p0 != N ) iswap(p0, N, A);
-    void *T = A[N], *AI, *AJ;
-    int I, J;
 
-   // 1st round of partitioning for larger segments
-    // Minimizing comparisons is sacrificed for faster loops 
-	// The left segment has elements <= T
-	// The right segment has elements > T
-    //
-    //	  |----------]-------------[-----------|
-    //    N   <=T    I             J   >T      M   
-
-    J = M+1;
-    while ( compareXY(T, A[--J]) < 0 );
-    if ( N == J ) { // poor pivot  N < x -> T < A[x], suspect bad input
-      int px =  N + (L>>1); // N + L/2;
-      iswap(N, px, A);
-      dflgm(A, N, M, px, cut4c, depthLimit, compareXY);
-      return;
-    }
-    AJ = A[J]; // A[J] <= T
-
-    // N < J <= M  
-    I = N;
-    if ( J < M ) while ( compareXY(A[++I], T) <= 0 ); 
-    else { // J = M
-      if ( compareXY(T, A[M]) == 0 ) { // bail out
-	int px =  N + (L>>1); // N + L/2;
-	iswap(N, px, A);
-	dflgm(A, N, M, px, cut4c, depthLimit, compareXY);
-	return;
-      }
-      // define M2?
-      while ( I < J && compareXY(A[I], T) <= 0 ) { I++; }
-      if ( M == I ) { // all elements are <= T, suspect bad input
-	int px =  N + (L>>1); // N + L/2;
-	iswap(N, px, A);
-	dflgm(A, N, M, px, cut4c, depthLimit, compareXY);
-	return;
-      }
-    }
-
-  if ( I < J ) {
-    // iswap(i, j, A);
-    A[J] = A[I]; A[I] = AJ;
-  } else goto Skip;
-
-  Left: 
-  //
-  //	  |----------]-------------[-----------|
-  //	  N   <=T    I             J   >T      M   
-  //
-    while ( compareXY(A[++I],  T) <= 0 ); 
-    if ( J <= I ) goto Skip;
-    AI = A[I];
-    while ( compareXY(T, A[--J]) < 0 ); 
-    if ( J <= I ) goto Skip;
-    AJ = A[J];
-    A[I] = AJ; A[J] = AI;
-    goto Left;
- Skip:
-
-    // Tail iteration
-    J = I-1;
-    iswap(N, J, A); // put the pivot
-    if ( (I - N) < (M - J) ) { // smallest one first
-      if ( N < J-1 ) cut4c(A, N, J-1, depthLimit, compareXY);
-      N = I; 
-      goto Start;
-    } else {
-      if (I < M ) cut4c(A, I, M, depthLimit, compareXY);
-      M = J-1;
-      goto Start;
-    }
-  } // end cut4Limit
-  // */
 
   int k, N1, M1; // for sampling
   int maxlx, middlex, mrx, minrx;  
@@ -167,6 +57,7 @@ void cut4c(void **A, int N, int M, int depthLimit, int (*compareXY)())
   z = middlex = N + (L>>1); // N + L/2
 
   const int small = 900; 
+  // const int small = 4000; 
   if ( L < small ) { // use 5 elements for sampling
     int e1, e2, e3, e4, e5;
     e1 = maxlx = N; e5 = minrx = M; mrx = middlex+1;
@@ -190,19 +81,6 @@ void cut4c(void **A, int N, int M, int depthLimit, int (*compareXY)())
     A[e1] = ae1; A[e2] = ae2; A[e3] = ae3; A[e4] = ae4; A[e5] = ae5;
     iswap(mrx, e4, A);
     lw = z-1; up = mrx+1;
-    /* 
-  } else if ( 9 == probeLng ) { // found no use for 9-elements sampling 
-    N1 = maxlx = middlex - 4;
-    M1 = minrx = middlex + 4;
-    mrx = middlex + 2;
-    int offset = L/probeLng;
-    // assemble the mini array [N1, M1]
-    for (k = 1; k <= 4; k++) // iswap(middlex + k, middlex + k * offset, A)  
-      { int xx = middlex + k, yy = middlex + k * offset; iswap(xx, yy, A); }
-    for (k = 1; k <= 4; k++) // iswap(middlex - k, middlex - k * offset, A)  
-      { int xx = middlex - k, yy = middlex - k * offset; iswap(xx, yy, A); }
-    quicksort0(A, N1, M1, compareXY); 
-    */
   } else { // small <= L, use a variable number for sampling
     int probeLng = sqrt(L/5.8); 
     int halfSegmentLng = probeLng >> 1; // probeLng/2;
@@ -219,19 +97,7 @@ void cut4c(void **A, int N, int M, int depthLimit, int (*compareXY)())
     for (k = 0; k < probeLng; k++) // iswap(N1 + k, N + k * offset, A);
     { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
     // sort this mini array to obtain good pivots
-    // protect against constant arrays
-    /*
-    int p0 = N1 + (probeLng>>1);
-    int pn = N1, pm = M1, d = (probeLng-3)>>3;
-    pn = med(A, pn, pn + d, pn + 2 * d, compareXY);
-    p0 = med(A, p0 - d, p0, p0 + d, compareXY);
-    pm = med(A, pm - 2 * d, pm - d, pm, compareXY);
-    p0 = med(A, pn, p0, pm, compareXY);
-    if ( middlex != p0 ) iswap(p0, middlex, A);
-    dflgm(A, N1, M1, middlex, cut4c, depthLimit, compareXY);
-    // */
     cut4c(A, N1, M1, depthLimit, compareXY);
-
     lw = maxlx; up = minrx;
   }
 
@@ -258,15 +124,8 @@ void cut4c(void **A, int N, int M, int depthLimit, int (*compareXY)())
     }
     j++;
   } 
-  /* obsolete
-  else if ( 9 == probeLng ) {
-    // init segments
-    up = mrx; mrx--;; 
-    iswap(up, mrx, A);
-    lw = middlex - 1; 
-    iswap(N, maxlx, A); iswap(M, minrx, A);
-  }
-  */
+
+  // get moving
 
   void *x, *y; // values  
   /* The last element in x must be insert somewhere. The hole
