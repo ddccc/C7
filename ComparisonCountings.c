@@ -4,7 +4,10 @@
 
 /*
 How to use this driver:
-Compile with: gcc -O3 ComparisonCounting.c
+Compile with: 
+   gcc ComparisonCounting.c
+   gcc -O2 ComparisonCounting.c  <== best
+   gcc -O3 ComparisonCounting.c
 Execute with: ./a.exe
 
 The main function contains lines with the calls of the different 
@@ -49,6 +52,8 @@ typedef struct intval {
 #include "C3sort.c" // tps member
 #include "C4.c"     // cut4 member
 #include "C7.c"
+#include "C2LR.c"
+
 
 void callLQ();
 void callBentley();
@@ -61,6 +66,7 @@ void c7p();
 void dpq();
 void cc();
 void part3(); // MPQ
+void cut2lr();
 void testAlg();
 void validateAlg();
 
@@ -74,14 +80,14 @@ long long cnt = 0;
 // int compareIntVal (const void *a, const void *b)
 int compareXY (const void *a, const void *b)
 {
-  // cnt++; // no comparison cnt in this version
+  cnt++; // no comparison cnt in this version
   return ((struct intval *)a)->val - ((struct intval *)b)->val;
 }
 
 // This comparison formula is used for qsort in callQsort and
 // for bentley in callBentley 
 int compareIntVal2 (const void **a, const void **b)
-{ // cnt++; // no comparison cnt in this version
+{ cnt++; // no comparison cnt in this version
   struct intval *pa = (struct intval *) *a;
   struct intval *pb = (struct intval *) *b;
   return (pa->val - pb->val);
@@ -91,15 +97,16 @@ int main (int argc, char *argv[]) {
   printf("Running ComparisonCounting ...\n");
      // 1 pivot
   // cc("LQ     ", callLQ, compareIntVal2, 0);
-  // cc("bentley", callBentley, compareIntVal2, 0);
+  cc("bentley", callBentley, compareIntVal2, 0);
   cc("cut2   ", cut2, compareXY, 1);
+  cc("cut2lr ", cut2lr, compareXY, 1);
      // 2 pivot
   // cc("dpq    ", dpq, compareXY, 1);
-  cc("tps    ", tps, compareXY, 1);
+  // cc("tps    ", tps, compareXY, 1);
      // 3 pivot
   // cc("mpq    ", part3, compareXY, 1);
   cc("cut4   ", cut4, compareXY, 1);
-  cc("c7     ", cut7, compareXY, 1);
+  // cc("c7     ", cut7, compareXY, 1);
      // Misc
   // testAlg();
   // validateAlg();
@@ -160,8 +167,9 @@ void countcomparisons(int siz, void (*alg1)(),
     pi = myMalloc("countcomparisons 2", sizeof (struct intval));
     A[i] = pi;
   };
-  // int reps = 30;
-  int reps = 5;
+  // int reps = 20;
+  // int reps = 5;
+  int reps = 5 * 1024 *4;
   for (i = 0; i < reps; i++) fillarray(A, siz, seed); // warm up
   // measure the array fill time
   // int TFill = clock();
@@ -206,7 +214,12 @@ void countcomparisons(int siz, void (*alg1)(),
 } // end countcomparisons
 
 // int siz = 1024*1024*16;
-int siz = 1024*1024*4;
+// int siz = 1024*1024*4;
+// int siz = 1024*1024;
+// int siz = 1024*256;
+// int siz = 1024*64;
+// int siz = 1024*16;
+int siz = 1024*4;
 // int siz = 1024*32;
 // int siz = 1024;
 

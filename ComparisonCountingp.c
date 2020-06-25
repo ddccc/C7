@@ -4,7 +4,10 @@
 
 /*
 How to use this driver:
-Compile with: gcc -O3 ComparisonCountingp.c
+Compile with: 
+     gcc ComparisonCountingp.c
+     gcc -O2 ComparisonCountingp.c  <==
+     gcc -O3 ComparisonCountingp.c
 Execute with: ./a.exe
 
 The main function contains lines with the calls of the different 
@@ -102,7 +105,7 @@ int main (int argc, char *argv[]) {
   // cc("cut4   ", cut4, compareXY, 1, 0);
   // cc("c7     ", cut7, compareXY, 1, 0);
      // multi threaded versions; last argument is the # threads
-  int nt = 4;
+  int nt = 1;
   cc("c2p    ", c2p, compareXY, 1, nt);
   cc("c3p    ", c3p, compareXY, 1, nt);
   cc("c4p    ", c4p, compareXY, 1, nt);
@@ -152,18 +155,13 @@ void fillarray(void **A, int lng, int startv) {
     iswap(i, j, A);
   }
   */
-
 } // end of fillarray
 
 double comparisons; double clocktime; 
 
 void countcomparisons(int siz2, void (*alg1)(), 
-		      int (*compar )(), int seedx, int bool, int numThreads) {
-  //seedx not used 
+		      int (*compar )(), int seed, int bool, int numThreads) {
   double algTime, T;
-  int seed;
-  int seedLimit = 3;
-  int z;
   int siz = siz2;
   printf("timeTest()  on size: %d \n", siz);
   // construct array
@@ -175,59 +173,53 @@ void countcomparisons(int siz2, void (*alg1)(),
     A[i] = pi;
   };
 
-  // warm up the process
-  fillarray(A, siz, 666); 
-  float sumTimes = 0;
-  int reps = 3;
+  int reps = 5;
   // int reps = 1;
-  for (z = 0; z < reps; z++) { // repeat to check stability
-    algTime = 0;
-    // measure the array fill time
-    // int TFill = clock();
+  // warm up the process
+  for (i = 0; i < reps; i++) fillarray(A, siz, seed); 
+  // measure the array fill time
+  // int TFill = clock();
     
       struct timeval tim;
       gettimeofday(&tim, NULL);
       double TFILL=tim.tv_sec+(tim.tv_usec/1000000.0);
     
-    for (seed = 0; seed < seedLimit; seed++) 
-      fillarray(A, siz, seed);
+  for (i = 0; i < reps; i++) fillarray(A, siz, seed+i);
       // here alternative ways to fill the array
       // int k;
       // for ( k = 0; k < siz; k++ ) A[k] = 0;
       // for ( k = 0; k < siz; k++ ) A[k] = k%5;
       // for ( k = 0; k < siz; k++ ) A[k] = siz-k;
-    // TFill = clock() - TFill;
-    gettimeofday(&tim, NULL);
-    TFILL=tim.tv_sec+(tim.tv_usec/1000000.0) - TFILL;
-    // now we know how much time it takes to fill the array
-    // measure the time to fill & sort the array
-    // T = clock();
-    gettimeofday(&tim, NULL);
-    T=tim.tv_sec+(tim.tv_usec/1000000.0);
-    for (seed = 0; seed < seedLimit; seed++) { 
-      fillarray(A, siz, seed);
+      // TFill = clock() - TFill;
+       gettimeofday(&tim, NULL);
+       TFILL=tim.tv_sec+(tim.tv_usec/1000000.0) - TFILL;
+ // now we know how much time it takes to fill the array
+ // measure the time to fill & sort the array
+ // T = clock();
+       gettimeofday(&tim, NULL);
+       T=tim.tv_sec+(tim.tv_usec/1000000.0);
+
+  cnt = 0;
+  for (i = siz; i < siz + reps; i++) { 
+    fillarray(A, siz, i);
       // for ( k = 0; k < siz; k++ ) A[k] = 0;
       // for ( k = 0; k < siz; k++ ) A[k] = k%5;
       // for ( k = 0; k < siz; k++ ) A[k] = siz-k;
-      if ( bool ) {
-	if ( numThreads <= 0 )
-	  (*alg1)(A, 0, siz-1, compar);
-	else 
-	  (*alg1)(A, siz, compar, numThreads);
-      }
-      else
-	(*alg1)(A, siz, compar);
+    if ( bool ) {
+      if ( numThreads <= 0 )
+	(*alg1)(A, 0, siz-1, compar);
+      else 
+	(*alg1)(A, siz, compar, numThreads);
     }
-    // ... and subtract the fill time to obtain the sort time
-    // algTime = clock() - T - TFill;
-    gettimeofday(&tim, NULL);
-    algTime=tim.tv_sec+(tim.tv_usec/1000000.0) - T - TFILL;
-    printf("algTime: %f \n", algTime);
-    // sumTimes = sumTimes + algTime;
-    clocktime += algTime;
+    else
+      (*alg1)(A, siz, compar);
   }
-  // cnt = cnt/(reps*seedLimit);
-  // comparisons += cnt;
+       // ... and subtract the fill time to obtain the sort time
+       // algTime = clock() - T - TFill;
+       gettimeofday(&tim, NULL);
+       algTime=tim.tv_sec+(tim.tv_usec/1000000.0) - T - TFILL;
+  //printf("algTime: %f \n", algTime);
+  clocktime += algTime/reps;
 
   // free array
   for (i = 0; i < siz; i++) {
@@ -268,7 +260,7 @@ void cc(char* label, void (*alg1)(), int (*compar )(),
     // printf("size %i comparisons %lld clocktime %i clock2 %8.2f\n",
     //         size, comparisons, clocktime, 1000000 * clocktime/ nln);
     printf("size %i comparisons %1.0f clocktime average %f\n",
-	   size, comparisons, clocktime/3);
+	   size, comparisons, clocktime);
     size *= 2; repeat++;
   }
   

@@ -1,81 +1,79 @@
-// c:/bsd/rigel/sort/C2sort.c
-// Date: Fri Jan 31 13:32:12 2014, 2017 Sun Mar 03 16:14:28 2019
+// c:/bsd/rigel/sort/C7/C2M.c
+// Date: Sat Jan 04 16:19:17 2020
 // (C) OntoOO/ Dennis de Champeaux
 
-const int cut2Limit =  600; 
+// const int cut2Limit =  600; 
 
+// const int block = 15*1024; // 384   13.3
+// const int block = 31*1024; // 384   13.3
+// const int block = 63*1024; // 384   13.8
+// const int block = 8*1024; // 385   13.4
+// const int block = 4*1024; // 386   13.3
+// const int block = 2*1024; // 387   13.2
+// const int block = 1024; // 387   13.2
+// const int block = 1024; // 388   13.2
+// const int block = 1024; // 390   13.2 with 5 element selector
+// const int block = 600; // 391   13.0 with 5 element selector
+// const int block = 400; // 393   13.0 with 5 element selector
+// const int block = 300; // 393   13.0 with 5 element selector
+// const int block = 300; // 393   12.6 with  600   d5  11    
+// const int block = 300; // 393   12.6 with  600   d5  8    
+// const int block = 300; // 393   12.6 with  700   d5  8    
+// const int block = 400; // 392   12.6 with  700   d5  8    
+const int block = 200; // 394   12.6 with  700   d5  8    
 
+void *myMalloc();
+void c2mc();
+void c2c();
+void d5c();
 
-void cut2c();
-// cut2 is used as a best in class quicksort implementation 
-// with a defense against quadratic behavior due to duplicates
-// cut2 is a support function to call up the workhorse cut2c
-void cut2(void **A, int N, int M, int (*compare)()) { 
-  // printf("cut2 %d %d %d\n", N, M, M-N);
-  int L = M - N;
-  if ( L < cut2Limit ) { 
-    quicksort0(A, N, M, compare);
+/* This sorter is a hybrid with:
+- d5c
+    insertionsort
+    c2c  mergesort
+    simple quicksort
+- cut2c type quickort
+    with escapes to cut2c is segment initialization fails
+*/
+
+void c2m(void **A, int N, int M, int (*compare)()) { 
+  // printf("c2m %d %d %d\n", N, M, M-N);
+  int L = M - N + 1;
+  void **C = myMalloc("c2m", block*sizeof(A));
+  if ( L <= block ) {
+    c2c(A, C, N, M, compare);
     return;
   }
   int depthLimit = 1 + 2.5 * floor(log(L));
-  cut2c(A, N, M, depthLimit, compare);
-} // end cut2
+  c2mc(A, C, N, M, depthLimit, compare);
+} // end c2m
 
-// static void quicksort1c(void **, int, int, int, int (*)(const void*, const void*));
 
-// Cut2c does 2-partitioning with one pivot.
-// Cut2c invokes dflgm when trouble is encountered.
-void cut2c(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
+
+// c2mc does 2-partitioning with one pivot and uses merge sort on small segments
+// c2mc invokes cut2c when trouble is encountered.
+void c2mc(void **A, void **C, int N, int M, int depthLimit, int (*compareXY)()) {
   int L;
  Start:
+  // printf("c2mc %d %d %d\n", N, M, M-N);
   L = M - N + 1;
   if ( L <= 1 ) return;
 
-  // /*
-  if ( L < 8 ) { // insertionsort
-    insertionsort(A, N, M, compareXY);
+  if ( L <= 700 ) {
+    d5c(A, C, N, M, depthLimit, compareXY);
     return;
   }
-  //  */
-
   if ( depthLimit <= 0 ) {
     heapc(A, N, M, compareXY);
     return;
   }
   depthLimit--;
 
-  // /*
-  if ( L < cut2Limit ) { 
-    // This alternative over esaping to quicksort0c reduced 1/2% comparions
-    int middlex = N + (L>>1); // N + L/2;
-    int p0 = middlex;
-    if ( 7 < L ) {
-      int pn = N;
-      int pm = M;
-      if ( 51 < L ) {	
-	int d = (L-2)>>3; // L/8;
-	pn = med(A, pn, pn + d, pn + 2 * d, compareXY);
-	p0 = med(A, p0 - d, p0, p0 + d, compareXY);
-	pm = med(A, pm - 2 * d, pm - d, pm, compareXY);
-      }
-      p0 = med(A, pn, p0, pm, compareXY);
-    }
-    if ( middlex != p0 ) iswap(p0, middlex, A);
-    dflgm(A, N, M, middlex, cut2c, depthLimit, compareXY);
-    return;
-  }
-  // */
-  /*
-  if ( L < cut2Limit ) { 
-    quicksort0c(A, N, M, depthLimit, compareXY);
-    return;
-  }
-  // */
-
   register void *T; // pivot
   register int I = N, J = M; // indices
   int middlex = N + (L>>1); // N + L/2
   void *middle;
+
   const int small = 3200;
 
   if ( L < small ) { // use 5 elements for sampling
@@ -103,6 +101,7 @@ void cut2c(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
 
 	if ( compareXY(ae5, ae3) <= 0) {
 	  // give up because cannot find a good pivot
+	  // cut2c(A, N, M, depthLimit, compareXY);
 	  // dflgm is a dutch flag type of algorithm
 	  void cut2c();
 	  dflgm(A, N, M, e3, cut2c, depthLimit, compareXY);
@@ -129,22 +128,17 @@ void cut2c(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     for (k = 0; k < probeLng; k++) // iswap(N1 + k, N + k * offset, A);
       { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
     // sort this mini array to obtain good pivots
-    if ( probeLng < 120 ) quicksort0c(A, N1, M1, depthLimit, compareXY); else {
-      // protect against constant arrays
-      int p0 = N1 + (probeLng>>1);
-      int pn = N1, pm = M1, d = (probeLng-3)>>3;
-      pn = med(A, pn, pn + d, pn + 2 * d, compareXY);
-      p0 = med(A, p0 - d, p0, p0 + d, compareXY);
-      pm = med(A, pm - 2 * d, pm - d, pm, compareXY);
-      p0 = med(A, pn, p0, pm, compareXY);
-      if ( p0 != middlex ) iswap(p0, middlex, A); 
-      dflgm(A, N1, M1, middlex, quicksort0c, depthLimit, compareXY);
-    }
+    // cut2c(A, N1, M1, depthLimit, compareXY);
+    // c2c(A, C, N1, M1, compareXY);
+    c2mc(A, C, N1, M1, depthLimit, compareXY);
     T = middle = A[middlex];
+
     if ( compareXY(A[M1], middle) <= 0 ) {
       // give up because cannot find a good pivot
-      // dflgm is a dutch flag type of algorithm
-      void cut2c();
+      // cut2c(A, N, M, depthLimit, compareXY);
+      // void **C2 = myMalloc("c2mc2", L*sizeof(A));
+      // c2c(A, C2, N, M, compareXY);
+      // void cut2c();
       dflgm(A, N, M, middlex, cut2c, depthLimit, compareXY);
       return;
     }
@@ -157,7 +151,7 @@ void cut2c(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     }
     J++;
   }
-  
+
   register void *AI, *AJ; // array values
 	// The left segment has elements <= T
 	// The right segment has elements >= T
@@ -172,12 +166,12 @@ void cut2c(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
 	}
 	// Tail iteration
 	if ( (I - N) < (M - J) ) { // smallest one first
-	  cut2c(A, N, J, depthLimit, compareXY);
+	  c2mc(A, C, N, J, depthLimit, compareXY);
 	  N = I; 
 	  goto Start;
 	}
-	cut2c(A, I, M, depthLimit, compareXY);
+	c2mc(A, C, I, M, depthLimit, compareXY);
 	M = J;
 	goto Start;
 
-} // (*  OF cut2; *) the brackets remind that this was once, 1985, Pascal code
+} // (*  OF c2m; *) the brackets remind that this was once, 1985, Pascal code

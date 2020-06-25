@@ -4,7 +4,10 @@
 
 /*
 How to use this driver:
-Compile with: gcc -O3 ComparisonCounting.c
+Compile with: 
+    gcc ComparisonCounting.c
+    gcc -O2 ComparisonCounting.c  <==
+    gcc -O3 ComparisonCounting.c
 Execute with: ./a.exe
 
 The main function contains lines with the calls of the different 
@@ -48,6 +51,7 @@ typedef struct intval {
 #include "C3sort.c" // tps member
 #include "C4.c"     // cut4 member
 #include "C7.c"
+#include "C2LR.c"
 
 void callLQ();
 void callBentley();
@@ -60,6 +64,7 @@ void c7p();
 void dpq();
 void cc();
 void part3(); // MPQ
+void cut2lr();
 void testAlg();
 void validateAlg();
 
@@ -92,6 +97,7 @@ int main (int argc, char *argv[]) {
   // cc("LQ     ", callLQ, compareIntVal2, 0);
   // cc("bentley", callBentley, compareIntVal2, 0);
   // cc("cut2   ", cut2, compareXY, 1);
+  cc("cut2lr ", cut2lr, compareXY, 1);
      // 2 pivot
   // cc("dpq    ", dpq, compareXY, 1);
   // cc("tps    ", tps, compareXY, 1);
@@ -99,6 +105,7 @@ int main (int argc, char *argv[]) {
   // cc("mpq    ", part3, compareXY, 1);
   // cc("cut4   ", cut4, compareXY, 1);
   cc("c7     ", cut7, compareXY, 1);
+
      // Misc
   // testAlg();
   // validateAlg();
@@ -188,8 +195,8 @@ void countcomparisons(int siz, void (*alg1)(),
   free(A);
 } // end countcomparisons
 
-int siz = 1024*1024*16;
-// int siz = 1024*1024;
+// int siz = 1024*1024*16;
+int siz = 1024*1024*4;
 // int siz = 1024*32;
 // int siz = 1024;
 
