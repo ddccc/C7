@@ -1,11 +1,10 @@
-// c:/bsd/rigel/sort/C2Left.c
+// c:/bsd/rigel/sort/C2LR.c
 // Date: Wed Jun 10 15:37:30 2020
 // (C) OntoOO/ Dennis de Champeaux
 
 const int cut2LRLimit =  600; 
-#define min(a, b)  (a) < (b) ? a : b
 
-const int bufSize = 1000;
+const int bufSize = 250;
 
 void cut2lrc();
 // cut2left is a support function to call up the workhorse cut2leftc
@@ -34,20 +33,26 @@ void cut2lrc(void **A, int N, int M,
   L = M - N + 1;
   if ( L <= 1 ) return;
 
-  if ( L < 8 ) { // insertionsort
-    insertionsort(A, N, M, compareXY);
-    return;
-  }
-
-  if ( depthLimit <= 0 ) {
-    heapc(A, N, M, compareXY);
-    return;
-  }
-  depthLimit--;
-
-  // /*
   if ( L < cut2LRLimit ) { 
-    // This alternative over escaping to quicksort0c reduced 1/2% comparions
+    /*
+    quicksort0c(A, N, M, depthLimit, compareXY);
+    return;
+    */
+
+
+    // /*
+    if ( L < 8 ) { // insertionsort
+      insertionsort(A, N, M, compareXY);
+      return;
+    }
+
+    if ( depthLimit <= 0 ) {
+      heapc(A, N, M, compareXY);
+      return;
+    }
+    depthLimit--;
+
+    // This alternative over escaping to quicksort0c reduced 1/2% comparisons
     int middlex = N + (L>>1); // N + L/2;
     int p0 = middlex;
     if ( 7 < L ) {
@@ -64,14 +69,8 @@ void cut2lrc(void **A, int N, int M,
     if ( middlex != p0 ) iswap(p0, middlex, A);
     dflgm(A, N, M, middlex, cut2lrc, depthLimit, compareXY);
     return;
+    // */
   }
-  // */
-  /*
-  if ( L < cut2LRLimit ) { 
-    quicksort0c(A, N, M, depthLimit, compareXY);
-    return;
-  }
-  // */
 
   register void *T; // pivot
   register int I = N, J = M; // indices
@@ -164,9 +163,8 @@ void cut2lrc(void **A, int N, int M,
 	// The right segment has elements >= T 
         //    and at least one element > T
   int kl, kr, idxl, idxr; 
-  int buf0 = 300; float alpha = 150/ (16*1024*1024);
-  int bufx = ( L < 5*1024 ? buf0 : buf0 + alpha*L );
-  bufx = min(bufx, bufSize);
+  int bufx = bufSize-1;
+
   /*
        |------]--------------------[------|
        N      I                    J      M

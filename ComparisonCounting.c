@@ -95,16 +95,16 @@ int main (int argc, char *argv[]) {
   printf("Running ComparisonCounting ...\n");
      // 1 pivot
   // cc("LQ     ", callLQ, compareIntVal2, 0);
-  // cc("bentley", callBentley, compareIntVal2, 0);
-  // cc("cut2   ", cut2, compareXY, 1);
+  cc("bentley", callBentley, compareIntVal2, 0);
+  cc("cut2   ", cut2, compareXY, 1);
   cc("cut2lr ", cut2lr, compareXY, 1);
      // 2 pivot
   // cc("dpq    ", dpq, compareXY, 1);
   // cc("tps    ", tps, compareXY, 1);
      // 3 pivot
   // cc("mpq    ", part3, compareXY, 1);
-  // cc("cut4   ", cut4, compareXY, 1);
-  cc("c7     ", cut7, compareXY, 1);
+  cc("cut4   ", cut4, compareXY, 1);
+  // cc("c7     ", cut7, compareXY, 1);
 
      // Misc
   // testAlg();
@@ -166,8 +166,8 @@ void countcomparisons(int siz, void (*alg1)(),
     pi = myMalloc("countcomparisons 2", sizeof (struct intval));
     A[i] = pi;
   };
-  // int reps = 30;
-  int reps = 5;
+  int reps = 20;
+  // int reps = 5;
   for (i = 0; i < reps; i++) fillarray(A, siz, seed); // warm up
   int TFill = clock();
   for (i = 0; i < reps; i++) fillarray(A, siz, seed+i);
@@ -195,8 +195,8 @@ void countcomparisons(int siz, void (*alg1)(),
   free(A);
 } // end countcomparisons
 
-// int siz = 1024*1024*16;
-int siz = 1024*1024*4;
+int siz = 1024*1024*16;
+// int siz = 1024*1024*4;
 // int siz = 1024*32;
 // int siz = 1024;
 

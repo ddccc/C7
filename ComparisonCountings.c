@@ -80,14 +80,14 @@ long long cnt = 0;
 // int compareIntVal (const void *a, const void *b)
 int compareXY (const void *a, const void *b)
 {
-  cnt++; // no comparison cnt in this version
+  // cnt++; // no comparison cnt in this version
   return ((struct intval *)a)->val - ((struct intval *)b)->val;
 }
 
 // This comparison formula is used for qsort in callQsort and
 // for bentley in callBentley 
 int compareIntVal2 (const void **a, const void **b)
-{ cnt++; // no comparison cnt in this version
+{ // cnt++; // no comparison cnt in this version
   struct intval *pa = (struct intval *) *a;
   struct intval *pb = (struct intval *) *b;
   return (pa->val - pb->val);
@@ -167,9 +167,9 @@ void countcomparisons(int siz, void (*alg1)(),
     pi = myMalloc("countcomparisons 2", sizeof (struct intval));
     A[i] = pi;
   };
-  // int reps = 20;
+  int reps = 20;
   // int reps = 5;
-  int reps = 5 * 1024 *4;
+  // int reps = 5 * 1024 *4;
   for (i = 0; i < reps; i++) fillarray(A, siz, seed); // warm up
   // measure the array fill time
   // int TFill = clock();
@@ -213,14 +213,14 @@ void countcomparisons(int siz, void (*alg1)(),
   free(A);
 } // end countcomparisons
 
-// int siz = 1024*1024*16;
+int siz = 1024*1024*16;
 // int siz = 1024*1024*4;
 // int siz = 1024*1024;
 // int siz = 1024*256;
 // int siz = 1024*64;
-// int siz = 1024*16;
-int siz = 1024*4;
 // int siz = 1024*32;
+// int siz = 1024*16;
+// int siz = 1024*4;
 // int siz = 1024;
 
 void cc(char* label, void (*alg1)(), int (*compar )(), int bool) {

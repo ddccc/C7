@@ -81,7 +81,7 @@ void quicksort0c(void **A, int N, int M, int depthLimit, int (*compareXY)(const 
     register int I, J; // indices
     register void *AI, *AJ; // array values
     // int k;
-    // int small = 120; 
+    // int small = 400; 
 
     if ( L < small ) { 
       // This is a B&M variant

@@ -42,7 +42,7 @@ void insertionsort(void * a[], int lo, int M, int (*CPR)()) {
       if (CPR(t, u) < 0) { a[lo] = u; a[i] = t; }
     }
     int end, k;
-    for (end = lo + size - 1, k; i < end; ++i) {
+    for (end = lo + size - 1; i < end; ++i) {
       void *fst = a[k = i], *snd = a[++i];
       if (CPR(fst, snd) > 0) {
         for (; k > lo; --k) {
