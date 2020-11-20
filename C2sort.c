@@ -44,9 +44,9 @@ void cut2c(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
   }
   depthLimit--;
 
-  // /*
+  /*
   if ( L < cut2Limit ) { 
-    // This alternative over esaping to quicksort0c reduced 1/2% comparions
+    // This alternative over esaping to quicksort0c reduced 1/2% comparisons
     int middlex = N + (L>>1); // N + L/2;
     int p0 = middlex;
     if ( 7 < L ) {
@@ -65,7 +65,7 @@ void cut2c(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     return;
   }
   // */
-  /*
+  // /*
   if ( L < cut2Limit ) { 
     quicksort0c(A, N, M, depthLimit, compareXY);
     return;
@@ -129,6 +129,7 @@ void cut2c(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     for (k = 0; k < probeLng; k++) // iswap(N1 + k, N + k * offset, A);
       { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
     // sort this mini array to obtain good pivots
+    /*
     if ( probeLng < 120 ) quicksort0c(A, N1, M1, depthLimit, compareXY); else {
       // protect against constant arrays
       int p0 = N1 + (probeLng>>1);
@@ -140,6 +141,8 @@ void cut2c(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
       if ( p0 != middlex ) iswap(p0, middlex, A); 
       dflgm(A, N1, M1, middlex, quicksort0c, depthLimit, compareXY);
     }
+    */
+    quicksort0c(A, N1, M1, depthLimit, compareXY);
     T = middle = A[middlex];
     if ( compareXY(A[M1], middle) <= 0 ) {
       // give up because cannot find a good pivot

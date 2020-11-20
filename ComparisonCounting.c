@@ -52,6 +52,7 @@ typedef struct intval {
 #include "C4.c"     // cut4 member
 #include "C7.c"
 #include "C2LR.c"
+#include "C2Left.c"
 
 void callLQ();
 void callBentley();
@@ -98,6 +99,7 @@ int main (int argc, char *argv[]) {
   cc("bentley", callBentley, compareIntVal2, 0);
   cc("cut2   ", cut2, compareXY, 1);
   cc("cut2lr ", cut2lr, compareXY, 1);
+ // cc("c2left  ", cut2left, compareXY, 1); 
      // 2 pivot
   // cc("dpq    ", dpq, compareXY, 1);
   // cc("tps    ", tps, compareXY, 1);
@@ -153,7 +155,7 @@ void fillarray(void **A, int lng, int startv) {
 
 } // end of fillarray
 
-double comparisons; int clocktime; 
+double comparisons; double clocktime; 
 
 void countcomparisons(int siz, void (*alg1)(), 
 		      int (*compar )(), int seed, int bool) {
@@ -169,10 +171,10 @@ void countcomparisons(int siz, void (*alg1)(),
   int reps = 20;
   // int reps = 5;
   for (i = 0; i < reps; i++) fillarray(A, siz, seed); // warm up
-  int TFill = clock();
+  clock_t TFill = clock();
   for (i = 0; i < reps; i++) fillarray(A, siz, seed+i);
   TFill = clock() - TFill;
-  int T = clock();
+  clock_t T = clock();
   cnt = 0;
   for (i = siz; i < siz + reps; i++) { 
     // fill its content
@@ -183,7 +185,8 @@ void countcomparisons(int siz, void (*alg1)(),
     else
       (*alg1)(A, siz, compar);
   }
-  int algTime = (clock() - T - TFill)/reps;
+  double algTime = (clock() - T - TFill)/reps;
+  algTime/ CLOCKS_PER_SEC;
   cnt = cnt/reps;
   // printf("is %g time %i\n", cnt, algTime);
   comparisons += cnt;
@@ -222,7 +225,7 @@ void cc(char* label, void (*alg1)(), int (*compar )(), int bool) {
     // printf("size %i comparisons %g clocktime %i clock2 %8.2f\n",
     // printf("size %i comparisons %lld clocktime %i clock2 %8.2f\n",
     //         size, comparisons, clocktime, 1000000 * clocktime/ nln);
-    printf("size %i comparisons %10.0f clocktime %i\n",
+    printf("size %i comparisons %10.0f clocktime %f\n",
 	   size, comparisons, clocktime);
     size *= 2; repeat++;
   }

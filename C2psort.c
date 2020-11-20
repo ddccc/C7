@@ -2,7 +2,7 @@
 // Date: Fri Jan 31 13:32:12 2014, 2017 Sun Mar 03 16:14:28 2019
 // (C) OntoOO/ Dennis de Champeaux
 
-const int cut2pLimit =  2000; 
+const int cut2pLimit =  1150; 
 
 void cut2pc();
 // cut2 is used as a best in class quicksort implementation 
@@ -15,7 +15,7 @@ void cut2p(void **A, int N, int M, int (*compare)()) {
     quicksort0(A, N, M, compare);
     return;
   }
-  int depthLimit = 2.5 * floor(log(L));
+  int depthLimit = 1 + 2.5 * floor(log(L));
   cut2pc(A, N, M, depthLimit, compare);
 } // end cut2
 
@@ -24,6 +24,8 @@ void cut2p(void **A, int N, int M, int (*compare)()) {
 void cut2pc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
   int L;
  Start:
+  L = M - N + 1;
+  if ( L <= 1 ) return;
   if ( depthLimit <= 0 ) {
     heapc(A, N, M, compareXY);
     return;
@@ -87,7 +89,7 @@ void cut2pc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     int k, N1, M1; // for sampling
     // int middlex = N + (L>>1); // N + L/2
 
-    int probeLng = sqrt(L);
+    int probeLng = sqrt(L/9);
     int halfSegmentLng = probeLng >> 1; // probeLng/2;
     int quartSegmentLng = probeLng >> 2; // probeLng/4;
     N1 = middlex - halfSegmentLng; //  N + (L>>1) - halfSegmentLng;
@@ -98,6 +100,7 @@ void cut2pc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     for (k = 0; k < probeLng; k++) // iswap(N1 + k, N + k * offset, A);
       { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
     // sort this mini array to obtain good pivots
+    /*
     if ( probeLng < 120 ) quicksort0c(A, N1, M1, depthLimit, compareXY); else {
       // protect against constant arrays
       int p0 = N1 + (probeLng>>1);
@@ -108,6 +111,8 @@ void cut2pc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
       p0 = med(A, pn, p0, pm, compareXY);
       dflgm(A, N1, M1, p0, quicksort0c, depthLimit, compareXY);
     }
+    */
+    quicksort0c(A, N1, M1, depthLimit, compareXY);
     T = middle = A[middlex];
     if ( compareXY(A[M1], middle) <= 0 ) {
       // give up because cannot find a good pivot

@@ -53,7 +53,7 @@ typedef struct intval {
 #include "C4.c"     // cut4 member
 #include "C7.c"
 #include "C2LR.c"
-
+#include "C2Left.c"
 
 void callLQ();
 void callBentley();
@@ -100,6 +100,7 @@ int main (int argc, char *argv[]) {
   cc("bentley", callBentley, compareIntVal2, 0);
   cc("cut2   ", cut2, compareXY, 1);
   cc("cut2lr ", cut2lr, compareXY, 1);
+  // cc("c2left  ", cut2left, compareXY, 1); 
      // 2 pivot
   // cc("dpq    ", dpq, compareXY, 1);
   // cc("tps    ", tps, compareXY, 1);

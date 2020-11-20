@@ -4,7 +4,7 @@
 
 const int cut2LRLimit =  600; 
 
-const int bufSize = 250;
+const int bufSize = 200;
 
 void cut2lrc();
 // cut2left is a support function to call up the workhorse cut2leftc
@@ -28,31 +28,25 @@ void cut2lrc(void **A, int N, int M,
   int bufr[bufSize];
   int L;
  Start:
-  // printf("cut2leftc N %d M %d %d\n", N, M, M-N);
+  // printf("cut2lrc N %d M %d %d\n", N, M, M-N);
 
   L = M - N + 1;
   if ( L <= 1 ) return;
 
-  if ( L < cut2LRLimit ) { 
-    /*
-    quicksort0c(A, N, M, depthLimit, compareXY);
+  if ( L < 9 ) { // insertionsort
+    insertionsort(A, N, M, compareXY);
     return;
-    */
+  }
 
+  if ( depthLimit <= 0 ) {
+    heapc(A, N, M, compareXY);
+    return;
+  }
+  depthLimit--;
 
-    // /*
-    if ( L < 8 ) { // insertionsort
-      insertionsort(A, N, M, compareXY);
-      return;
-    }
-
-    if ( depthLimit <= 0 ) {
-      heapc(A, N, M, compareXY);
-      return;
-    }
-    depthLimit--;
-
-    // This alternative over escaping to quicksort0c reduced 1/2% comparisons
+  /*
+  if ( L < cut2LRLimit ) { 
+    // This alternative over escaping to quicksort0c reduced 1/2% comparions
     int middlex = N + (L>>1); // N + L/2;
     int p0 = middlex;
     if ( 7 < L ) {
@@ -69,8 +63,14 @@ void cut2lrc(void **A, int N, int M,
     if ( middlex != p0 ) iswap(p0, middlex, A);
     dflgm(A, N, M, middlex, cut2lrc, depthLimit, compareXY);
     return;
-    // */
   }
+  // */
+  // /*
+  if ( L < cut2LRLimit ) { 
+    quicksort0c(A, N, M, depthLimit, compareXY);
+    return;
+  }
+  // */
 
   register void *T; // pivot
   register int I = N, J = M; // indices
@@ -129,6 +129,7 @@ void cut2lrc(void **A, int N, int M,
     for (k = 0; k < probeLng; k++) // iswap(N1 + k, N + k * offset, A);
       { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
     // sort this mini array to obtain good pivots
+    /*
     if ( probeLng < 120 ) quicksort0c(A, N1, M1, depthLimit, compareXY); else {
       // protect against constant arrays
       int p0 = N1 + (probeLng>>1);
@@ -140,6 +141,8 @@ void cut2lrc(void **A, int N, int M,
       if ( p0 != middlex ) iswap(p0, middlex, A); 
       dflgm(A, N1, M1, middlex, quicksort0c, depthLimit, compareXY);
     }
+    */
+    quicksort0c(A, N1, M1, depthLimit, compareXY);
     T = middle = A[middlex];
     if ( compareXY(A[M1], middle) <= 0 ) {
       // give up because cannot find a good pivot
@@ -170,8 +173,6 @@ void cut2lrc(void **A, int N, int M,
        N      I                    J      M
    */
 Left:
-  // if ( 0 == N && 5119 == M )   
-  // printf("BB I %i J %i\n", I, J);
   kl = kr = -1;
   while ( kl < bufx ) {
     while ( compareXY(A[++I], T) <= 0 );
@@ -182,8 +183,6 @@ Left:
        |-------*--*---*-]----------[------|
        N                I          J      M
   */
-  // if ( 0 == N && 5119 == M ) 
-  // printf("CC I %i J %i kl %i\n", I, J, kl);
   /*
   { int z; for ( z = J; z<=M; z++ ) 
 		 if ( compareXY(A[z], T) < 0 ) {
@@ -216,7 +215,6 @@ Left:
 
  MopUpR:
   // swap them
-  // printf("EE I %i J %i kl %i kr %i \n", I, J, kl, kr);
   while ( 0 <= kr ) {
     idxl = bufl[kl--];
     idxr = bufr[kr--];
@@ -232,11 +230,7 @@ Left:
 		 }
   }
   // */
-
-
 MopUpL:
-  // printf("FF kl %i kr %i \n", kl, kr);
-
   /*
        |--------------*---*----*--[------|
        N                          J      M
@@ -258,7 +252,6 @@ MopUpL:
     if ( idxl + 1 == J ) { J--; continue; }
     { int z = J-1; iswap(z, idxl, A); J = z; }
   }
-
     /*
     { int z; for ( z = J; z<=M; z++ ) 
 		 if ( compareXY(A[z], T) < 0 ) {
@@ -276,7 +269,6 @@ MopUpL:
     }
     // */
     if ( (I - N) < (M - J) ) { // smallest one first
-      // cut2leftc(A, N, J-1, bufl, bufr, depthLimit, compareXY);
       cut2lrc(A, N, J-1, depthLimit, compareXY);
       /*
       { int z; for ( z = N+1; z<J; z++ ) 
@@ -289,7 +281,6 @@ MopUpL:
       N = J; 
       goto Start;
     }
-    // cut2leftc(A, J, M, bufl, bufr, depthLimit, compareXY);
     cut2lrc(A, J, M, depthLimit, compareXY);
     /*
       { int z; for ( z = J+1; z<=M; z++ ) 
@@ -303,4 +294,4 @@ MopUpL:
     goto Start;
 
 
-} // (*  OF cut2lefc; *) the brackets remind that this was once, 1985, Pascal code
+} // (*  OF cut2lrc; *) the brackets remind that this was once, 1985, Pascal code

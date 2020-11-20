@@ -4,7 +4,7 @@
    headed by fivesort
 */
 
-const int cut3PLimit1 = 1750;
+const int cut3PLimit = 1875;
 
 /*
 #include "Isort.c"
@@ -13,33 +13,34 @@ const int cut3PLimit1 = 1750;
 #include "Dsort.c"
 */
 
-void tpspc();
+void tpsc();
 // tps is the header function for the three partition sorter tpsc
-void tpsp(void **A, int N, int M, int (*compar)()) {
+void tps(void **A, int N, int M, int (*compar)()) {
   int L = M - N;
-  if ( L < cut3PLimit1 ) { 
+  if ( L < cut3PLimit ) { 
     cut2(A, N, M, compar);
     return;
   }
-  int depthLimit = 2.5 * floor(log(L));
-  tpspc(A, N, M, depthLimit, compar);
+  int depthLimit = 1 + 2.5 * floor(log(L));
+  tpsc(A, N, M, depthLimit, compar);
 } // end tps
 
-void tpspc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {  
+void tpsc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {  
   // int z; // for tracing
   register int i, j, up, lw; // indices
   register void *ai, *aj, *am; // array values
   void *pl, *pr; // pivots
-
+  int L;
  // A 3d recursive call is avoided by jumping back to Start.  
  Start:
+  L = M - N;
   // printf("tpsc N %i M % i dl %i\n", N,M,depthLimit);
+  if ( L <= 0 ) return;
   if ( depthLimit <= 0 ) { // prevent quadradic explosion
     heapc(A, N, M, compareXY);
     return;
   }
-  int L = M - N;
-  if ( L < cut3PLimit1 ) {
+  if ( L < cut3PLimit ) {
     cut2c(A, N, M, depthLimit, compareXY);
     return;
   }
@@ -74,7 +75,7 @@ void tpspc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
 	// if ( ae2 == ae3 || ae3 == ae4 ) {
 	if ( compareXY(ae2, ae3) == 0 || compareXY(ae3, ae4) == 0 ) {
 	  // Give up, cannot find good pivots
-	  dflgm(A, N, M, e3, tpspc, depthLimit, compareXY);
+	  dflgm(A, N, M, e3, tpsc, depthLimit, compareXY);
 	  return;
 	}
 	// Fix end points
@@ -96,7 +97,7 @@ void tpspc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
      int middlex = N + (L>>1); // N + L/2
 
     int k, N1, M1; // for sampling
-    int probeLng = sqrt(L); 
+    int probeLng = sqrt(L/7); 
     int halfSegmentLng = probeLng >> 1; // probeLng/2;
     int third = probeLng/3;
     N1 = middlex - halfSegmentLng; //  N + (L>>1) - halfSegmentLng;
@@ -107,7 +108,9 @@ void tpspc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     for (k = 0; k < probeLng; k++) // iswap(N1 + k, N + k * offset, A);
     { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
     // sort this mini array to obtain good pivots
-    if ( probeLng < 120 ) quicksort0c(A, N1, M1, depthLimit, compareXY); else {
+    /*
+    if ( probeLng < 120 ) quicksort0c(A, N1, M1, depthLimit, compareXY); 
+    else {
     // protect against constant arrays
     int p0 = N1 + (probeLng>>1);
     int pn = N1, pm = M1, d = (probeLng-3)>>3;
@@ -115,9 +118,11 @@ void tpspc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     p0 = med(A, p0 - d, p0, p0 + d, compareXY);
     pm = med(A, pm - 2 * d, pm - d, pm, compareXY);
     p0 = med(A, pn, p0, pm, compareXY);
-    dflgm(A, N1, M1, p0, quicksort0c, depthLimit, compareXY);
-  }
-
+    if ( p0 != middlex ) iswap(p0, middlex, A);
+    dflgm(A, N1, M1, middlex, quicksort0c, depthLimit, compareXY);
+    }
+    */
+    quicksort0c(A, N1, M1, depthLimit, compareXY); 
     lw = N1+third; up = M1-third;
     pl = A[lw]; pr = A[up];
     if ( compareXY(pl, A[middlex]) == 0 || 
@@ -507,4 +512,4 @@ void tpspc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
 	addTaskSynchronized(ll, newTask(A, i+1,j-1, depthLimit, compareXY));
 	N = j;
 	goto Start;
-} // end tpspc
+} // end tpsc
