@@ -37,18 +37,19 @@ typedef struct intval {
   float valf;
 } *Data;
 
-/* 
+// /* 
 // These are included by the includes below
 #include "Isort.c"
 #include "Hsort.c"
-#include "Qusort.c" // quicksort member
 #include "Dsort.c"  // dflgm member
-*/
+#include "Qusort.c" // quicksort member
+// */
 
-#include "Qusort.c"
 #include "D4.c"
 #include "C2sort.c" 
-#include "C3sort.c" // tps member
+#include "C2LR.c"
+
+// #include "C3sort.c" // tps member
 #include "C4.c"     // cut4 member
 #include "C7.c"
 #include "ParC7.c"

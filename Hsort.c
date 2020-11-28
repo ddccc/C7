@@ -12,7 +12,7 @@ void iswap(int p, int q, void **A) {
 
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
-#include "Isort.c" // insertionsort member
+// #include "Isort.c" // insertionsort member
 
 void heapSort(void **, int, int (*)(const void*, const void*));
 static void heapify(void **, int, int (*)(const void*, const void*));

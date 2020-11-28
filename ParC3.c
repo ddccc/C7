@@ -58,7 +58,7 @@ OTHER DEALINGS WITH THE SOFTWARE OR DOCUMENTATION.
 #include <pthread.h>
 #include <math.h> 
 
-const int cut3PLimit = 3000;
+// const int cut3PLimit = 3000;
 // const int cut2Limit = 127;
 
 char* expiration3 = "*** License for fivesort has expired ...\n";
@@ -147,7 +147,7 @@ void *sortThread3(void *AAA) { // AAA-argument is NOT used
     int (*compare)() = getXY(t);
     free(t);
     // taskCnt++;
-    tpspc(A, n, m, depthLimit, compare);
+    tpsc(A, n, m, depthLimit, compare);
   }
   // printf("Exit of Thread number: %ld taskCnt: %d\n", pthread_self(), taskCnt);
   return NULL;

@@ -37,22 +37,23 @@ typedef struct intval {
 // #include <pthread.h>
 // #include <sys/time.h>
 
-/* 
+// /* 
 // These are included by the includes below
 #include "Isort.c"
 #include "Hsort.c"
-#include "Qusort.c" // quicksort member
 #include "Dsort.c"  // dflgm member
-*/
+#include "Qusort.c" // quicksort member
 
-#include "Qusort.c"
+// */
+
+// #include "Qusort.c"
 #include "D4.c"
 #include "C2sort.c" 
+#include "C2LR.c"
+#include "C2Left.c"
 #include "C3sort.c" // tps member
 #include "C4.c"     // cut4 member
 #include "C7.c"
-#include "C2LR.c"
-#include "C2Left.c"
 
 void callLQ();
 void callBentley();
@@ -69,6 +70,12 @@ void cut2lr();
 void testAlg();
 void validateAlg();
 
+void range();
+void rangeBentley();
+void rangeQuicksort0();
+void rangeCut2();
+void rangeCut2lr();
+
 // double cnt = 0; // comparison counter
 long long cnt = 0;
 // Here an exmple comparison function for these objects:
@@ -79,14 +86,14 @@ long long cnt = 0;
 // int compareIntVal (const void *a, const void *b)
 int compareXY (const void *a, const void *b)
 {
-  cnt++;
+  // cnt++;
   return ((struct intval *)a)->val - ((struct intval *)b)->val;
 }
 
 // This comparison formula is used for qsort in callQsort and
 // for bentley in callBentley 
 int compareIntVal2 (const void **a, const void **b)
-{ cnt++;
+{ // cnt++;
   struct intval *pa = (struct intval *) *a;
   struct intval *pb = (struct intval *) *b;
   return (pa->val - pb->val);
@@ -96,21 +103,27 @@ int main (int argc, char *argv[]) {
   printf("Running ComparisonCounting ...\n");
      // 1 pivot
   // cc("LQ     ", callLQ, compareIntVal2, 0);
-  cc("bentley", callBentley, compareIntVal2, 0);
-  cc("cut2   ", cut2, compareXY, 1);
-  cc("cut2lr ", cut2lr, compareXY, 1);
- // cc("c2left  ", cut2left, compareXY, 1); 
+  // cc("quick0  ", quicksort0, compareXY, 1);
+  // cc("bentley", callBentley, compareIntVal2, 0);
+  // cc("cut2   ", cut2, compareXY, 1);
+  // cc("cut2lr ", cut2lr, compareXY, 1);
+  // cc("c2left  ", cut2left, compareXY, 1); 
      // 2 pivot
   // cc("dpq    ", dpq, compareXY, 1);
   // cc("tps    ", tps, compareXY, 1);
      // 3 pivot
   // cc("mpq    ", part3, compareXY, 1);
-  cc("cut4   ", cut4, compareXY, 1);
+  // cc("cut4   ", cut4, compareXY, 1);
   // cc("c7     ", cut7, compareXY, 1);
 
      // Misc
   // testAlg();
   // validateAlg();
+  // rangeBentley();
+  // rangeQuicksort0();
+  rangeCut2();
+  rangeCut2lr();
+
   return 0;
 } // end main
 
@@ -168,8 +181,8 @@ void countcomparisons(int siz, void (*alg1)(),
     pi = myMalloc("countcomparisons 2", sizeof (struct intval));
     A[i] = pi;
   };
-  int reps = 20;
-  // int reps = 5;
+  // int reps = 20;
+  int reps = 5;
   for (i = 0; i < reps; i++) fillarray(A, siz, seed); // warm up
   clock_t TFill = clock();
   for (i = 0; i < reps; i++) fillarray(A, siz, seed+i);
@@ -186,9 +199,8 @@ void countcomparisons(int siz, void (*alg1)(),
       (*alg1)(A, siz, compar);
   }
   double algTime = (clock() - T - TFill)/reps;
-  algTime/ CLOCKS_PER_SEC;
   cnt = cnt/reps;
-  // printf("is %g time %i\n", cnt, algTime);
+  printf("is %g time %f\n", cnt, algTime);
   comparisons += cnt;
   clocktime += algTime;
   // free array
@@ -210,7 +222,7 @@ void cc(char* label, void (*alg1)(), int (*compar )(), int bool) {
   //  printf("size %i min # comparisons: %g\n", 
   //	 size, 1.44*size*log(size));
   int repeat = 4;
-  int reps = 1;
+  int reps = 2;
   int i;
   while ( repeat < 5) { // no reps with with 5
     double nln = size * log(size) / log(2.0);
@@ -226,7 +238,7 @@ void cc(char* label, void (*alg1)(), int (*compar )(), int bool) {
     // printf("size %i comparisons %lld clocktime %i clock2 %8.2f\n",
     //         size, comparisons, clocktime, 1000000 * clocktime/ nln);
     printf("size %i comparisons %10.0f clocktime %f\n",
-	   size, comparisons, clocktime);
+	   size, comparisons, clocktime/CLOCKS_PER_SEC);
     size *= 2; repeat++;
   }
   
@@ -1433,4 +1445,67 @@ void validateAlg() {
   // validateAlgorithm("Running validate cut7 ...", quicksort0, cut7);
 
 } // end validateAlg()
+
+void range(void (*alg1)(), int (*compar)(), int bool) {
+  int siz = 1024;
+  int reps = 1024 * 32;
+  int limit = 1024 * 1024 * 16 + 1;
+  printf("range siz %d reps %d\n", siz, reps);
+  int i, j;
+  double algTime;
+  clock_t TFill, T;
+  while (siz <= limit) {
+    printf("siz: %d reps: %d ", siz, reps);
+    struct intval *pi;
+    void **A = myMalloc("range 1", sizeof(pi) * siz);
+    // construct array
+    for (i = 0; i < siz; i++) {
+      pi = myMalloc("range 2", sizeof (struct intval));
+      A[i] = pi;
+    };
+     // warm up the process
+    for (i = 0; i < reps; i++) 
+      fillarray(A, siz, reps+i);
+    TFill = clock();
+    for (i = 0; i < reps; i++) 
+	fillarray(A, siz, reps+i);
+    TFill = clock() - TFill;
+    T = clock();
+     for (i = 0; i < reps; i++)  {
+	fillarray(A, siz, reps+i);
+	if ( bool ) (*alg1)(A, 0, siz-1, compar); 
+	else (*alg1)(A, siz, sizeof(pi), compar); 
+    }
+    algTime = clock() - T - TFill;
+    printf("algTime %f\n", algTime);
+    // free array
+    for (i = 0; i < siz; i++) {
+      free(A[i]);
+    };
+    free(A);
+    siz = siz * 4;
+    reps = reps / 4;
+  }
+} // end range
+
+void rangeBentley() { 
+  void bentley();
+  printf("rangeBentley\n");
+  range(bentley, compareIntVal2, 0);
+} // end rangeBentley
+void rangeQuicksort0() {
+  void quicksort0();
+  printf("rangeQuicksort0\n");
+  range(quicksort0, compareXY, 1);
+} // end rangeQuicksort0
+void rangeCut2() {
+  void cut2();
+  printf("rangeCut2\n");
+  range(cut2, compareXY, 1);
+} // end rangeCut2
+void rangeCut2lr() {
+  void cut2lr();
+  printf("rangeCut2lr\n");
+  range(cut2lr, compareXY, 1);
+} // end rangeCut2lr
 

@@ -6,6 +6,8 @@ const int cut2LRLimit =  600;
 
 const int bufSize = 200;
 
+#define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
+
 void cut2lrc();
 // cut2left is a support function to call up the workhorse cut2leftc
 void cut2lr(void **A, int N, int M, int (*compare)()) { 
@@ -120,7 +122,7 @@ void cut2lrc(void **A, int N, int M,
 
     int probeLng = sqrt(L/9);
     int halfSegmentLng = probeLng >> 1; // probeLng/2;
-    int quartSegmentLng = probeLng >> 2; // probeLng/4;
+    // int quartSegmentLng = probeLng >> 2; // probeLng/4;
     N1 = middlex - halfSegmentLng; //  N + (L>>1) - halfSegmentLng;
     M1 = N1 + probeLng - 1;
     int offset = L/probeLng;  
@@ -161,7 +163,7 @@ void cut2lrc(void **A, int N, int M,
     J++;
   }
   
-  register void *AI, *AJ; // array values
+  // register void *AI, *AJ; // array values
 	// The left segment has elements <= T
 	// The right segment has elements >= T 
         //    and at least one element > T

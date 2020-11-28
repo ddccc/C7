@@ -1,4 +1,4 @@
-// File: c:/bsd/rigel/sort/C7/ComparisonCounting.c
+// File: c:/bsd/rigel/sort/C7/ComparisonCountings.c
 // Date: Thu Sep 12 19:43:32 2019
 // (C) OntoOO/ Dennis de Champeaux
 
@@ -38,22 +38,23 @@ typedef struct intval {
 // #include <pthread.h>
 // #include <sys/time.h>
 
-/* 
+// /* 
 // These are included by the includes below
 #include "Isort.c"
 #include "Hsort.c"
-#include "Qusort.c" // quicksort member
 #include "Dsort.c"  // dflgm member
-*/
+#include "Qusort.c" // quicksort member
+// */
 
-#include "Qusort.c"
+// #include "Qusort.c"
 #include "D4.c"
 #include "C2sort.c" 
+#include "C2LR.c"
+#include "C2Left.c"
 #include "C3sort.c" // tps member
 #include "C4.c"     // cut4 member
 #include "C7.c"
-#include "C2LR.c"
-#include "C2Left.c"
+
 
 void callLQ();
 void callBentley();
