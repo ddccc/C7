@@ -75,6 +75,7 @@ void rangeBentley();
 void rangeQuicksort0();
 void rangeCut2();
 void rangeCut2lr();
+void rangeCut4();
 
 // double cnt = 0; // comparison counter
 long long cnt = 0;
@@ -119,11 +120,11 @@ int main (int argc, char *argv[]) {
      // Misc
   // testAlg();
   // validateAlg();
-  // rangeBentley();
-  // rangeQuicksort0();
+  rangeBentley();
+  rangeQuicksort0();
   rangeCut2();
   rangeCut2lr();
-
+  rangeCut4();
   return 0;
 } // end main
 
@@ -200,7 +201,7 @@ void countcomparisons(int siz, void (*alg1)(),
   }
   double algTime = (clock() - T - TFill)/reps;
   cnt = cnt/reps;
-  printf("is %g time %f\n", cnt, algTime);
+  printf("is %lld time %f\n", cnt, algTime);
   comparisons += cnt;
   clocktime += algTime;
   // free array
@@ -1450,11 +1451,12 @@ void range(void (*alg1)(), int (*compar)(), int bool) {
   int siz = 1024;
   int reps = 1024 * 32;
   int limit = 1024 * 1024 * 16 + 1;
-  printf("range siz %d reps %d\n", siz, reps);
+  printf("range timings have comparative relevance\n");
   int i, j;
   double algTime;
   clock_t TFill, T;
   while (siz <= limit) {
+    cnt = 0;
     printf("siz: %d reps: %d ", siz, reps);
     struct intval *pi;
     void **A = myMalloc("range 1", sizeof(pi) * siz);
@@ -1477,7 +1479,8 @@ void range(void (*alg1)(), int (*compar)(), int bool) {
 	else (*alg1)(A, siz, sizeof(pi), compar); 
     }
     algTime = clock() - T - TFill;
-    printf("algTime %f\n", algTime);
+    printf("cc# %lld algTime %f\n", cnt/reps, 
+	   algTime/CLOCKS_PER_SEC);
     // free array
     for (i = 0; i < siz; i++) {
       free(A[i]);
@@ -1508,4 +1511,9 @@ void rangeCut2lr() {
   printf("rangeCut2lr\n");
   range(cut2lr, compareXY, 1);
 } // end rangeCut2lr
+void rangeCut4() {
+  void cut4();
+  printf("rangeCut4\n");
+  range(cut4, compareXY, 1);
+} // end rangeCut4
 
