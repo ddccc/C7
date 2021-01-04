@@ -11,11 +11,26 @@ void cut2pc();
 void cut2p(void **A, int N, int M, int (*compare)()) { 
   // printf("cut2 %d %d %d\n", N, M, M-N);
   int L = M - N;
+  int depthLimit = 1 + 2.5 * floor(log(L));
   if ( L < cut2pLimit ) { 
-    quicksort0(A, N, M, compare);
+    // quicksort0(A, N, M, compare);
+    int middlex = N + (L>>1); // N + L/2;
+    int p0 = middlex;
+    if ( 7 < L ) {
+      int pn = N;
+      int pm = M;
+      if ( 51 < L ) {	
+	int d = (L-2)>>3; // L/8;
+	pn = med(A, pn, pn + d, pn + 2 * d, compare);
+	p0 = med(A, p0 - d, p0, p0 + d, compare);
+	pm = med(A, pm - 2 * d, pm - d, pm, compare);
+      }
+      p0 = med(A, pn, p0, pm, compare);
+    }
+    if ( middlex != p0 ) iswap(p0, middlex, A);
+    dflgm(A, N, M, middlex, cut2c, depthLimit, compare);
     return;
   }
-  int depthLimit = 1 + 2.5 * floor(log(L));
   cut2pc(A, N, M, depthLimit, compare);
 } // end cut2
 
@@ -112,7 +127,8 @@ void cut2pc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
       dflgm(A, N1, M1, p0, quicksort0c, depthLimit, compareXY);
     }
     */
-    quicksort0c(A, N1, M1, depthLimit, compareXY);
+    // quicksort0c(A, N1, M1, depthLimit, compareXY);
+    cut2c(A, N1, M1, depthLimit, compareXY);
     T = middle = A[middlex];
     if ( compareXY(A[M1], middle) <= 0 ) {
       // give up because cannot find a good pivot
