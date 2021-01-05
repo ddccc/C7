@@ -46,6 +46,7 @@ typedef struct intval {
 // */
 
 #include "D4.c"
+#include "D3sort.c" 
 #include "C2sort.c" 
 #include "C2LR.c"
 

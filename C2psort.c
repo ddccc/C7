@@ -14,21 +14,7 @@ void cut2p(void **A, int N, int M, int (*compare)()) {
   int depthLimit = 1 + 2.5 * floor(log(L));
   if ( L < cut2pLimit ) { 
     // quicksort0(A, N, M, compare);
-    int middlex = N + (L>>1); // N + L/2;
-    int p0 = middlex;
-    if ( 7 < L ) {
-      int pn = N;
-      int pm = M;
-      if ( 51 < L ) {	
-	int d = (L-2)>>3; // L/8;
-	pn = med(A, pn, pn + d, pn + 2 * d, compare);
-	p0 = med(A, p0 - d, p0, p0 + d, compare);
-	pm = med(A, pm - 2 * d, pm - d, pm, compare);
-      }
-      p0 = med(A, pn, p0, pm, compare);
-    }
-    if ( middlex != p0 ) iswap(p0, middlex, A);
-    dflgm(A, N, M, middlex, cut2c, depthLimit, compare);
+    cut2c(A, N, M, depthLimit, compare);
     return;
   }
   cut2pc(A, N, M, depthLimit, compare);
