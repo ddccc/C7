@@ -16,7 +16,7 @@ void cut2left(void **A, int N, int M, int (*compare)()) {
     quicksort0(A, N, M, compare);
     return;
   }
-  int depthLimit = 1 + 2.5 * floor(log(L));
+  int depthLimit = 1 + 2.9 * floor(log(L));
   cut2leftc(A, N, M, depthLimit, compare);
 } // end cut2
 

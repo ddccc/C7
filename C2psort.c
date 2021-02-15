@@ -11,7 +11,7 @@ void cut2pc();
 void cut2p(void **A, int N, int M, int (*compare)()) { 
   // printf("cut2 %d %d %d\n", N, M, M-N);
   int L = M - N;
-  int depthLimit = 1 + 2.5 * floor(log(L));
+  int depthLimit = 1 + 2.9 * floor(log(L));
   if ( L < cut2pLimit ) { 
     // quicksort0(A, N, M, compare);
     cut2c(A, N, M, depthLimit, compare);

@@ -11,7 +11,7 @@ void cut7(void **A, int N, int M, int (*compare)()) {
   // printf("cut7 N %i M %i \n", N, M);
   int L = M - N;
   if ( L <= 0 ) return;
-  int depthLimit = 1 + 2.5 * floor(log(L));
+  int depthLimit = 1 + 2.9 * floor(log(L));
   cut7c(A, N, M, depthLimit, compare);
 } // end cut7
 

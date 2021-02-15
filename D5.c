@@ -22,7 +22,7 @@ void d5(void **A, void **C, int N, int M, int (*compare)(const void*, const void
   //  printf("d5 N %i M %i L %i\n", N, M, M-N);
   int L = M - N;
   if ( L <= 0 ) return;
-  int depthLimit = 2.5 * floor(log(L));
+  int depthLimit = 2.9 * floor(log(L));
   d5c(A, C, N, M, depthLimit, compare);
 } // end d3
 

@@ -44,7 +44,7 @@ void c2m(void **A, int N, int M, int (*compare)()) {
     c2c(A, C, N, M, compare);
     return;
   }
-  int depthLimit = 1 + 2.5 * floor(log(L));
+  int depthLimit = 1 + 2.9 * floor(log(L));
   c2mc(A, C, N, M, depthLimit, compare);
 } // end c2m
 
