@@ -2,6 +2,8 @@
 // Date: Mon Jan 04 18:42:53 2021
 // (C) OntoOO/ Dennis de Champeaux
 
+#define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
+
 // calculate the median of 3
 static int med(void **A, int a, int b, int c,
 	int (*compareXY ) (const void *, const void * ) ) {
@@ -25,7 +27,7 @@ void dflgm3(void **A, int lo, int hi,
     // Simple version of partitioning with: L/M/R
     // L < pivot, M = pivot, R > pivot
   int L;
-  // printf("dflgm3 %i hi %i depthLimit %i\n", lo,hi,depthLimit);
+  // Printf("dflgm3 lo %i hi %i depthLimit %i\n", lo,hi,depthLimit);
   L = hi - lo +1;
   if ( L <= 1 ) return;
 
@@ -40,6 +42,7 @@ void dflgm3(void **A, int lo, int hi,
   }
   depthLimit--;
     int p0 = lo + (L>>1); // lo + L/2;
+    int px = p0;
     if ( 7 < L ) {
       int pn = lo;
       int pm = hi;
@@ -51,7 +54,9 @@ void dflgm3(void **A, int lo, int hi,
       }
       p0 = med(A, pn, p0, pm, compareXY);
     }
-    dflgm(A, lo, hi, p0, dflgm3, depthLimit, compareXY);
-  
- 
+    if ( p0 != px ) iswap(p0, px, A);
+    dflgm(A, lo, hi, px, dflgm3, depthLimit, compareXY);
+
 } // end dflgm3
+
+#undef iswap
