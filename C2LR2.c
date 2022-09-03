@@ -3,18 +3,22 @@
 // (C) OntoOO/ Dennis de Champeaux
 // Recoding of C2LR.c
 
+#include "D3sort.h"
+
 // swap two elements of an array given pointers to the two elements, p and q
 #define PSWAP(p, q) { void *t2 = *(void**)p; *(void**)p = *(void**)q; *(void**)q = t2; }
 
 #define dflgmLimit 250
 #define bufSize 200
 
-static void cut2lr2c(void **A, int lo, int hi, int depthLimit,
+void cut2lr2c(void **A, int lo, int hi, int depthLimit,
 		 int (*compareXY)(const void*, const void*));
-static void cut2d0c(void **A, int lo, int hi, int depthLimit, 
+/*
+void cut2d0c(void **A, int lo, int hi, int depthLimit, 
 		    int (*compareXY)(const void*, const void*));
 void cut2d0cd(void **A, int lo, int hi, int p, int q, int r, 
 	      int depthLimit, int (*compareXY)(const void*, const void*));
+*/
 
 void cut2lr2(void **A, int lo, int hi, int (*compare)()) {
     int size = hi - lo;
@@ -30,25 +34,24 @@ void cut2lr2(void **A, int lo, int hi, int (*compare)()) {
     cut2lr2c(A, lo, hi, depthLimit, compare);
 } // end cut2lr2
 
-static void cut2lr2c1(void **A, void **hip, void** bufl[], void** bufr[], 
+void cut2lr2c1(void **A, void **hip, void** bufl[], void** bufr[], 
 		      int depthLimit, 
 		      int (*compareXY)(const void*, const void*));
 // cut2lr2cp used if dflgm is invoked
-static void cut2lr2c(void **A, int lo, int hi, int depthLimit,
+void cut2lr2c(void **A, int lo, int hi, int depthLimit,
 		 int (*compareXY)(const void*, const void*)) {
   void **bufl[bufSize];
   void **bufr[bufSize];
   cut2lr2c1(A+lo, A+hi, bufl, bufr, depthLimit, compareXY);
 } // end cut2lr2c
 
-static void cut2lr2c1(void **A, void **hip, void** bufl[], void** bufr[], 
+void cut2lr2c1(void **A, void **hip, void** bufl[], void** bufr[], 
 		      int depthLimit, 
 		      int (*compareXY)(const void*, const void*)) {
  Start:;
   // printf("while cut2lr2c A: %d hip: %d %d \n", A, hip, (hip-A));
   int size = hip-A; 
   if ( size <= 0 ) return;
-
   if ( depthLimit <= 0 ) {
     heapc(A, 0, size-1, compareXY);
     return;

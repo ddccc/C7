@@ -2,10 +2,12 @@
 // Date: Wed Apr 10 12:28:44 2019
 // (C) OntoOO/ Dennis de Champeaux
 
+#include "C2LR2.h"
 
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
-static void cut7c(void **, int, int, int, int (*)(const void*, const void*));
+void cut7c(void **A, int lo, int hi, int depthLimit,
+	   int (*compare)(const void*, const void*));
 
 void cut7(void **A, int lo, int hi, int (*compare)()) {
   // printf("cut7 N %i lo %i \n", lo, hi);

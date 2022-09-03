@@ -29,6 +29,7 @@ Counting timings but not comparisons.
 #include <sys/time.h>
 #include <math.h>
 
+
 // Example of objects that can be used to populate an array to be sorted:
   // To obtain the int field from X: ((struct intval *) X)->val
   // To obtain the float field from X: ((struct intval *) X)->valf
@@ -39,7 +40,8 @@ typedef struct intval {
 
 // /* 
 // These are included by the includes below
-#include "Isort.c"
+// #include "Isort.c"
+#include "Isort.h"
 #include "Hsort.c"
 #include "Dsort.c"  // dflgm member
 #include "Qusort.c" // quicksort member

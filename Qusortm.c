@@ -8,8 +8,10 @@
 /*
 #include "Hsort.c"
 #include "Dsort.c"
-#include "Isort.c"
 */
+
+#include "Isort.h"
+
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 static void mergeSort2c();

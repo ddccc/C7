@@ -2,6 +2,7 @@
 // Date: Wed Apr 07 20:51:35 2021
 // (C) OntoOO/ Dennis de Champeaux
 
+#include "Isort.h"
 
 static void mergeSortc();
 void mergeSort(void **A, int N, int M, int (*compare)(const void*, const void*)) {

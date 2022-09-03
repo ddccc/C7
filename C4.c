@@ -2,6 +2,8 @@
 // Date: 2012 // Sat Jul 23 08:17:35 2022
 // (C) OntoOO/ Dennis de Champeaux
 
+#include "C2LR2.h"
+
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 static const int cut4Limit = 1500; // 1-pivot prefix bound

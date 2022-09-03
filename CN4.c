@@ -6,16 +6,17 @@
 // Date: 2021-03-29
 
 #include <math.h>
+#include "C2LR2.h"
 
 // swap two elements of an array given pointers to the two elements, p and q
 #define PSWAP(p, q) { void *t2 = *(void**)p; *(void**)p = *(void**)q; *(void**)q = t2; }
 
 #define CUT4NMIN 1500    // minimum size array for 3 pivots to be used
 
-static void cut4np(void **A, void **hip, int depthLimit, int (*compareXY)());
+void cut4np(void **A, void **hip, int depthLimit, int (*compareXY)());
 
 
-static void cut4n(void **A, int lo, int hi, int (*compareXY)()) {
+void cut4n(void **A, int lo, int hi, int (*compareXY)()) {
     int size = hi-lo+1;
     int depthLimit = 1 + 2.5 * floor(log(size));
     cut4np(A+lo, A+hi, depthLimit, compareXY);
@@ -23,7 +24,7 @@ static void cut4n(void **A, int lo, int hi, int (*compareXY)()) {
 
 
 // cut4nc is used only if dflgm is invoked
-static void cut4nc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
+void cut4nc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     cut4np(A+N, A+M, depthLimit, compareXY);
 }
 

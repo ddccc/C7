@@ -3,8 +3,9 @@
 //       Mon May 10 11:29:57 2021
 // (C) OntoOO/ Dennis de Champeaux
 
+#include "Isort.h"
 
-#define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
+// #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 /*
 void insertionsort(void **A, int lo, int hi, int (*compareXY)()) {
@@ -187,6 +188,6 @@ void insertionsort(void **A, int lo, int hi, int (*compareXY)()) {
 } // end  insertionsort
 // */
 
-#undef iswap
+// #undef iswap
 
 

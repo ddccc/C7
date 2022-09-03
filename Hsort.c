@@ -2,19 +2,10 @@
 // Date: Fri Jan 31 13:22:27 2014
 // (C) OntoOO/ Dennis de Champeaux
 
-/*
-void iswap(int p, int q, void **A) {
-  void *t = A[p];
-  A[p] = A[q];
-  A[q] = t;
-} // end of iswap
-*/
 
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
-// #include "Isort.c" // insertionsort member
-
-static void heapSort(void **, int, int (*)(const void*, const void*));
+void heapSort(void **, int, int (*)(const void*, const void*));
 static void heapify(void **, int, int (*)(const void*, const void*));
 static void siftDown(void **, int, int, int (*)(const void*, const void*));
 
@@ -44,7 +35,7 @@ void heapSort(void **a, int count, int (*compare)(const void*, const void*)) {
   }
 } // end heapSort
          
-static void heapify(void **a, int count,
+void heapify(void **a, int count,
                     int (*compare)(const void*, const void*)) {
   // (start is assigned the index in a of the last parent node)
   int start = (count - 2) / 2;
@@ -55,8 +46,8 @@ static void heapify(void **a, int count,
     start = start - 1;
   } // (after sifting down the root all nodes/elements are in heap order)
 } // end heapify
- 
-static void siftDown(void **a, int start, int end,
+
+void siftDown(void **a, int start, int end,
                      int (*compare)(const void*, const void*)) {
   // input:  end represents the limit of how far down the heap to sift.
   int root = start;

@@ -5,6 +5,8 @@
 // This version combines isort + dflgm + ( pivot sample + (fast loops | dflgm ) )
 // It is a clone of cut2 --  Fri May 28 21:20:05 2021
 
+#include "Isort.h"
+
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 static const int dflgmLimit3 = 250;

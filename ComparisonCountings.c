@@ -40,7 +40,8 @@ typedef struct intval {
 
 // /* 
 // These are included by the includes below
-#include "Isort.c"
+// #include "Isort.c"
+#include "Isort.h"
 #include "Hsort.c"
 #include "Dsort.c"  // dflgm member
 #include "Qusort.c" // quicksort member

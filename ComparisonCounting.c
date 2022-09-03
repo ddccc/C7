@@ -16,30 +16,31 @@ Counting comparisons
 
 // /* 
 // These are included by the includes below
-#include "Isort.c"
-#include "Hsort.c"
-#include "Dsort.c"  // dflgm member
-#include "D3sort.c" // recursive dflgm
-#include "Qusort.c" // quicksort member
-#include "Qusortm.c" // quicksort with merge sort
-#include "Qusort00.c" // 
+// #include "Isort.c"
+#include "Isort.h"
+// #include "Hsort.c"
+#include "Hsort.h"
+// #include "Dsort.c"  // dflgm member
+#include "Dsort.h"  // dflgm member
+// #include "D3sort.c" // recursive dflgm
+#include "D3sort.h" // recursive dflgm
+// #include "Qusort.c" // quicksort member
+#include "Qusort.h" // quicksort member
+// #include "Qusortm.c" // quicksort with merge sort
+// #include "Qusort00.c" // 
 
 // */
-// #include "Qusort.c"
-#include "D4.c" 
-#include "C2sort.c" 
-#include "C2fsort.c"
+// #include "D4.c" 
+//                    #include "C2sort.c" // cut2
+// #include "C2fsort.c"
 #include "C2k1.c" // Sun Mar 06 12:45:01 2022
-#include "C2k2.c" // Sun Mar 10 2022
+// #include "C2k2.c" // Sun Mar 10 2022
 // #include "C2k3.c" // Sun Aug 07 10:46:10 2022
-#include "C2k4.c" // Thu Aug 11 08:00:47 2022
+// #include "C2k4.c" // Thu Aug 11 08:00:47 2022
 #include "C2LR.c"
-#include "C2LR2.c" // Sat Aug 13 13:33:40 2022
-#include "C2Nk1.c" // Mon Aug 08 18:33:02 2022
-#include "C3sort.c" // tps member
-
-// #include "dltpq.c"
-// #include "./DOUG2/stpq.c"
+#include "C2LR2.h" // Sat Aug 13 13:33:40 2022
+//                   #include "C2Nk1.c" // Mon Aug 08 18:33:02 2022 cut2Nk1
+// #include "C3sort.c" // tps member
 
 // #include "C2Split.c"
 // #include "DdcChen.c"
@@ -48,39 +49,41 @@ Counting comparisons
 // #include "Mybam.c"
 // #include "Myqsort.c"
 
-#include "C4.c"   // cut4 member
-#include "CN4.c"
-#include "CD4.c"
-#include "C7.c"
+#include "C4.h"   // cut4 member
+#include "CN4.h"  // ct4n
+#include "CD4.h"  // cut4d
+#include "C7.h"   // cut7
 
-#include "MergeSort.c"
+// #include "MergeSort.c"
 // #include "Msn.c"
 
-// #include "Dpq2.c"
-// #include "Timsort.c"
+void *myMalloc(char* location, int size);
+#include "Dpq2.c"
+#include "Timsort.c"
 
-#include "C2sortNH.c"
-#include "Quickselect.c"
+// #include "C2sortNH.c"
+// #include "Quickselect.c"
 
-#include "C2m.c" // Mon Nov 15 16:09:17 2021 modified C2sort
-#include "C2k.c" // Sat Feb 26 13:03:37 2022
-// #include "C2k2.c" // Sun Mar 06 12:45:01 2022
+// #include "C2M.c" // Mon Nov 15 16:09:17 2021 modified C2sort
+// #include "C2k.c" // Sat Feb 26 13:03:37 2022
+
 
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 
-void callChensort();
+// void callChensort();
 void callBentley();
 void callLQ();
-void introsort();
-void dflgmTest0();
-void dflgmTest2();
+// void introsort();
+// void dflgmTest0();
+// void dflgmTest2();
 // void myqs();
 void quicksort0();
-void cut2();
-void cut2f();
-void tps();
-void tps5();
+// void cut2();
+// void cut2f();
+// void tps();
+// void tps5()
+// /*;
 void cut4();
 void cut4n();
 void cut4d();
@@ -90,56 +93,59 @@ void dpq2();
 void timsort();
 void cc();
 void part3();
-void quicksort0k();
+// void quicksort0k();
 void blockSort();
-void ddcchen();
+// */
+// void ddcchen();
 // void mybam();
 // void myqsort();
+/*
 void dflgm0();
-void mergeSort();
-void compare00FourSortAgainstFiveSort();
-void compare00DPQAgainstFiveSort();
+// void mergeSort();
+// void compare00FourSortAgainstFiveSort();
+// void compare00DPQAgainstFiveSort();
 void compare00DPQAgainstFourSort();
-void validateC2();
-void validateC21();
-void validateC2lr();
-void validateC2lrb();
-void validateC2left();
+// void validateC2();
+// void validateC21();
+// void validateC2lr();
+// void validateC2lrb();
+// void validateC2left();
 void validateC2sort();
-void validateC2msort(); // Mon Nov 15 16:23:32 2021
-void validateC2ksort(); // Sat Feb 26 13:04:22 2022
-void validateC2k1sort(); // Thu Mar 10 20:36:35 2022
-void validateC2k2sort(); // Sun Mar 06 12:46:44 2022
+// void validateC2msort(); // Mon Nov 15 16:23:32 2021 
+// void validateC2ksort(); // Sat Feb 26 13:04:22 2022
+// void validateC2k1sort(); // Thu Mar 10 20:36:35 2022
+// void validateC2k2sort(); // Sun Mar 06 12:46:44 2022
 // void validateC2k3sort(); // Sun Mar 06 12:46:44 2022
 void validateCN4sort();
 void validateCD4sort();
 void validateQ0();
-void validateMyqs();
-void validateMybam();
-void validateMergeSort();
-
+// void validateMyqs();
+// void validateMybam();
+// void validateMergeSort();
+*/
+/*
 void range();
 void rangeLQ();
 // void rangeMyqsort();
 void rangeBentley();
-void rangeMybam();
+// void rangeMybam();
 void rangeQuicksort0();
 void rangeDflgm0();
 void rangeCut2();
-void rangeCut2lr();
+// void rangeCut2lr();
 void rangeBlockSort();
 void rangeDpq();
-void rangeTps();
+// void rangeTps();
 void rangeMpq();
 void rangeCut4();
 void rangeCut4n();
 void rangeCut4d();
 void rangeCut7();
 // void rangeDpq2();
-
+*/
 void fillRandom();
 void fillRandom2();
-// int clock();
+
 
 // Here global entities used throughout
 // int (*compareXY)();
@@ -187,7 +193,7 @@ int compareIntVal2 (const void **a, const void **b)
 int main (int argc, char *argv[]) {
   printf("Running ComparisonCounting ...\n");
      // 1 pivot
-  // cc("myqs    ", myqs, compareXY, 1); 
+  //               cc("myqs    ", myqs, compareXY, 1); // deleted
   // cc("LQ      ", callLQ, compareIntVal2, 0);
   // cc("Myqsort ", myqsort, compareXY, 1);
   // cc("bentley ", callBentley, compareIntVal2, 0);
@@ -196,62 +202,54 @@ int main (int argc, char *argv[]) {
   // cc("quickm  ", quicksortm, compareXY, 1);
   // cc("quickn  ", quicksortmn, compareXY, 1);
   // cc("quick3  ", quicksort3, compareXY, 1);
-  // cc("quicksort0k", quicksort0k, compareXY, 1);
+  // cc("quicksort0k", quicksort0k, compareXY, 1); // deleted
   // cc("dflgm0  ", dflgm0, compareXY, 1);   
   // cc("cut2    ", cut2, compareXY, 1);
-  // cc("cut2m   ", cut2m, compareXY, 1); // Mon Nov 15 16:26:06 2021
-  // cc("c2lr    ", cut2lr, compareXY, 1); 
+  // cc("cut2m   ", cut2m, compareXY, 1); // Mon Nov 15 16:26:06 2021 deleted
+  // cc("c2lr    ", cut2lr, compareXY, 1); // deleted 
   // cc("cut2lr2 ", cut2lr2, compareXY, 1); 
-  // cc("cut2k   ", cut2k, compareXY, 1); // 
-  // cc("cut2k1  ", cut2k1, compareXY, 1); // 
+  // cc("cut2k   ", cut2k, compareXY, 1); // deleted
+  // cc("cut2k1  ", cut2k1, compareXY, 1); // deleted
   // cc("cut2k2  ", cut2k2, compareXY, 1); 
   //     cc("cut2k3  ", cut2k3, compareXY, 1); 
   // cc("cut2k4  ", cut2k4, compareXY, 1); // Thu Aug 11 08:05:32 2022
   // cc("cut2Nk1 ", cut2Nk1, compareXY, 1); // Mon Aug 08 18:46:54 2022
-  // cc("cut2NH  ", cut2NH, compareXY, 1);
+  // cc("cut2NH  ", cut2NH, compareXY, 1); // deleted
   // cc("c21     ", c21, compareXY, 1); // parallel? // removed
   // cc("ddcch", ddcchen, compareXY, 1); // removed
   // cc("c2lrb   ", cut2lrb, compareXY, 1); // removed
   // cc("c2left  ", cut2left, compareXY, 1); // removed
-  // cc("cut2f", cut2f, compareXY, 1);
-  // cc("introsort", introsort, compareXY, 1);
-  // cc("BlockSor", blockSort, compareXY, 1);
-  // cc("timsort ", timsort, compareXY, 1);
-     // 2 pivot
-  // cc("dpq     ", dpq, compareXY, 1);
-  // cc("cut2f", cut2f, compareXY, 1);
+  // cc("cut2f", cut2f, compareXY, 1); //removed
   // cc("introsort", introsort, compareXY, 1);
   // cc("BlockSor", blockSort, compareXY, 1);
   // cc("timsort ", timsort, compareXY, 1);
      // 2 pivot
   // cc("dpq     ", dpq, compareXY, 1);
   // cc("dpq2    ", dpq2, compareXY, 1);
-  // cc("tps     ", tps, compareXY, 1);
-  // cc("tps5", tps5, compareXY, 1);
+  // cc("tps     ", tps, compareXY, 1); // removed
+  // cc("tps5", tps5, compareXY, 1); // removed
      // 3 pivot
-  // cc("mpq     ", part3, compareXY, 1);
-  // cc("dltpq", dltpq, compareXY, 1);
-  // cc("stpq ", stpq, compareXY, 1);
+  // cc("mpq     ", part3, compareXY, 1); 
   // cc("cut4    ", cut4, compareXY, 1);
   // cc("cut4n   ", cut4n, compareXY, 1);
   // cc("cut4d   ", cut4d, compareXY, 1);
   // cc("cut7    ", cut7, compareXY, 1);
      // Misc
   // cc("dflgm   ", dflgmTest0, compareXY, 1);
-  // cc("mergeSor", mergeSort, compareXY, 1);
-  // cc("Chen", callChensort, compareIntVal2, 0);
+  // cc("mergeSor", mergeSort, compareXY, 1);  deleted
+  // cc("Chen", callChensort, compareIntVal2, 0); deleted
   // compare00FourSortAgainstFiveSort();
   // compare00DPQAgainstFiveSort();
   // compare00DPQAgainstFourSort();
   // validateC2();
   // validateC21();
-  // validateC2lr();
+  // validateC2lr(); // deleted
   // validateC2lrb();
   // validateC2left();
   // validateC2sort();
-  // validateC2msort(); // Mon Nov 15 16:26:30 2021
+  // validateC2msort(); // Mon Nov 15 16:26:30 2021 deleted
   // validateC2ksort(); // 
-  // validateC2k1sort(); /
+  // validateC2k1sort(); // deleted
   // validateC2k2sort(); 
   // validateC2k3sort(); // Sun Aug 07 10:51:14 2022 deleted
   // validateCN4sort();
@@ -451,7 +449,7 @@ void cc(char* label, void (*alg1)(), int (*compar )(), int bool) {
 	 siz, comparisons, clocktime/CLOCKS_PER_SEC);
 } // end cc
 
-
+// /*
 void bentley();
 // Wrapper function to invoke bentley
 void callBentley(void **A, int size, int (*compar ) () ) {
@@ -473,9 +471,9 @@ void callBentley(void **A, int size, int (*compar ) () ) {
 
 #define min(a, b)	(a) < (b) ? a : b
 
-/*
- * Qsort routine from Bentley & McIlroy's "Engineering a Sort Function".
- */
+//
+// * Qsort routine from Bentley & McIlroy's "Engineering a Sort Function".
+//
 #define swapcode(TYPE, parmi, parmj, n) { 		\
 	long i = (n) / sizeof (TYPE); 			\
 	register TYPE *pi = (TYPE *) (parmi); 		\
@@ -584,31 +582,30 @@ loop:	SWAPINIT(a, es);
 		pb += es;
 		pc -= es;
 	}
-	/*
-	if (swap_cnt == 0) {  // Switch to insertion sort 
-		for (pm = (char *) a + es; pm < (char *) a + n * es; pm += es)
-			for (pl = pm; pl > (char *) a && cmp(pl - es, pl) > 0; 
-			     pl -= es)
-				swap(pl, pl - es);
-		return;
-	}
-	*/
+
+	// if (swap_cnt == 0) {  // Switch to insertion sort 
+	//	for (pm = (char *) a + es; pm < (char *) a + n * es; pm += es)
+	// 		for (pl = pm; pl > (char *) a && cmp(pl - es, pl) > 0; 
+	//		     pl -= es)
+	//			swap(pl, pl - es);
+	//	return;
+	// }
+
 	pn = (char *) a + n * es;
 	r = min(pa - (char *)a, pb - pa);
 	vecswap(a, pb - r, r);
 	r = min(pd - pc, pn - pd - es);
 	vecswap(pb, pn - r, r);
-	/* Ordering on the recursive calls has been added to obtain at most 
-	   log2(N) stack space 
-	if ((r = pb - pa) > es)
-		bentley(a, r / es, es, cmp);
-	if ((r = pd - pc) > es) { 
+	// Ordering on the recursive calls has been added to obtain at most 
+	//   log2(N) stack space 
+	// if ((r = pb - pa) > es)
+	//	bentley(a, r / es, es, cmp);
+	// if ((r = pd - pc) > es) { 
 	        // Iterate rather than recurse to save stack space 
-		a = pn - r;
-		n = r / es;
-		goto loop;
-	}
-	*/
+		// a = pn - r;
+		// n = r / es;
+		// goto loop;
+	// }
 	
     int left =  pb - pa;
     int right = pd - pc;
@@ -630,6 +627,7 @@ loop:	SWAPINIT(a, es);
        }
     }
 } // end bentley
+// */
 
 /* Copyright (C) 1991,1992,1996,1997,1999,2004 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -655,12 +653,14 @@ loop:	SWAPINIT(a, es);
    Software - Practice and Experience; Vol. 23 (11), 1249-1265, 1993.  */
 
 // #include <alloca.h>
+// /*
 #include <limits.h>
 #include <stdlib.h>
 #include <string.h>
-
+// */
 /* Byte-wise swap two items of size SIZE. */
-#define SWAP(a, b, size)						      \
+// /*
+#define SWAP(a, b, size)                                                      \
   do									      \
     {									      \
       register size_t __size = (size);					      \
@@ -671,29 +671,32 @@ loop:	SWAPINIT(a, es);
 	  *__a++ = *__b;						      \
 	  *__b++ = __tmp;						      \
 	} while (--__size > 0);						      \
-    } while (0)
-
+    } while (0)						    
+    // */
 /* Discontinue quicksort algorithm when partition gets below this size.
    This particular magic number was chosen to work best on a Sun 4/260. */
 #define MAX_THRESH 4
 
 /* Stack node declarations used to store unfulfilled partition obligations. */
+// /*
 typedef struct
   {
     char *lo;
     char *hi;
   } stack_node;
+// */
 
 /* The next 4 #defines implement a very fast in-line stack abstraction. */
 /* The stack needs log (total_elements) entries (we could even subtract
    log(MAX_THRESH)).  Since total_elements has type size_t, we get as
    upper bound for log (total_elements):
    bits per byte (CHAR_BIT) * sizeof(size_t).  */
+// /*
 #define STACK_SIZE	(CHAR_BIT * sizeof(size_t))
 #define PUSH(low, high)	((void) ((top->lo = (low)), (top->hi = (high)), ++top))
 #define	POP(low, high)	((void) (--top, (low = top->lo), (high = top->hi)))
 #define	STACK_NOT_EMPTY	(stack < top)
-
+// */
 
 /* Order size using quicksort.  This implementation incorporates
    four optimizations discussed in Sedgewick:
@@ -720,6 +723,7 @@ typedef struct
       stack size is needed (actually O(1) in this case)!  */
 
 // This is qsort in the Linux C-library
+// /*
 void
 _quicksort (void *const pbase, size_t total_elems, size_t size,
 	    //	    __compar_d_fn_t cmp, void *arg)
@@ -730,7 +734,7 @@ _quicksort (void *const pbase, size_t total_elems, size_t size,
   const size_t max_thresh = MAX_THRESH * size;
 
   if (total_elems == 0)
-    /* Avoid lossage with unsigned arithmetic below.  */
+    // Avoid lossage with unsigned arithmetic below.  
     return;
 
   if (total_elems > MAX_THRESH)
@@ -748,11 +752,11 @@ _quicksort (void *const pbase, size_t total_elems, size_t size,
           char *left_ptr;
           char *right_ptr;
 
-	  /* Select median value from among LO, MID, and HI. Rearrange
-	     LO and HI so the three values are sorted. This lowers the
-	     probability of picking a pathological pivot value and
-	     skips a comparison for both the LEFT_PTR and RIGHT_PTR in
-	     the while loops. */
+	  // Select median value from among LO, MID, and HI. Rearrange
+	  //   LO and HI so the three values are sorted. This lowers the
+	  //   probability of picking a pathological pivot value and
+	  //   skips a comparison for both the LEFT_PTR and RIGHT_PTR in
+	  //   the while loops. 
 
 	  char *mid = lo + size * ((hi - lo) / size >> 1);
 	  if ((*cmp) ((void *) mid, (void *) lo, arg) < 0) {
@@ -768,9 +772,9 @@ _quicksort (void *const pbase, size_t total_elems, size_t size,
 	  left_ptr  = lo + size;
 	  right_ptr = hi - size;
 
-	  /* Here's the famous ``collapse the walls'' section of quicksort.
-	     Gotta like those tight inner loops!  They are the main reason
-	     that this algorithm runs much faster than others. */
+	  // Here's the famous ``collapse the walls'' section of quicksort.
+	  //   Gotta like those tight inner loops!  They are the main reason
+	  //   that this algorithm runs much faster than others. 
 	  do
 	    {
 	      while ((*cmp) ((void *) left_ptr, (void *) mid, arg) < 0)
@@ -798,43 +802,43 @@ _quicksort (void *const pbase, size_t total_elems, size_t size,
 	    }
 	  while (left_ptr <= right_ptr);
 
-          /* Set up pointers for next iteration.  First determine whether
-             left and right partitions are below the threshold size.  If so,
-             ignore one or both.  Otherwise, push the larger partition's
-             bounds on the stack and continue sorting the smaller one. */
+          // Set up pointers for next iteration.  First determine whether
+          // left and right partitions are below the threshold size.  If so,
+          //   ignore one or both.  Otherwise, push the larger partition's
+          //   bounds on the stack and continue sorting the smaller one. 
 
           if ((size_t) (right_ptr - lo) <= max_thresh)
             {
               if ((size_t) (hi - left_ptr) <= max_thresh)
-		/* Ignore both small partitions. */
+		// Ignore both small partitions. 
                 POP (lo, hi);
               else
-		/* Ignore small left partition. */
+		// Ignore small left partition. 
                 lo = left_ptr;
             }
           else if ((size_t) (hi - left_ptr) <= max_thresh)
-	    /* Ignore small right partition. */
+	    // Ignore small right partition. 
             hi = right_ptr;
           else if ((right_ptr - lo) > (hi - left_ptr))
             {
-	      /* Push larger left partition indices. */
+	      // Push larger left partition indices. 
               PUSH (lo, right_ptr);
               lo = left_ptr;
             }
           else
             {
-	      /* Push larger right partition indices. */
+	      // Push larger right partition indices. 
               PUSH (left_ptr, hi);
               hi = right_ptr;
             }
         }
     }
 
-  /* Once the BASE_PTR array is partially sorted by quicksort the rest
-     is completely sorted using insertion sort, since this is efficient
-     for partitions below MAX_THRESH size. BASE_PTR points to the beginning
-     of the array to sort, and END_PTR points at the very last element in
-     the array (*not* one beyond it!). */
+// Once the BASE_PTR array is partially sorted by quicksort the rest
+//     is completely sorted using insertion sort, since this is efficient
+//     for partitions below MAX_THRESH size. BASE_PTR points to the beginning
+//     of the array to sort, and END_PTR points at the very last element in
+//     the array (*not* one beyond it!). 
 
   // #define min(x, y) ((x) < (y) ? (x) : (y))
 
@@ -844,9 +848,9 @@ _quicksort (void *const pbase, size_t total_elems, size_t size,
     char *thresh = min(end_ptr, base_ptr + max_thresh);
     register char *run_ptr;
 
-    /* Find smallest element in first threshold and place it at the
-       array's beginning.  This is the smallest array element,
-       and the operation speeds up insertion sort's inner loop. */
+    // Find smallest element in first threshold and place it at the
+    //   array's beginning.  This is the smallest array element,
+    //   and the operation speeds up insertion sort's inner loop. 
 
     for (run_ptr = tmp_ptr + size; run_ptr <= thresh; run_ptr += size)
       if ((*cmp) ((void *) run_ptr, (void *) tmp_ptr, arg) < 0)
@@ -855,7 +859,7 @@ _quicksort (void *const pbase, size_t total_elems, size_t size,
     if (tmp_ptr != base_ptr)
       SWAP (tmp_ptr, base_ptr, size);
 
-    /* Insertion sort, running from left-hand-side up to right-hand-side.  */
+    // Insertion sort, running from left-hand-side up to right-hand-side.  
 
     run_ptr = base_ptr + size;
     while ((run_ptr += size) <= end_ptr)
@@ -889,12 +893,12 @@ void callLQ(void **A, int size, int (*compar ) () ) {
   struct intval *pi;
   _quicksort(A, size, sizeof(pi), compar, NULL);
 } // end callLQ
-
+// */
 
 
 // ************************************************************
 
-
+// /*
 void introsort_r();
 void insertion();
 
@@ -907,7 +911,8 @@ void introsort(void **A, int N, int M, int (*compare)()) {
   // _insertion(a, n);
   insertion(A, N, M, compare);
 } // end introsort
-
+// */
+// /*
 int med();
 
 int partition();
@@ -940,12 +945,11 @@ int partition ( void **A, int first, int last, int m, int (*compare)() ) {
         {  
 	  // while (a[i].smaller(x)) i++;  
 	  while ( compare(A[i], pi) < 0 ) i++;
-	  /*
-	    The "j--;" causes the last element of the segment to be miss allocated
-	    in the partition.
-	    Omitting "j--;" causes recursive calls on the same segment with constant 
-	    data.  This triggers the invocation of heapsort on that segment
-	   */
+	    // The "j--;" causes the last element of the segment to be miss allocated
+	    // in the partition.
+	    // Omitting "j--;" causes recursive calls on the same segment with constant 
+	    // data.  This triggers the invocation of heapsort on that segment
+
 	  // j--; 
 	  // while (x.smaller(a[j])) j=j-1;  
 	  while ( compare(pi, A[j]) < 0 ) j--; 
@@ -973,7 +977,7 @@ void insertion ( void **A, int N, int M, int (*compare)()) {
     A[j] = save;
   }
 } // end insertion
-
+// */
 
 // ************************************************************
 // Dijkstra, but had to add insertionsort in the driver
@@ -1026,7 +1030,7 @@ void dflgm2(void **A, int N, int M, int pivotx,
     }
 } // end dflgm2
 
-
+/*
 void dflgmTest0(void **A, int N, int M, int (*compareXY)()) { 
   dflgmTest2(A, N, M, 1000, compareXY);
 } // end dflgmTest0
@@ -1060,873 +1064,15 @@ void dflgmTest2(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     // dflgm2(A, N, M, p0, dflgmTest2, depthLimit, compareXY);
 
 } // end dflgmTest2
-
-// ************************************************************
-
-// a very simple quicksort
-/*
-void myqsc();
-void myqs(void **A, int N, int M, int (*compare)()) {
-  int L = M-N;
-  if (L <= 0) return;
-  int dp = 2.5 * floor(log(L));
-  myqsc(A, N, M, dp, compare);
-}
 */
-// void dflgm();
-// void heapc();
-// void quicksort0c();
-/*
-void myqsc(void **A, int N, int M, int depthLimit, int (*compare)()) {
-  int L;
- again:
-   L =  1 + M - N;
-   if ( L < 12) {
-   // if ( L < 8) {
-      insertionsort(A, N, M, compare);
-      return;
-   }
-   if ( depthLimit <= 0 ) {
-     heapc(A, N, M, compare);
-     return;
-   }
-   depthLimit--;
-   int p0 = N + (L>>1); // N + L/2;
-   if ( 7 < L ) {
-     int pn = N;
-     int pm = M;
-     // if ( 51 < L ) {
-     if ( 40 < L ) {
-       int d = (L-2)>>3; // L/8;
-       pn = med2(A, pn, pn + d, pn + 2 * d, compare);
-       p0 = med2(A, p0 - d, p0, p0 + d, compare);
-       pm = med2(A, pm - 2 * d, pm - d, pm, compare);
-     }
-     p0 = med2(A, pn, p0, pm, compare);
-   }
-   // p0 is index to 'best' pivot ... 
-   if ( N != p0 )  iswap(N, p0, A); // ... and is put in first position
-   void *p = A[N], *ai, *aj;
-   int i = N, j = M+1;
- Right0:
-   j--;
-   aj = A[j];
-   if ( compare(p, aj) < 0 ) {
-     if ( i < j ) { goto Right0; }
-     else goto Done;
-   }
- Left:
-     // |--------]-------------(-------|
-     // N        i             j       M
-   if ( i == j ) goto Done; 
-   i++;
-   ai = A[i];
-   if ( compare(ai, p) < 0 ) { goto Left; }
- Right: // ai -> R
-   if ( i == j ) { i--; goto Done; } 
-   aj = A[j];
-   if ( compare(p, aj) < 0 ) { j--; goto Right; }
-   // aj -> L
-   A[i] = aj; A[j] = ai;
-   j--;
-   goto Left;
- Done:
-   if ( N != i ) iswap(N, i, A);
-   if ( i - N <= M - i ) {
-     myqsc(A, N, i-1, depthLimit, compare);
-     N = i+1;
-     goto again;
-   }
-   myqsc(A, i+1, M, depthLimit, compare);
-   M = i-1;
-   goto again;
-
-
-} // end myqs
-*/
-// ************************************************************
-
-// tps5 another three partition function
-void tpsc5();
-void tps5(void **A, int N, int M, int (*compare)()) {
-  int L = M - N;
-  if ( L < 250 ) { 
-    cut2(A, N, M, compare);
-    return;
-  }
-  int depthLimit = 2.5 * floor(log(L));
-  tpsc5(A, N, M, depthLimit, compare);
-} // end tps5
-
-void tpsc5(void **A, int N, int M, int depthLimit, int (*compare)()) 
-{
-  // register int k; // for-index
-  // int z; // for tracing
-  register int i, j, up, lw; // indices
-  register void *x, *y; // array values
-  register void *pl, *pr; // pivots
-
- // A 3d recursive call is avoided by jumping back to Start.  
- Start:
-  // printf("tspc N %d M %d depthLimit %d\n", N,M,depthLimit);
-
-  if ( depthLimit <= 0 ) { // avoid quadradic explosion
-    heapc(A, N, M, compare);
-    return;
-  }
-  int L = M - N;
-  if ( L < 64 ) {
-  // if ( L < cut2Limit ) {
-  // if ( L < cut3Limit ) {
-
-    quicksort0c(A, N, M, depthLimit, compare);
-    return;
-  }
-  depthLimit--;
-
-        int sixth = (L + 1) / 6;
-        int e1 = N  + sixth;
-        int e5 = M - sixth;
-        int e3 = N + L/2; // (N+M) / 2; // The midpoint
-        int e4 = e3 + sixth;
-        int e2 = e3 - sixth;
-        // Sort these elements using a 5-element sorting network
-        void *ae1 = A[e1], *ae2 = A[e2], *ae3 = A[e3], *ae4 = A[e4], *ae5 = A[e5];
-	void *t;
-
-	// if (ae1 > ae2) { t = ae1; ae1 = ae2; ae2 = t; }
-	if ( 0 < compare(ae1, ae2) ) { t = ae1; ae1 = ae2; ae2 = t; } // 1-2
-	if ( 0 < compare(ae4, ae5) ) { t = ae4; ae4 = ae5; ae5 = t; } // 4-5
-	if ( 0 < compare(ae1, ae3) ) { t = ae1; ae1 = ae3; ae3 = t; } // 1-3
-	if ( 0 < compare(ae2, ae3) ) { t = ae2; ae2 = ae3; ae3 = t; } // 2-3
-	if ( 0 < compare(ae1, ae4) ) { t = ae1; ae1 = ae4; ae4 = t; } // 1-4
-	if ( 0 < compare(ae3, ae4) ) { t = ae3; ae3 = ae4; ae4 = t; } // 3-4
-	if ( 0 < compare(ae2, ae5) ) { t = ae2; ae2 = ae5; ae5 = t; } // 2-5
-	if ( 0 < compare(ae2, ae3) ) { t = ae2; ae2 = ae3; ae3 = t; } // 2-3
-	if ( 0 < compare(ae4, ae5) ) { t = ae4; ae4 = ae5; ae5 = t; } // 4-5
-	// ... and reassign
-	A[e1] = ae1; A[e2] = ae2; A[e3] = ae3; A[e4] = ae4; A[e5] = ae5;
-
-	// Fix end points
-	if ( compare(ae1, A[N]) < 0 ) iswap(N, e1, A);
-	if ( compare(A[M], ae5) < 0 ) iswap(M, e5, A);
-
-	void tpsc5();
-	// if ( ae2 == ae3 || ae3 == ae4 ) {
-	if ( compare(ae2, ae3) == 0 || compare(ae3, ae4) == 0 ) {
-	  dflgm(A, N, M, e3, tpsc5, depthLimit, compare);
-	  return;
-	}
-
-	pl = A[e2]; pr = A[e4]; // left and right pivots
-	if ( compare(pl, A[N]) <= 0 || compare(A[M], pr) <= 0 ) {
-	  // ascertain that the corners are not empty
-	  dflgm(A, N, M, e3, tpsc5, depthLimit, compare);
-	  return;
-	}
-
-	// int z; // for tracing
-
-	// initialize running indices
-	i = N+1; j = M-1; lw = e3-1; up = e3+1;
-	x = A[i]; A[i] = A[N]; i++; // create hole at A[N]
-
-	  /* 
-	  |)----------(--)-------------(|
-	 N i         lw  up            j M
-	  N+1 < x < i -> A[x] < pl
-	  lw < x < up -> pl <= A[x] <= pr
-	  j < x <= M -> pr < A[x]
-	  */
-
-  // if ( x < pl ) goto L0;
-  if ( compare(x, pl) < 0 ) goto L0;
-  // if ( pr < x ) goto R0;
-  if ( compare(pr, x) < 0 ) goto R0;
-  goto ML0;
-
- L0:  
-   /*
-      |---)-----(----)-------(----|
-      N   i     lw  up       j    M
-      x -> L
-   */
-  // while ( A[i] < pl ) i++;
-  while ( compare(A[i], pl) < 0 ) i++;
-  if ( i <= lw ) {
-    y = A[i]; A[i++] = x; x = y;
-    if ( lw < i ) { i--;
-      // if ( pr < x ) goto L1R;
-      if ( compare(pr, x) < 0 ) goto L1R;
-      goto L1M;
-    }
-    // if ( pr < x ) goto R0;
-    if ( compare(pr, x) < 0 ) goto R0;
-    // x -> M
-    goto ML0;
-  }
-  // lw < i
-  i--;
-  goto L1L;
-
- ML0:
-   /*
-      |---)-----(----)-------(----|
-      N   i     lw  up       j    M
-      x -> ML
-   */
-  // while ( pl <= A[lw] && A[lw] <= pr ) lw--;
-  while ( compare(pl, A[lw]) <= 0 && compare(A[lw], pr) <= 0 ) lw--;
-  if ( i <= lw ) {
-    y = A[lw]; A[lw--] = x; x = y;
-    if ( lw < i ) { i--;
-      // if ( x < pl ) goto L1L;
-      if ( compare(x, pl) < 0 ) goto L1L;
-      goto L1R;
-    }
-    // if ( x < pl ) goto L0;
-    if ( compare(x, pl) < 0 ) goto L0;
-    // pr < x
-    goto R0;
-  }
-  // lw < i
-  i--;
-  goto L1M;
-
- R0:
-   /*
-      |---)-----(----)-------(----|
-      N   i     lw  up       j    M
-      x -> R
-   */
-  // while ( pr < A[j] ) j--;
-  while ( compare(pr, A[j]) < 0 ) j--;
-  if ( up <= j ) {
-    y = A[j]; A[j--] = x; x = y;
-    if ( j < up ) { j++;
-      // if ( x < pl ) goto R1L;
-      if ( compare(x, pl) < 0 ) goto R1L;
-      goto R1M;
-    }
-    // if ( x < pl ) goto L0;
-    if ( compare(x, pl) < 0 ) goto L0;
-    // x -> M
-    goto MR0;
-  }
-  // j < up
-  j++;
-  goto R1R;
-  
- MR0:
-   /*
-      |---)-----(----)-------(----|
-      N   i     lw  up       j    M
-      x -> MR
-   */
-  // while ( pl <= A[up] && A[up] <= pr ) up++;
-  while ( compare(pl, A[up]) <= 0 && compare(A[up], pr) <= 0 ) up++;
-  if ( up <= j ) {
-    y = A[up]; A[up++] = x; x = y;
-    if ( j < up ) { j++;
-      // if ( pr < x ) goto R1R;
-      if ( compare(pr, x) < 0 ) goto R1R;
-      goto R1L;
-    }
-    // if ( pr < x ) goto R0;
-    if ( compare(pr, x) < 0 ) goto R0;
-    // x < pr
-    goto L0;
-  }
-  // j < up
-  j++;
-  goto R1M;
-
-  L1L: 
-   /*
-      |---]---------)-------(----|
-      N   i        up       j    M
-      x -> L
-   */
-  // while ( pl <= A[up] && A[up] <= pr ) up++;
-  while ( compare(pl, A[up]) <= 0 && compare(A[up], pr) <= 0 ) up++;
-  if ( up <= j ) {
-    y = A[up]; A[up++] = A[++i]; A[i] = x; x = y;
-    if ( j < up ) {
-      // if ( x < pl ) goto L1Lx;
-      if ( compare(x, pl) < 0 ) goto L1Lx;
-      // x -> R
-      A[N] = A[i]; A[i--] = A[j]; A[j] = x; 
-      goto done;
-    }
-    // if ( x < pl ) { goto L1L; }
-    if ( compare(x, pl) < 0 ) goto L1L; 
-    // x -> R
-    goto L1R;
-  }
-  // j < up
- L1Lx:
-  j++; A[N] = x;
-  goto done;
-
-  L1R: 
-   /*
-      |---]---------)-------(----|
-      N   i        up       j    M
-      x -> R
-   */
-  // while ( pr < A[j] ) j--;
-  while ( compare(pr, A[j]) < 0 ) j--;
-  if ( up <= j ) {
-    y = A[j]; A[j--] = x; x = y;
-    if ( j < up ) {
-      // if ( x < pl ) { j++; A[N] = x; 
-      if ( compare(x, pl) < 0 ) { j++; A[N] = x; 
-	goto done; 
-      }
-      // x -> M
-      j++; A[N] = A[i]; A[i--] = x; 
-      goto done;
-    }
-    if ( compare(x, pl) < 0 ) goto L1L;
-    // x -> M
-    goto L1M;
-  }
-  // j < up
-  A[N] = A[i]; A[i] = A[j]; i--; A[j] = x; 
-  goto done;
-
- L1M: 
-   /*
-      |---]---------)-------(----|
-      N   i        up       j    M
-      x -> M
-   */
-  // while ( pl <= A[up] && A[up] <= pr ) up++;
-  while ( compare(pl, A[up]) <= 0 && compare(A[up], pr) <= 0 ) up++;
-  if ( up <= j ) {
-    y = A[up]; A[up++] = x; x = y;
-    if ( j < up ) { 
-      // if ( pr < x ) { 
-      if ( compare(pr, x) < 0 ) {
-	A[N] = A[i]; A[i--] = A[j]; A[j] = x; 
-	goto done;
-      }
-      // x -> L
-      j++; A[N] = x; 
-      goto done;
-    }
-    // if ( pr < x ) goto L1R;
-    if ( compare(pr, x) < 0 ) goto L1R;
-    // x < pl
-    goto L1L;
-  }
-  // j < up
-  A[N] = A[i]; A[i] = x; i--; j++;
-  goto done;
-
- R1R: 
-   /*
-      |---)---(-------------[----|
-      N   i   lw            j    M
-      x -> R
-   */
-  // while ( pl <= A[lw] && A[lw] <= pr ) lw--;
-  while ( compare(pl, A[lw]) <= 0 && compare(A[lw], pr) <= 0 ) lw--;
-  if ( i <= lw ) {
-    y = A[lw]; A[lw--] = A[--j]; A[j] = x; x = y;
-    if ( lw < i ) { i--;
-      // if ( x < pl ) { A[N] = x; goto done; }
-      if ( compare(x, pl) < 0 ) { A[N] = x; goto done; }
-      // x -> R
-      A[N] = A[i]; A[i--] = A[--j]; A[j] = x; 
-      goto done;
-    }
-    // if ( x < pl ) goto R1L;
-    if ( compare(x, pl) < 0 ) goto R1L;
-    // pr < x
-    goto R1R;
-  }
-  // lw < i
-  A[N] = A[--i]; A[i] = A[--j]; i--; A[j] = x; 
-  goto done;
-
- R1L: 
-   /*
-      |---)---(-------------[----|
-      N   i   lw            j    M
-      x -> L
-   */
-  // while ( A[i] < pl ) i++;
-  while ( compare(A[i], pl) < 0 ) i++;
-  if ( i <= lw ) {
-    y = A[i]; A[i++] = x; x = y;
-    if ( lw < i ) { i--;
-      // if ( pr < x ) { 
-      if ( compare(pr, x) < 0 ) {
-	 A[N] = A[i]; A[i--] = A[--j]; A[j] = x; 
-	 goto done;
-      }
-      // x -> M
-      A[N] = A[i]; A[i--] = x; goto done;
-    }
-    // if ( pr < x ) goto R1R;
-    if ( compare(pr, x) < 0 ) goto R1R;
-    // x -> M
-    goto R1M;
-  }
-  // lw < i
-  i--; A[N] = x; 
-  goto done;
-
- R1M: 
-   /*
-      |---)---(-------------[----|
-      N   i   lw            j    M
-      x -> M
-   */
-  // while ( pl <= A[lw] && A[lw] <= pr ) lw--;
-  while ( compare(pl, A[lw]) <= 0 && compare(A[lw], pr) <= 0 ) lw--;
-  if ( i <= lw ) {
-    y = A[lw]; A[lw--] = x; x = y;
-    if ( lw < i ) { i--;
-      // if ( x < pl ) { A[N] = x; goto done; }
-      if ( compare(x, pl) < 0 ) { A[N] = x; goto done; }
-      // x -> R
-      A[N] = A[i]; A[i--] = A[--j]; A[j] = x;
-      goto done;
-    }
-    if ( compare(x, pl) < 0 ) goto R1L;
-    // pr < x
-    goto R1R;
-  }
-  // lw < i
-  A[N] = A[--i]; A[i] = x; i--; // goto done;
-
- done:
-    /*
-      |---]---------[---------|
-      N   i         j         M
-    */
-
-    /*
-      for ( z = N+1; z <= i; z++ )
-	// if ( pl <= A[z] ) {
-        if ( compare(pl, A[z]) <= 0 ) {
-	  printf("doneL z %i\n", z);
-	  printf("N %i i %i lw %i up %i j %i M %i\n", N,i,lw,up,j,M);
-	  exit(0);
-	}
-      for ( z = i+1; z < j; z++ )
-	// if ( A[z] < pl || pr < A[z] ) {
-        if ( compare(A[z], pl) < 0 || compare(pr, A[z]) < 0 ) {
-	  printf("doneM z %i\n", z);
-	  printf("N %i i %i lw %i up %i j %i M %i\n", N,i,lw,up,j,M);
-	  exit(0);
-	}
-      for ( z = j; z <= M ; z++ )
-	// if ( A[z] <= pr ) {
-	if ( compare(A[z], pr) <= 0 ) {
-	  printf("doneR z %i\n", z);
-	  printf("N %i i %i lw %i up %i j %i M %i\n", N,i,lw,up,j,M);
-	  exit(0);
-	}
-      */
-	// tpsc5(A, N, i, depthLimit);
-	// tpsc5(A, i+1, j-1, depthLimit);
-	// tpsc5(A, j, M, depthLimit);
-      if ( i-N < j-i ) {
-	tpsc5(A, N, i, depthLimit, compare);
-	if ( j-i < M-j ) {
-	  tpsc5(A, i+1, j-1, depthLimit, compare);
-	   N = j; goto Start;
-	}
-	tpsc5(A, j, M, depthLimit, compare);
-	N = i+1; M = j-1;
-	goto Start;
-      }
-      tpsc5(A, i+1, j-1, depthLimit, compare);
-      if ( i-N < M-j ) {
-	tpsc5(A, N, i, depthLimit, compare);
-	N = j; goto Start;
-      }
-      tpsc5(A, j, M, depthLimit, compare);
-      M = i; goto Start;
-} // end tpsc5
-
 
 // ************************************************************
 
-// tps6 another three partition function
-void tpsc6();
-void tps6(void **A, int N, int M, int (*compare)()) {
-  int L = M - N;
-
-  if ( L < cut3Limit ) { 
-    cut2f(A, N, M, compare);
-    return;
-  }
-  int depthLimit = 2.5 * floor(log(L));
-  tpsc6(A, N, M, depthLimit, compare);
-} // end tps6
-
-void tpsc6(void **A, int N, int M, int depthLimit, int (*compare)()) 
-{
-  // register int k; // for-index
-  // int z; // for tracing
-  register int i, j, up, lw; // indices
-  register void *x, *y; // array values
-  register void *pl, *pr; // pivots
-
- // A 3d recursive call is avoided by jumping back to Start.  
- Start:
-  // printf("tspc6 N %d M %d depthLimit %d\n", N,M,depthLimit);
-
-  if ( depthLimit <= 0 ) { // avoid quadradic explosion
-    heapc(A, N, M, compare);
-    return;
-  }
-  int L = M - N;
-  if ( L < cut3Limit ) {
-    cut2fc(A, N, M, depthLimit,compare);
-    //    quicksort0c(A, N, M, depthLimit, compare);
-    return;
-  }
-  depthLimit--;
-
-        int sixth = (L + 1) / 6;
-        int e1 = N  + sixth;
-        int e5 = M - sixth;
-        int e3 = N + L/2; // (N+M) / 2; // The midpoint
-        int e4 = e3 + sixth;
-        int e2 = e3 - sixth;
-        // Sort these elements using a 5-element sorting network
-        void *ae1 = A[e1], *ae2 = A[e2], *ae3 = A[e3], *ae4 = A[e4], *ae5 = A[e5];
-	void *t;
-
-	// if (ae1 > ae2) { t = ae1; ae1 = ae2; ae2 = t; }
-	if ( 0 < compare(ae1, ae2) ) { t = ae1; ae1 = ae2; ae2 = t; } // 1-2
-	if ( 0 < compare(ae4, ae5) ) { t = ae4; ae4 = ae5; ae5 = t; } // 4-5
-	if ( 0 < compare(ae1, ae3) ) { t = ae1; ae1 = ae3; ae3 = t; } // 1-3
-	if ( 0 < compare(ae2, ae3) ) { t = ae2; ae2 = ae3; ae3 = t; } // 2-3
-	if ( 0 < compare(ae1, ae4) ) { t = ae1; ae1 = ae4; ae4 = t; } // 1-4
-	if ( 0 < compare(ae3, ae4) ) { t = ae3; ae3 = ae4; ae4 = t; } // 3-4
-	if ( 0 < compare(ae2, ae5) ) { t = ae2; ae2 = ae5; ae5 = t; } // 2-5
-	if ( 0 < compare(ae2, ae3) ) { t = ae2; ae2 = ae3; ae3 = t; } // 2-3
-	if ( 0 < compare(ae4, ae5) ) { t = ae4; ae4 = ae5; ae5 = t; } // 4-5
-	// ... and reassign
-	A[e1] = ae1; A[e2] = ae2; A[e3] = ae3; A[e4] = ae4; A[e5] = ae5;
-
-   void tpsc6();
-   // if ( ae2 == ae3 || ae3 == ae4 ) {
-   if ( compare(ae2, ae3) == 0 || compare(ae3, ae4) == 0 ) {
-     dflgm(A, N, M, e3, tpsc6, depthLimit, compare);
-     return;
-   }
-   // Fix end points
-   // iswap(N+1, e2, A);
-   { int xx = N+1; iswap(xx, e2, A); }
-   iswap(M, e4, A);
-
-   pl = A[N+1]; pr = A[M]; // left and right pivots
-
-   // initialize running indices
-   i = N+1; j = M; lw = e3-1; up = e3+1;
-   x = A[N]; // create hole at A[N]
-
-   /* 
-      |]----------(--)-------------[|
-      N i         lw  up            j M
-      N+1 < x <= i -> A[x] <= pl
-      lw < x < up -> pl < A[x] < pr
-      j <= x <= M -> pr <= A[x]
-   */
-
-   // if ( x <= pl ) goto LgMgRL;
-   if ( compare(x, pl) <= 0 ) goto LgMgRL;
-   // if ( pr <= x ) goto LgMgRR;
-   if ( compare(pr, x) <= 0 ) goto LgMgRR;
-   int l,r;
-
- LgMgRM1:
-   /* 
-      |]----------(--)-------------[|
-      N i         lw  up            j M
-      x -> ML
-   */
-   while ( (l = compare(pl, A[lw]) ) < 0 && compare(A[lw], pr < 0 ) ) lw--;
-   if ( i < lw ) {
-     y = A[lw]; A[lw--] = x; x = y;
-     if ( 0 <= l ) goto LgMgRL;
-     goto LgMgRR;
-   } else // lw = i
-     goto LMgRM;
-
- LgMgRL:
-   /* 
-      |]----------(--)-------------[|
-      N i         lw  up            j M
-      x -> L
-   */
-   while ( (compare(A[++i], pl)) <= 0 )
-     if ( i <= lw ) {
-       y = A[i]; A[i] = x; x = y;
-       if ( compare(pr, x) <= 0 ) goto LgMgRR;
-       goto LgMgRM1;
-     } else { // lw < i
-       i--; goto LMgRL;
-     }
-
- LgMgRR:
-  /* 
-      |]----------(--)-------------[|
-      N i         lw  up            j M
-      x -> R
-   */
-   while ( (compare(pr,  A[--j])) <= 0 )
-     if ( up <= j ) {
-       y = A[j]; A[j] = x; x = y;
-       if ( compare(x, pl) <= 0 ) goto LgMgRL;
-       goto LgMgRM2;
-     } else { // j < up
-       j++; goto LgMRR;
-     }
-
-
- LgMgRM2:
-   /* 
-      |]----------(--)-------------[|
-      N i         lw  up            j M
-      x -> ML
-   */
-   while ( compare(pl, A[up]) < 0 && (r = compare(A[up], pr < 0 )) ) up++;
-   if ( up < j ) {
-     y = A[up]; A[up++] = x; x = y;
-     if ( 0 <= r ) goto LgMgRR;
-     goto LgMgRL;
-   } else // up = j
-     goto LgMRM;
-
- LMgRM:
-   /* 
-      |]------------)----------[------|
-      N i           up         j      M
-      x -> M
-   */
-   while ( compare(pl, A[up]) < 0 && (r = compare(A[up], pr < 0 )) ) up++;
-   if ( up < j ) {
-     y = A[up]; A[up++] = x; x = y;
-     if ( 0 <= r ) goto LMgRR;
-     goto LMgRL;
-   } else { // up = j
-     A[N] = A[i]; A[i--] = x;
-     goto done;
-   }
-
- LMgRL:
-  /* 
-      |]------------)----------[------|
-      N i           up         j      M
-      x -> L
-   */
-   while ( compare(pl, A[up]) < 0 && (r = compare(A[up], pr < 0 )) ) up++;
-   if ( up < j ) {
-     y = A[up]; A[up++] = A[++i]; A[i] = x; x = y;
-     if ( 0 <= r ) goto LMgRR;
-     goto LMgRL;
-   } else { // up = j
-     A[N] = x;
-     goto done;
-   }  
-
- LMgRR:
-  /* 
-      |]------------)----------[------|
-      N i           up         j      M
-      x -> R
-   */
-   while ( (compare(pr,  A[--j])) <= 0 )
-     if ( up <= j ) {
-       y = A[j]; A[j] = x; x = y;
-       if ( compare(x, pl) <= 0 ) goto LMgRL;
-       goto LMgRM;
-     } else { // j < up
-       A[N] = A[i]; A[i--] = A[j]; A[j] = x;
-       goto done;
-     }
-
- LgMRR:
- /* 
-      |]----------(--[--------------|
-      N i         lw j              M
-      x -> R
-   */
-   while ( (l = compare(pl, A[lw]) ) < 0 && compare(A[lw], pr < 0 ) ) lw--;
-   if ( i < lw ) {
-     y = A[lw]; A[lw--] = A[--j]; A[j] = x; x = y;
-     if ( 0 <= l ) goto LgMRL;
-     goto LgMRR;
-   } else { // lw = i
-     A[N] = A[i]; A[i--] = A[j]; A[j] = x;
-     goto done;
-   }
-
- LgMRM:
-  /* 
-      |]----------(--[--------------|
-      N i         lw j              M
-      x -> M
-   */
-  while ( (l = compare(pl, A[lw]) ) < 0 && compare(A[lw], pr < 0 ) ) lw--;
-   if ( i < lw ) {
-     y = A[lw]; A[lw--] = x; x = y;
-     if ( 0 <= l ) goto LgMRL;
-     goto LgMRR;
-   } else { // lw = i
-     A[N] = A[i]; A[i--] = x;
-     // goto done; // fall through
-   }
-
-LgMRL:
-  /* 
-      |]----------(--[--------------|
-      N i         lw j              M
-      x -> L
-   */
-  while ( (compare(A[++i], pl)) <= 0 )
-     if ( i <= lw ) {
-       y = A[i]; A[i] = x; x = y;
-       if ( compare(pr, x) <= 0 ) goto LgMRR;
-       goto LgMRM;
-     } else { // lw < i
-       A[N] = x;
-       // fall through
-     }
-
- done:
-    /*
-      |---]---------[---------|
-      N   i         j         M
-    */
-
-    /*
-      for ( z = N; z <= i; z++ )
-	// if ( pl < A[z] ) {
-        if ( compare(pl, A[z]) < 0 ) {
-	  printf("doneL z %i\n", z);
-	  printf("N %i i %i lw %i up %i j %i M %i\n", N,i,lw,up,j,M);
-	  exit(0);
-	}
-      for ( z = i+1; z < j; z++ )
-	// if ( A[z] <= pl || pr <= A[z] ) {
-        if ( compare(A[z], pl) <= 0 || compare(pr, A[z]) <= 0 ) {
-	  printf("doneM z %i\n", z);
-	  printf("N %i i %i lw %i up %i j %i M %i\n", N,i,lw,up,j,M);
-	  exit(0);
-	}
-      for ( z = j; z <= M ; z++ )
-	// if ( A[z] < pr ) {
-	if ( compare(A[z], pr) < 0 ) {
-	  printf("doneR z %i\n", z);
-	  printf("N %i i %i lw %i up %i j %i M %i\n", N,i,lw,up,j,M);
-	  exit(0);
-	}
-      */
-	// tpsc5(A, N, i, depthLimit);
-	// tpsc5(A, i+1, j-1, depthLimit);
-	// tpsc5(A, j, M, depthLimit);
-      if ( i-N < j-i ) {
-	tpsc6(A, N, i, depthLimit, compare);
-	if ( j-i < M-j ) {
-	  tpsc6(A, i+1, j-1, depthLimit, compare);
-	   N = j; goto Start;
-	}
-	tpsc6(A, j, M, depthLimit, compare);
-	N = i+1; M = j-1;
-	goto Start;
-      }
-      tpsc6(A, i+1, j-1, depthLimit, compare);
-      if ( i-N < M-j ) {
-	tpsc6(A, N, i, depthLimit, compare);
-	N = j; goto Start;
-      }
-      tpsc6(A, j, M, depthLimit, compare);
-      M = i; goto Start;
-} // end tpsc6
-
-
-
-// ************************************************************
-
-/* // These procedures need, if used, comparisonn arguments ... 
-void heapSort();
-void heapc(void **A, int N, int M) {
-  // printf("heapc: %d %d\n", N, M);
-  if ( M <= N ) return;
-  heapSort(&A[N], M-N+1);
-} // end heapc
-
-void heapify();
-void siftDown();
-void heapSort(void **a, int count) {
-  // input:  an unordered array a of length count
-  // first place a in max-heap order
-  heapify(a, count);
-  // in languages with zero-based arrays the children are 2*i+1 and 2*i+2
-  int end = count-1; 
-  while ( end > 0 ) {
-    // (swap the root(maximum value) of the heap with 
-    // the last element of the heap)
-    // swap(a[end], a[0]);
-    iswap(end, 0, a);
-    // (decrease the size of the heap by one so that the 
-    // previous max value will stay in its proper placement) 
-    end = end - 1;
-    // (put the heap back in max-heap order)
-    siftDown(a, 0, end);
-  }
-} // end heapSort
-         
-void heapify(void **a, int count) {
-  // (start is assigned the index in a of the last parent node)
-  int start = (count - 2) / 2;
-  while ( 0 <= start ) {
-    // (sift down the node at index start to the proper place such 
-    // that all nodes below the start index are in heap order)
-    siftDown(a, start, count-1);
-    start = start - 1;
-  } // (after sifting down the root all nodes/elements are in heap order)
-} // end heapify
- 
-void siftDown(void **a, int start, int end) {
-  // input:  end represents the limit of how far down the heap to sift.
-  int root = start;
-  int child, swapi;
-  // (While the root has at least one child)
-  while ( root * 2 + 1 <= end ) {
-    child = root * 2 + 1; // (root*2 + 1 points to the left child)
-    swapi = root; // (keeps track of child to swap with)
-    // (check if root is smaller than left child)
-    // if ( a[swapi] < a[child] ) 
-    if ( compare(a[swapi], a[child]) < 0 ) 
-      swapi = child;
-    // (check if right child exists, and if it's bigger 
-    // than what we're currently swapping with)
-    // if ( child+1 <= end && a[swapi] < a[child+1] )
-    if ( child+1 <= end && compare(a[swapi],a[child+1]) < 0 )
-      swapi = child + 1;
-    // (check if we need to swap at all)
-    if ( swapi != root ) {
-      // swap(a[root], a[swapi]);
-      iswap(root, swapi, a);
-      root = swapi; // (repeat to continue sifting down the child now)
-    } else return;
-  }
-} // end siftDown
-*/
 
 // ************************************************************************
 
-void dpqSort();
+void dpqSort(void **a, int left, int right,
+	     int (*compar ) (const void *, const void * ) );
 void dpq(void **A, int N, int M, int (*compare)()) {
   dpqSort(A, N, M, compare);
 } // end dpq
@@ -2276,7 +1422,7 @@ void dualPivotQuicksort(void **a, int left, int right,
     dpqSort(a, great + 1, right, compar);
   }
 } // end dualPivotQuicksort
-
+// ************************************************************************
 
 // ********************** MPQ *********************************
 
@@ -2365,7 +1511,7 @@ Again:
 	   // if ( A[b] < p ) {
 	   if ( compar(A[b], p) < 0 ) {
               // swap(A[a], A[b]); 
-	      iswap(a, b, A); 
+	      iswap3(a, b, A); 
               a++;
            }
            b++;
@@ -2375,7 +1521,7 @@ Again:
 	   // if ( A[c] > r ) {
 	   if ( compar(A[c], r) > 0 ) {
               // swap(A[c], A[d]);
-	      iswap(c, d, A); 
+	      iswap3(c, d, A); 
               d--;
            }
            c--;
@@ -2386,33 +1532,33 @@ Again:
              // if ( A[c] < p ) {
 	     if ( compar(A[c], p) < 0 ) {
                 // swap(A[b],A[a]); swap(A[a],A[c]);
-		iswap(a, b, A); iswap(a, c, A);   		    
+		iswap3(a, b, A); iswap3(a, c, A);   		    
                 a++;
              } else
                 // swap(A[b],A[c]);
-		iswap(c, b, A);
+		iswap3(c, b, A);
              // swap(A[c],A[d]); 
-	     iswap(c, d, A); 
+	     iswap3(c, d, A); 
              b++; c--; d--;
           } else {
              // if ( A[c] < p ) {
 	     if ( compar(A[c], p) < 0 ) {
                 // swap(A[b],A[a]); swap(A[a],A[c]);
-		iswap(a, b, A); iswap(a, c, A);   
+		iswap3(a, b, A); iswap3(a, c, A);   
                 a++;
              } else
                 // swap(A[b],A[c]);
-		iswap(b, c, A);  
+		iswap3(b, c, A);  
              b++; c--;
           }
         }
     } 
     a--; b--; c++; d++;
     // swap(A[left + 1],A[a]); swap(A[a],A[b]);
-    iswap3(left+1, a, A); iswap(a, b, A);
+    iswap3(left+1, a, A); iswap3(a, b, A);
     a--;
     // swap(A[left],A[a]); swap(A[right],A[d]);
-    iswap(left, a, A); iswap(right, d, A);
+    iswap3(left, a, A); iswap3(right, d, A);
     // recursive calls & tail recursion
     if ( b - left <= right - b ) {
        partition3(A, left, a, compar);
@@ -2441,247 +1587,7 @@ Again:
 } // end partition3
 
 // ************************************************************************
-
-
-
-// c:/bsd/rigel/sort/Qusort adjusted for other pivot 
-// Date: Fri Jan 31 13:32:12 2014/ Tue May 19 15:02:00 2015, 2017
-// (C) OntoOO/ Dennis de Champeaux
-
-// #include "Isort.c" // insertionsort member
-// #include "Hsort.c" // heapsort member
-
-// calculate the median of 3
-/*
-int med(void **A, int a, int b, int c,
-	int (*compareXY ) (const void *, const void * ) ) {
-  return
-    compareXY( A[a], A[b] ) < 0 ?
-    ( compareXY( A[b], A[c] ) < 0 ? b : compareXY( A[a], A[c] ) < 0 ? c : a)
-    : compareXY( A[b], A[c] ) > 0 ? b : compareXY( A[a], A[c] ) > 0 ? c : a;
-} // end med
-*/
-
-void quicksort0ck();
-// Quicksort function for invoking quicksort0ck.
-void quicksort0k(void **A, int N, int M, int (*compare)()) {
-  int L = M - N;
-  if ( L <= 0 ) return;
-  // printf("quicksort0 %d %d \n", N, M);
-  if ( L <= 7 ) { 
-    insertionsort(A, N, M, compare);
-    return;
-  }
-  int depthLimit = 2.5 * floor(log(L));
-  quicksort0ck(A, N, M, depthLimit, compare);
-} // end quicksort0
-
-// void dflgm();
-// selectPivotByPseudoMedian = sPBPM
-int sPBPM2(void **A, int N, int M, int (*compare)()) {
-  int s = 50; // 1 <= s
-  int L = M - N;
-  if ( L <= s ) return L/2;
-  int oneThird = L/3;
-  int a0 = sPBPM2(A, N, N-1+oneThird, compare);
-  int a1 = sPBPM2(A, N+oneThird, M-1-oneThird, compare);
-  int a2 = sPBPM2(A, M-oneThird, M, compare);
-  return med(A, a0, a1, a2, compare); 
-}
-
-// Quicksort equipped with a defense against quadratic explosion;
-// calling heapsort if depthlimit exhausted
-void quicksort0ck(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
-  // printf("Enter quicksort0c N: %d M: %d %d\n", N, M, depthLimit);
-  while ( N < M ) {
-    int L = M - N;
-    if ( L <= 7 ) {
-      insertionsort(A, N, M, compareXY);
-      return;
-    }
-    if ( depthLimit <= 0 ) {
-      heapc(A, N, M, compareXY);
-      return;
-    }
-    depthLimit--;
-
-    /*
-    // 7 < L
-    int p0 = N + (L>>1); // N + L/2;
-    int pn = N;
-    int pm = M;
-    if ( 40 < L ) {
-      int d = L>>3; // L/8;
-      pn = med(A, pn, pn + d, pn + 2 * d, compareXY);
-      p0 = med(A, p0 - d, p0, p0 + d, compareXY);
-      pm = med(A, pm - 2 * d, pm - d, pm, compareXY);
- 
-    }
-    p0 = med(A, pn, p0, pm, compareXY);
-    */
-    int p0 =  sPBPM2(A, N, M, compareXY);
-
-    /* optional check when inputs have many equal elements
-    if ( compareXY(A[N], A[M]) == 0 ) {
-      dflgm(N, M, p0, quicksort0c, depthLimit,, compareXY);
-      return;
-    } */
-    // p0 is index to 'best' pivot ...
-    
-    iswap(N, p0, A); // ... and is put in first position
-
-    register void *p = A[N]; // pivot
-    register int i, j;
-    i = N;
-    j = M;
-    register void *ai; void *aj;
-
-    /* Split array A[N,M], N<M in two segments using pivot p; 
-       construct a partition with A[N,i), A(i,M] and N <= i <= M, and
-       N <= k <= i -> A[k] <= p  and  i < k <= M -> p < A[k];
-       Allow the worse cases: N=i or i=M.
-       Recurse on A[N,i) and A(i,M) (or in the reverse order).
-       This code does NOT do swapping; instead it disposes 
-       ai/aj in a hole created by setting aj/ai first.  
-    */
-    /* Start state:
-	  |-------------------------------|
-          N=i                           j=M
-	  N = i < j = M
-          N <= k < i -> A[k] <= p    
-          N < j < k <= M -> p < A[k]
-	  A[N] = p
-          N < i -> p < A[i]
-    */
-
-    while ( i < j ) {
-      /*
-	  |-------o---------------(--------|
-          N       i               j        M
-	  N <= i < j <= M
-          N <= k < i -> A[k] <= p    
-          N < j < k <= M -> p < A[k]
-	  A[N] <= p
-          N < i -> p < A[i]
-          p + A[N,i) + A(i,j] + A(j,M] is a permutation of the input array
-      */
-      aj = A[j];
-      while ( compareXY(p, aj) < 0 ) { 
-        /*
-	  |-------o---------------[--------|
-          N       i               j        M
-	  N = i < j <= M or N < i <= j <= M
-          N <= k < i -> A[k] <= p    
-          N < j <= k <= M -> p < A[k]
-	  A[N] <= p
-	  N < i -> p < A[i}
-	  p + A[N,i) + A(i,M] is a permutation of the input array
-          p < aj = A[j]
-	*/
-	j--; 
-	aj = A[j]; 
-      }
-      /*
-	  |-------o---------------(--------|
-          N       i               j        M
-	  N = i = j < M or N < i & = i-1 <= j <= M or N <= i < j <= M
-          N <= k < i -> A[k] <= p    
-          j < k <= M -> p < A[k]
-	  A[N] <= p
-	  N < i -> p < A[i}
-	  p + A[N,i) + A(i,M] is a permutation of the input array
-          aj = A[j] <= p
-	*/
-      if ( j <= i ) {
-	/*
-	  |-------o-----------------------|
-          N       i                       M
-	  N = i = j < M or N < i & = i-1 = j < M
-          N <= k < i -> A[k] <= p    
-          i < k <= M -> p < A[k]
-	  A[N] <= p
-	  p + A[N,i) + A(i,M] is a permutation of the input array
-	*/
-	break;
-      }
-      // i < j 
-      A[i] = aj; // fill hole !
-      /*
-	  |-------]---------------o--------|
-          N       i               j        M
-	  N <= i < j <= M
-          N <= k <= i -> A[k] <= p    
-          j < k <= M -> p < A[k]
-	  A[N] <= p
-	  p + A[N,j) + A(j,M] is a permutation of the input array
-	  aj = A[j] <= p
-      */
-      i++; ai = A[i];
-      while ( i < j && compareXY(ai, p) <= 0 ) {
-	/*
-	  |-------]---------------o--------|
-          N       i               j        M
-	  N < i < j <= M
-          N <= k <= i -> A[k] <= p    
-          j < k <= M -> p < A[k]
-	  A[N] <= p
-	  p + A[N,j) + A(j,M] is a permutation of the input array
-	  aj = A[j] <= p
-	*/
-	i++; ai = A[i]; 
-      }
-      if ( j <= i ) {
-	/*
-	  |----------------------o--------|
-          N                     i=j       M
-	  N < i = j <= M
-          N <= k < i -> A[k] <= p    
-          j < k <= M -> p < A[k]
-	  A[N] <= p
-	  p + A[N,j) + A(j,M] is a permutation of the input array
-	*/
-	break;
-      }
-      // i < j  & p < ai = A[i] 
-      A[j] = ai;
-      j--;
-      /*
-	  |--------o--------------[--------|
-          N        i              j        M
-	  N < i <= j <= M
-          N <= k < i -> A[k] <= p    
-          j <= k <= M -> p < A[k]
-	  A[N] <= p
-          N < i -> p < ai = A[i]
-	  p + A[N,i) + A(i,M] is a permutation of the input array
-      */
-    } // end of while( i < j )
-
-    A[i] = p;
-    /*
-	  |--------]----------------------|
-          N        i                      M
-	  N <= i <= M
-          N <= k <= i -> A[k] <= p    
-          i < k <= M -> p < A[k]
-	  A[N] <= p
-	  A[N,i] + A(i,M] is a permutation of the input array
-    */
-
-    // Recurse on the smallest one and iterate on the other one
-    int ia = i-1; int ib = i+1; 
-    if ( i-N < M-i ) { 
-      if ( N < ia ) quicksort0c(A, N, ia, depthLimit, compareXY);  
-      N = ib; 
-    } else { 
-      if ( ib < M ) quicksort0c(A, ib, M, depthLimit, compareXY);  
-      M = ia; 
-    }
-  }
-} // end of quicksort0ck
-
-// ************************************************************************
-
+// /*
 void blockSortc();
 const int BLOCKSIZE = 128;
 void blockSort(void **A, int N, int M, int (*compar )) {
@@ -2691,7 +1597,15 @@ void blockSort(void **A, int N, int M, int (*compar )) {
   int indexL[BLOCKSIZE], indexR[BLOCKSIZE];
   blockSortc(A, N, M, indexL, indexR, dp, compar);
 }
-
+// */
+/*
+void iswap3(int p, int q, void **A) {
+  void *t = A[p];
+  A[p] = A[q];
+  A[q] = t;
+} // end of iswap3
+*/
+// /*
 void blockSortc(void **A, int N, int M, int indexL[], int indexR[],
 	   int depthLimit, int (*compareXY)()) {
   int L;
@@ -2900,7 +1814,7 @@ void blockSortc(void **A, int N, int M, int indexL[], int indexR[],
 
 } // end blockSortc
    
-
+// */
 // Infrastructure for testing non-uniform distributions
 
 
@@ -3022,6 +1936,7 @@ void compareZeros00(char *label, int siz, int seedLimit,
   }
 } // end compareZeros00
 
+/*
 void compare00FourSortAgainstFiveSort() {
   void cut2(), tps();
   compareZeros00("compare00FourSortAgainstFiveSort", 
@@ -3038,6 +1953,8 @@ void compare00DPQAgainstFiveSort() {
 		 // 1024*1024 *16, 2, dpq, tps, 
 		 compareXY, compareXY);
 } // end compare00DPQAgainstFiveSort
+*/
+/*
 void compare00DPQAgainstFourSort() {
   void dpq(), cut2();
   compareZeros00("compare00DPQAgainstFourSort", 
@@ -3046,7 +1963,7 @@ void compare00DPQAgainstFourSort() {
 		 // 1024*1024 *16, 2, dpq, cut2, 
 		 compareXY, compareXY);
 } // end compare00DPQAgainstFiveSort
-
+*/
 void validateAlgorithm0(char* label, int siz, void (*alg1)(), void (*alg2)() ) {
   // siz = 1024*128;
   printf("%s on size: %d\n", label, siz);
@@ -3121,27 +2038,31 @@ void validateAlgorithm(char* label, void (*alg1)(), void (*alg2)() ) {
   // validateAlgorithm0(label, 300, alg1, alg2);
   // validateAlgorithm0(label, 9, alg1, alg2);
 } // end validateAlgorithm
-
+/*
 void validateC2() {
   validateAlgorithm("Running validate cut2 ...",
 		    //		    quicksort0, cut2);
 		    heapc, cut2);
 }
+*/
 /*
 void validateC21() {
   validateAlgorithm("Running validate C2Split ...",
 		    quicksort0, c21);
 }
 */
-
+/*
 void validateC2lr() {
   validateAlgorithm("Running validate C2LR ...",
 		    quicksort0, cut2lr);
 }
+*/
+/*
 void validateC2lr2() {
   validateAlgorithm("Running validate C2LR2 ...",
 		    quicksort0, cut2lr2);
 }
+*/
 /*
 void validateC2lrb() {
   validateAlgorithm("Running validate C2LRB ...",
@@ -3153,51 +2074,66 @@ void validateC2left() {
 		    quicksort0, cut2left);
 }
 */
+/*
 void validateC2sort() {
   validateAlgorithm("Running validate C2sort ...",
 		    quicksort0, cut2);
 }
-
+*/
+/*
 void validateC2msort() {
   validateAlgorithm("Running validate C2msort ...",
 		    quicksort0, cut2m);
 }
-
+*/
+/*
 void validateC2ksort() {
   validateAlgorithm("Running validate C2ksort ...",
 		    quicksort0, cut2k);
 }
+*/
+/*
 void validateC2k2sort() {
   validateAlgorithm("Running validate C2k2sort ...",
 		    quicksort0, cut2k2);
 }
+*/
 /*
 void validateC2k3sort() {
   validateAlgorithm("Running validate C2k3sort ...",
 		    quicksort0, cut2k3);
 }
 */
+/*
 void validateC2k4sort() {
   validateAlgorithm("Running validate C2k4sort ...",
 		    quicksort0, cut2k4);
 }
+*/
+/*
 void validateC2k1sort() {
   validateAlgorithm("Running validate C2k1sort ...",
 		    quicksort0, cut2k1);
 }
-
+*/
+/*
 void validateCN4sort() {
-validateAlgorithm("Running validate CN4sort ...",
+   validateAlgorithm("Running validate CN4sort ...",
 		    quicksort0, cut4n);
 }
+*/
+/*
 void validateCD4sort() {
-validateAlgorithm("Running validate CD4sort ...",
+   validateAlgorithm("Running validate CD4sort ...",
 		    quicksort0, cut4d);
 }
+*/
+/*
 void validateQ0() {
   validateAlgorithm("Running validate Q0 ...",
 		    quicksort0, heapc);
 }
+*/
 /*
 void validateMyqs() {
   validateAlgorithm("Running validate Myqs ...",
@@ -3208,11 +2144,12 @@ void validateMybam() {
 		    quicksort0, mybam);
 }
 */
+/*
 void validateMergeSort() {
   validateAlgorithm("Running validate MergeSort ...",
 		    quicksort0, mergeSort);
 }
-
+*/
 
 void range(void (*alg1)(), int (*compar)(), int bool) {
   extern long long cnt;
@@ -3258,11 +2195,13 @@ void range(void (*alg1)(), int (*compar)(), int bool) {
     reps = reps / 4;
   }
 } // end range
+/*
 void rangeLQ() {
   void _quicksort();
   printf("rangeLQ\n");
   range(_quicksort, compareIntVal2, 0);
 } // end rangeLQ
+*/
 /*
 void rangeMyqsort() {
   void myqsort();
@@ -3270,11 +2209,13 @@ void rangeMyqsort() {
   range( myqsort, compareXY, 1);
 } // end rangeMyqsort()
 */
+/*
 void rangeBentley() { 
   void bentley();
   printf("rangeBentley\n");
   range(bentley, compareIntVal2, 0);
 } // end rangeBentley
+*/
 /*
 void rangeMybam() {
   void rangeMybam();
@@ -3282,67 +2223,88 @@ void rangeMybam() {
   range(mybam, compareXY, 1);
 } // end rangeQuicksort0
 */
+/*
 void rangeQuicksort0() {
   void quicksort0();
   printf("rangeQuicksort0\n");
   range(quicksort0, compareXY, 1);
 } // end rangeQuicksort0
+*/
+/*
 void rangeDflgm0() {
   void dflgm0();
   printf("rangeDflgm0\n");
   range(dflgm0, compareXY, 1);
 } // end rangeDflgm0
+*/
+/*
 void rangeCut2() {
   void cut2();
   printf("rangeCut2\n");
   range(cut2, compareXY, 1);
 } // end rangeCut2
+*/
+/*
 void rangeCut2lr() {
   void cut2lr();
   printf("rangeCut2lr\n");
   range(cut2lr, compareXY, 1);
 } // end rangeCut2lr
+*/
+/*
 void rangeBlockSort() {
   void blockSort();
   printf("rangeblockSort\n");
   range(blockSort, compareXY, 1);
 } // end rangeBlockSort
+*/
 // 2-pivot
 void rangeDpq() {
   void dpq();
   printf("rangeDpq\n");
   range(dpq, compareXY, 1);
 } // end rangeDpq
+/*
 void rangeTps() {
   void tps();
   printf("rangeTps\n");
   range(tps, compareXY, 1);
 } // end rangeTps
+*/
 // 3 pivot
+/*
 void rangeMpq() {
   void part3();
   printf("rangeMpq\n");
   range(part3, compareXY, 1);
 } // end rangeMpq
+*/
+/*
 void rangeCut4() {
   void cut4();
   printf("rangeCut4\n");
   range(cut4, compareXY, 1);
 } // end rangeCut4
+*/
+/*
 void rangeCut4n() {
   void cut4n();
   printf("rangeCut4n\n");
   range(cut4n, compareXY, 1);
 } // end rangeCut4n
+*/
+/*
 void rangeCut4d() {
   void cut4d();
   printf("rangeCut4d\n");
   range(cut4d, compareXY, 1);
 } // end rangeCut4d
+*/
+/*
 void rangeCut7() {
   void cut7();
   printf("rangeCut7\n");
   range(cut7, compareXY, 1);
 } // end rangeCut7
-
+*/ 
 #undef iswap

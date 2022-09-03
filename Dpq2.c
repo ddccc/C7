@@ -46,6 +46,8 @@
 //#include "insertionsort.h"
 //#include "dpq2.h"
 
+#include "Isort.h"
+
 /**
  * Max array size to use mixed insertion sort.
  */

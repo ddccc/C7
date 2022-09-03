@@ -2,6 +2,8 @@
 // Date: Thu Mar 10 19:39:54 2022
 // (C) OntoOO/ Dennis de Champeaux
 
+#include "Isort.h"
+
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 // This version combines isort + dflgm + ( pivot sample + (fast loops | dflgm ) )

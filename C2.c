@@ -1,7 +1,7 @@
 // c:/bsd/rigel/sort/C7/C2.c
 // Date: Fri Jan 31 13:32:12 2014, 2017 Sun Mar 03 16:14:28 2019
 // (C) OntoOO/ Dennis de Champeaux
-
+#include "Isort.h"
 
 void *myMalloc();
 

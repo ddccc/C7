@@ -38,40 +38,16 @@ void cut2c(void **A, int lo, int hi, int depthLimit,
   while ( lo < hi ) {
     // printf("cut2c lo: %d hi %d  L %i\n", lo, hi, hi-lo);
     int L = hi - lo;
-
-    if ( L <= dflgmLimit2 ) {
-      dflgm3(A, lo, hi, depthLimit, compareXY);
-      return;
-    }
-    /*
-    if ( L <= iLimit2) {
-      insertionsort(A, lo, hi, compareXY);
-      return;
-    }
-
-    if ( L < dflgmLimit2 ) {
-      int p0 = lo + (L>>1); // lo + L/2;
-      if ( 7 < L ) {
-	int pn = lo;
-	int pm = hi;
-	// if ( 51 < L ) {
-	if ( 40 < L ) {
-	  int d = (L-2)>>3; // L/8;
-	  pn = medq2(A, pn, pn + d, pn + 2 * d, compareXY);
-	  p0 = medq2(A, p0 - d, p0, p0 + d, compareXY);
-	  pm = medq2(A, pm - 2 * d, pm - d, pm, compareXY);
-	}
-	p0 = medq2(A, pn, p0, pm, compareXY);
-      }
-      dflgm(A, lo, hi, p0, cut2c, depthLimit, compareXY);
-      return;
-    }
-    */
     if ( depthLimit <= 0 ) {
       heapc(A, lo, hi, compareXY);
       return;
     }
     depthLimit--;
+
+    if ( L <= dflgmLimit2 ) {
+      dflgm3(A, lo, hi, depthLimit, compareXY);
+      return;
+    }
 
     register void *T; // pivot
     register int I = lo, J = hi; // indices

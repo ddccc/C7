@@ -5,6 +5,8 @@
 // d4 is a quicksort to be applied only on small arrays; the generated partitions
 // or not ordered for recursive processing; the right one is handled by tail iteration.
 
+#include "Isort.h"
+
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 // calculate the median of 3

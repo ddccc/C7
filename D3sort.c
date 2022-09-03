@@ -2,6 +2,10 @@
 // Date: Mon Jan 04 18:42:53 2021
 // (C) OntoOO/ Dennis de Champeaux
 
+#include "Isort.h"
+#include "Hsort.h"
+#include "Dsort.h"
+
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 // calculate the median of 3
@@ -31,8 +35,8 @@ void dflgm3(void **A, int lo, int hi,
   L = hi - lo +1;
   if ( L <= 1 ) return;
 
-  // if ( L < 12 ) { // insertionsort
-  if ( L < 9 ) { // insertionsort
+  if ( L < 12 ) { // insertionsort
+    // if ( L < 9 ) { // insertionsort
     insertionsort(A, lo, hi, compareXY);
     return;
   }

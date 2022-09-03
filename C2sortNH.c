@@ -4,6 +4,8 @@
 // pivot is not always the exact median of the samples.
 // Programmed by Nigel Horspool, 2021-06-04
 
+#include "Isort.h"
+
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 static int quickselectm(void **A, int lo, int hi, int k,

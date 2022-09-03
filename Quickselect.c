@@ -8,6 +8,8 @@
 // is allowed to place the pivot up to DELTA positions away
 // from the middle of the range (where a median should be)
 
+#include "Isort.h"
+
 // fully sort the list with insertion sort if no more
 // elements than this
 #define SMALL_LIST   9

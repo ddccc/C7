@@ -2,6 +2,8 @@
 // Date: Wed May 12 14:03:17 2021 Sat Jul 23 09:51:37 2022
 // (C) OntoOO/ Dennis de Champeaux
 
+#include "C2LR2.h"
+
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
 static const int cut4dLimit = 1600; 
@@ -30,7 +32,8 @@ void cut4dc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
   if ( L < cut4dLimit ) { 
     // cut2lrc(A, N, M, depthLimit, compareXY);
     // cut2k2c(A, N, M, depthLimit, compareXY);
-    cut2Nk1nc(A, N, M, depthLimit, compareXY);
+    // cut2Nk1nc(A, N, M, depthLimit, compareXY);
+    cut2lr2c(A, N, M, depthLimit, compareXY);
     return;
   }
 
@@ -55,7 +58,7 @@ void cut4dc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     for (k = 0; k < probeLng; k++) // iswap(N1 + k, N + k * offset, A);
     { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
     // sort this mini array to obtain good pivots
-    cut2lrc(A, N1, M1, depthLimit, compareXY);
+    // cut2lrc(A, N1, M1, depthLimit, compareXY);
     // cut4dc(A, N1, M1, depthLimit, compareXY);
     lw = maxlx; up = minrx;
 

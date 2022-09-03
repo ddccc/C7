@@ -3,18 +3,14 @@
 // Fri Nov 27 20:13:42 2020
 // (C) OntoOO/ Dennis de Champeaux
 
-/*
-#include "Hsort.c"
-#include "Dsort.c"
-#include "Isort.c"
-*/
+#include "Isort.h"
+#include "Hsort.h"
+#include "Dsort.h"
 
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
-static void quicksort0c(void **, int, int, int, int (*)(const void*, const void*));
-
 // calculate the median of 3
-static int medq0(void **A, int a, int b, int c,
+int medq0(void **A, int a, int b, int c,
 	int (*compareXY ) (const void *, const void * ) ) {
   return
     compareXY( A[a], A[b] ) < 0 ?
@@ -22,14 +18,18 @@ static int medq0(void **A, int a, int b, int c,
     : compareXY( A[b], A[c] ) > 0 ? b : compareXY( A[a], A[c] ) > 0 ? c : a;
 } // end med
 
-static void vswap(void **A, int lo, int lo3, int eq) {
+void vswap(void **A, int lo, int lo3, int eq) {
   void *t;
   while ( 0 < eq ) { eq--; t = A[lo]; A[lo++] = A[lo3]; A[lo3++] = t; }
 }
 
-static const int small = 400;
+const int small = 400;
 
-void quicksort0(void **A, int lo, int hi, int (*compare)(const void*, const void*)) {
+void quicksort0c(void **A, int lo, int hi, int depthLimit, 
+		 int (*compareXY)(const void*, const void*));
+
+void quicksort0(void **A, int lo, int hi, 
+		int (*compare)(const void*, const void*)) {
   // printf("quicksort0 lo %i hi %i L %i\n", lo, hi, hi-lo);
   int L = hi - lo;
   if ( L <= 0 ) return;
