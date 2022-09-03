@@ -20,10 +20,15 @@ Instructions for how to run the drivers are in the top of these file.
 To make a driver for sorting referenced items one needs:
 - a comparison function
 - for foursort/cut2 the files: Isort, Hsort, Dsort, C2Sort, FourSort
-- for cut2lr: the foursort/cut2 files & C2LR
+- for cut2lr2: the files Isort, Hsort, D3sort, Dsort, C2LR2
 - the 3-pivot versions:
-  for sixsort/cut4: the cut2lr files & C4
-  for cut4d: the cut2lr files & CD4
-  for cut4n: the cut2lr files & CN4
-  for cut7: the cut2lr files & C7
+  for sixsort/cut4: the cut2lr2 files & C4
+  for cut4d: the cut2lr2 files & CD4
+  for cut4n: the cut2lr2 files & CN4
+  for cut7: the cut2lr2 files & C7
 The file ComparisonCounting.c does all this for all of them.
+
+The .h files loads the corresponding file with:
+   #include "XXX.c"
+for convenience because recompilation is fast enough here.
+

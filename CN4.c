@@ -46,11 +46,9 @@ void cut4np(void **A, void **hip, int depthLimit, int (*compareXY)()) {
 	  // cut2(A, 0, hip-A, compareXY);
 	  // cut2lr(A, 0, hip-A, compareXY);
 	  // cut2lrc(A, 0, hip-A, depthLimit, compareXY);
-	  // cut2lrc(A, 0, hip-A, depthLimit, compareXY);
 	  // cut2k2c(A, 0, hip-A, depthLimit, compareXY);
 	  // cut2Nk1nc(A, 0, hip-A, depthLimit, compareXY);
 	  cut2lr2c(A, 0, hip-A, depthLimit, compareXY);
-
 	  return;
 	}
         void **zp = A + (size>>1); // zp points to array midpoint
