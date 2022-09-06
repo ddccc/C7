@@ -3,14 +3,18 @@
 // Fri Nov 27 20:13:42 2020
 // (C) OntoOO/ Dennis de Champeaux
 
-#include "Isort.h"
-#include "Hsort.h"
-#include "Dsort.h"
+/*
+#include "Hsort.c"
+#include "Dsort.c"
+#include "Isort.c"
+*/
 
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
+static void quicksort0c(void **, int, int, int, int (*)(const void*, const void*));
+
 // calculate the median of 3
-int medq0(void **A, int a, int b, int c,
+static int medq0(void **A, int a, int b, int c,
 	int (*compareXY ) (const void *, const void * ) ) {
   return
     compareXY( A[a], A[b] ) < 0 ?
@@ -18,22 +22,18 @@ int medq0(void **A, int a, int b, int c,
     : compareXY( A[b], A[c] ) > 0 ? b : compareXY( A[a], A[c] ) > 0 ? c : a;
 } // end med
 
-void vswap(void **A, int lo, int lo3, int eq) {
+static void vswap(void **A, int lo, int lo3, int eq) {
   void *t;
   while ( 0 < eq ) { eq--; t = A[lo]; A[lo++] = A[lo3]; A[lo3++] = t; }
 }
 
-const int small = 400;
+static const int small = 400;
 
-void quicksort0c(void **A, int lo, int hi, int depthLimit, 
-		 int (*compareXY)(const void*, const void*));
-
-void quicksort0(void **A, int lo, int hi, 
-		int (*compare)(const void*, const void*)) {
+void quicksort0(void **A, int lo, int hi, int (*compare)(const void*, const void*)) {
   // printf("quicksort0 lo %i hi %i L %i\n", lo, hi, hi-lo);
   int L = hi - lo;
   if ( L <= 0 ) return;
-  if ( L < 7 ) { 
+  if ( L < 12 ) { 
     insertionsort(A, lo, hi, compare);
     return;
   }
@@ -50,18 +50,17 @@ void quicksort0c(void **A, int lo, int hi, int depthLimit,
   // printf(" gap %d \n", hi-lo);
   while ( lo < hi ) {
     // printf("quicksort0c lo: %d hi %d  L %i\n", lo, hi, hi-lo);
-    int L = 1 + hi - lo;
-    // if ( L < 8 ) {
-    if ( L < 9) {
-      insertionsort(A, lo, hi, compareXY);
-      return;
-    }
     if ( depthLimit <= 0 ) {
       heapc(A, lo, hi, compareXY);
       return;
     }
     depthLimit--;
-
+    int L = 1 + hi - lo;
+    // if ( L < 8 ) {
+    if ( L < 12) {
+      insertionsort(A, lo, hi, compareXY);
+      return;
+    }
     // 7 <= L
     int p0 = lo + (L>>1); // lo + L/2;
     if ( 7 < L ) {
@@ -109,15 +108,19 @@ void quicksort0c(void **A, int lo, int hi, int depthLimit,
       goto Left2;
 
   Skip2:
+      // swap corners to the middle
       // printf("lo %i i %i j %i hi %i\n",lo,I,J,hi);
       l = lo2-lo; r = I-lo2;
       eql = ( l < r ? l : r );
       vswap(A, lo, I-eql, eql); 
       int hi3 = J+lo-lo2;
+
       l = hi2-J; r = hi-hi2;
       eqr = ( l < r ? l : r );
       vswap(A, I, hi-eqr+1, eqr);
       int lo3 = I + (hi-hi2);
+
+      // use tail iteration
       int left = hi3-lo;
       int right = hi-lo3;
       if ( left <= right) {
@@ -140,6 +143,8 @@ void quicksort0c(void **A, int lo, int hi, int depthLimit,
 	  |----------]-------------[-----------|
 	  lo  <=T    I             J   >T      hi   
     */
+    // Try to create non empty corner sub segment and proceed at Left:
+    // Otherwise escape using the Dutch Flag module dflgm
     J = hi+1;
     while ( compareXY(T, A[--J]) < 0 );
     if ( lo == J ) { // poor pivot  lo < x -> T < A[x], suspect bad input
