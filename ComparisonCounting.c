@@ -309,6 +309,7 @@ void fillarray(void **A, int lng, int startv) {
   }
 
   /*
+    #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
   // permutation of [0, lng), to avoid duplicates
   srand(startv);
   struct intval *pi;
@@ -322,6 +323,7 @@ void fillarray(void **A, int lng, int startv) {
     j = rand()%i;
     iswap(i, j, A);
   }
+  #undef iswap
   // */
 
   /*

@@ -59,7 +59,7 @@ void cut4dc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
     { int xx = N1 + k, yy = N + k * offset; iswap(xx, yy, A); }
     // sort this mini array to obtain good pivots
     // cut2lrc(A, N1, M1, depthLimit, compareXY);
-    // cut4dc(A, N1, M1, depthLimit, compareXY);
+    cut4dc(A, N1, M1, depthLimit, compareXY);
     lw = maxlx; up = minrx;
 
   // pivots
