@@ -986,8 +986,6 @@ void insertion ( void **A, int N, int M, int (*compare)()) {
 
 // ************************************************************
 // Dijkstra, but had to add insertionsort in the driver
-// +++++++ don't trust this one.  See the file Dsort2.c +++++
-// The pivot must be put temporarily in the left corner N
 void dflgmd2(void **A, int N, int M, int pivotx,
            void (*cut)(void**, int, int, int,
                        int (*)(const void*, const void*)),
@@ -1035,7 +1033,7 @@ void dflgmd2(void **A, int N, int M, int pivotx,
         if (j < M) (*cut)(A, j, M, depthLimit, compareXY);
         if (N < i) (*cut)(A, N, i, depthLimit, compareXY);
     }
-} // end dflgm2
+} // end dflgmd2
 
 /*
 void dflgmTest0(void **A, int N, int M, int (*compareXY)()) { 
@@ -1068,7 +1066,7 @@ void dflgmTest2(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
       p0 = med(A, pn, p0, pm, compareXY);
     }
     dflgm(A, N, M, p0, dflgmTest2, depthLimit, compareXY);
-    // dflgm2(A, N, M, p0, dflgmTest2, depthLimit, compareXY);
+    // dflgmd2(A, N, M, p0, dflgmTest2, depthLimit, compareXY);
 
 } // end dflgmTest2
 */

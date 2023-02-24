@@ -1,4 +1,4 @@
-// c:/bsd/rigel/sort/Dflg.c
+// c:/bsd/rigel/sort/Dflg2.c
 // Date: Sat Feb 18 15:37:17 2023
 
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
@@ -11,13 +11,12 @@ void dflgm2(void **A, int lo, int hi, int pivotx,
     Simple version of partitioning with: L/M/R
     L < pivot, M = pivot, R > pivot
    */
+  // printf("dflgm2 lo %i hi %i pivotx %i\n", lo,hi,pivotx);
   register int i, j, k; // indices
   register void* p3; // pivot
-  // int z; // for tracing
-  iswap(lo, pivotx, A); // temporary
-  i = lo+1; j = i; k = hi; 
+  i = lo; j = i; k = hi; 
+  p3 = A[pivotx];
 
-  p3 = A[lo];
     /*   L    M                 R
       |*---)----)------------(----|
      lo    i    j            k    hi
@@ -36,8 +35,6 @@ void dflgm2(void **A, int lo, int hi, int pivotx,
   }
  
   // printf("lo %i i %i j %i k %i hi %i\n", lo,i,j,k,hi);
-  if ( lo+1 < i ) { int p = i-1; iswap(lo, p, A); i = p; }
-  else i--;
 
  done: ;
     /*
@@ -75,6 +72,6 @@ void dflgm2(void **A, int lo, int hi, int pivotx,
     }
     if ( k < hi ) (*cut)(A, k+1, hi, depthLimit, compareXY);
     if ( lo < i ) (*cut)(A, lo, i-1, depthLimit, compareXY);
-} // end dflg
+} // end dflgm2
 
 #undef iswap

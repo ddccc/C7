@@ -42,7 +42,8 @@ void dflgm32(void **A, int lo, int hi,
   }
   depthLimit--;
     int p0 = lo + (L>>1); // lo + L/2;
-    int px = p0;    if ( 7 < L ) {
+    int px = p0;    
+    if ( 7 < L ) {
       int pn = lo;
       int pm = hi;
       if ( 40 < L ) {
