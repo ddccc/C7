@@ -28,7 +28,8 @@ Counting comparisons
 #include "Qusort.h" // quicksort member
 // #include "Qusortm.c" // quicksort with merge sort
 // #include "Qusort00.c" // 
-
+#include "Dsort2.c"    // Sat Feb 18 19:11:14 2023
+#include "D3sort2.c" // Sat Feb 18 19:11:14 2023
 // */
 // #include "D4.c" 
 //                    #include "C2sort.c" // cut2
@@ -99,8 +100,9 @@ void blockSort();
 // void ddcchen();
 // void mybam();
 // void myqsort();
-/*
 void dflgm0();
+void dflgm20();
+/*
 // void mergeSort();
 // void compare00FourSortAgainstFiveSort();
 // void compare00DPQAgainstFiveSort();
@@ -203,7 +205,8 @@ int main (int argc, char *argv[]) {
   // cc("quickn  ", quicksortmn, compareXY, 1);
   // cc("quick3  ", quicksort3, compareXY, 1);
   // cc("quicksort0k", quicksort0k, compareXY, 1); // deleted
-  // cc("dflgm0  ", dflgm0, compareXY, 1);   
+  cc("dflgm0  ", dflgm0, compareXY, 1);   
+  cc("dflgm20 ", dflgm20, compareXY, 1);   
   // cc("cut2    ", cut2, compareXY, 1);
   // cc("cut2m   ", cut2m, compareXY, 1); // Mon Nov 15 16:26:06 2021 deleted
   // cc("c2lr    ", cut2lr, compareXY, 1); // deleted 
@@ -983,7 +986,9 @@ void insertion ( void **A, int N, int M, int (*compare)()) {
 
 // ************************************************************
 // Dijkstra, but had to add insertionsort in the driver
-void dflgm2(void **A, int N, int M, int pivotx,
+// +++++++ don't trust this one.  See the file Dsort2.c +++++
+// The pivot must be put temporarily in the left corner N
+void dflgmd2(void **A, int N, int M, int pivotx,
            void (*cut)(void**, int, int, int,
                        int (*)(const void*, const void*)),
            int depthLimit, int (*compareXY)(const void*, const void*)) {
