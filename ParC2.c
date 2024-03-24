@@ -218,7 +218,7 @@ void *partitionThreadRight(void *ptr) {
   int m = getM(tx);
   // int T = getDL(tx);
   int (*compare)() = getXY(tx);
-  int ix = partitionRigh2(A, n, m, compare);
+  int ix = partitionRight(A, n, m, compare);
   setN(tx, ix);
 } // end partitionThreadRight
 */

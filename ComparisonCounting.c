@@ -102,6 +102,8 @@ void blockSort();
 // void myqsort();
 void dflgm0();
 void dflgm20();
+
+void validateC2lr();
 /*
 // void mergeSort();
 // void compare00FourSortAgainstFiveSort();
@@ -205,8 +207,8 @@ int main (int argc, char *argv[]) {
   // cc("quickn  ", quicksortmn, compareXY, 1);
   // cc("quick3  ", quicksort3, compareXY, 1);
   // cc("quicksort0k", quicksort0k, compareXY, 1); // deleted
-  cc("dflgm0  ", dflgm0, compareXY, 1);   
-  cc("dflgm20 ", dflgm20, compareXY, 1);   
+  // cc("dflgm0  ", dflgm0, compareXY, 1);   
+  // cc("dflgm20 ", dflgm20, compareXY, 1);   
   // cc("cut2    ", cut2, compareXY, 1);
   // cc("cut2m   ", cut2m, compareXY, 1); // Mon Nov 15 16:26:06 2021 deleted
   // cc("c2lr    ", cut2lr, compareXY, 1); // deleted 
@@ -246,7 +248,7 @@ int main (int argc, char *argv[]) {
   // compare00DPQAgainstFourSort();
   // validateC2();
   // validateC21();
-  // validateC2lr(); // deleted
+  validateC2lr(); 
   // validateC2lrb();
   // validateC2left();
   // validateC2sort();
@@ -2056,12 +2058,12 @@ void validateC21() {
 		    quicksort0, c21);
 }
 */
-/*
+// /*
 void validateC2lr() {
   validateAlgorithm("Running validate C2LR ...",
 		    quicksort0, cut2lr);
 }
-*/
+// */
 /*
 void validateC2lr2() {
   validateAlgorithm("Running validate C2LR2 ...",

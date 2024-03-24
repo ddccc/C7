@@ -1,5 +1,8 @@
 File: c:/bsd/rigel/sort/C7/aaReadMe.txt
-Date: Sat Dec 14 07:03:07 2019
+Date: Sun Mar 24 07:47:14 2024
+
+A paper describing the algorithms:  
+    Hybrid.pdf
 
 There are three drivers;
 -- ComparisonCounting.c
