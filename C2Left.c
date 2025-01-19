@@ -15,6 +15,7 @@ void cut2leftc();
 void cut2left(void **A, int N, int M, int (*compare)()) { 
   // printf("cut2left %d %d %d\n", N, M, M-N);
   int L = M - N;
+  if ( L <= 0 ) return;
   if ( L < cut2LeftLimit ) { 
     quicksort0(A, N, M, compare);
     return;

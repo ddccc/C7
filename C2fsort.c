@@ -13,6 +13,7 @@ static void cut2fc();
 void cut2f(void **A, int N, int M, int (*compare)()) { 
   // printf("cut2f %d %d %d \n", N, M, M-N;
   int L = M - N;
+  if ( L <= 0 ) return;
   if ( L < cut2fLimit ) { 
     cut2(A, N, M, compare);
     return;

@@ -11,6 +11,7 @@ static void cut2lrbc();
 void cut2lrb(void **A, int N, int M, int (*compare)()) { 
   // printf("cut2lrb %d %d %d\n", N, M, M-N);
   int L = M - N;
+  if ( L <= 0 ) return;
   if ( L < 10 * 1024 ) {
     cut2lr(A, N, M, compare);
     return;

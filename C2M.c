@@ -17,9 +17,10 @@ void cut2mc(); // is called also
 void cut2m(void **A, int lo, int hi, int (*compare)()) { 
   // printf("cut2m %d %d %d\n", lo, hi, hi-lo);
   int L = hi - lo;
+  if ( L <= 0 ) return;
   int depthLimit = 2.9 * floor(log(L));
   cut2mc(A, lo, hi, depthLimit, compare);
-} // end cut2
+} // end cut2m
 // calculate the median of 3
 static int medq4(void **A, int a, int b, int c,
 	int (*compareXY ) (const void *, const void * ) ) {

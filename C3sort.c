@@ -25,6 +25,7 @@ static void tpsc();
 // tps is the header function for the three partition sorter tpsc
 void tps(void **A, int N, int M, int (*compareXY)() ) {
   int L = M - N;
+  if ( L <= 0 ) return;
   if ( L < cut3Limit ) { 
     cut2(A, N, M, compareXY);
     return;

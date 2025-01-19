@@ -10,7 +10,8 @@ static void heapify(void **, int, int (*)(const void*, const void*));
 static void siftDown(void **, int, int, int (*)(const void*, const void*));
 
 
-void heapc(void **A, int lo, int hi, int (*compare)(const void*, const void*)) {
+void heapc(void **A, int lo, int hi, 
+	   int (*compare)(const void*, const void*)) {
   // printf("heapc: %d %d\n", lo, hi);
   if ( hi <= lo ) return;
   heapSort(&A[lo], hi-lo+1, compare);
@@ -74,3 +75,4 @@ void siftDown(void **a, int start, int end,
   }
 } // end siftDown
 
+#undef iswap

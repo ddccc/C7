@@ -2,12 +2,11 @@
 // Date: Wed Apr 10 12:28:44 2019
 // (C) OntoOO/ Dennis de Champeaux
 
-#include "C2LR2.h"
 
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
+#define delegate 1300
 
-void cut7c(void **A, int lo, int hi, int depthLimit,
-	   int (*compare)(const void*, const void*));
+void cut7c(void **, int, int, int, int (*)(const void*, const void*));
 
 void cut7(void **A, int lo, int hi, int (*compare)()) {
   // printf("cut7 N %i lo %i \n", lo, hi);
@@ -34,7 +33,7 @@ void cut7c(void **A, int lo, int hi, int depthLimit,
   }
   depthLimit--;
 
-  if ( L < 1300 ) {
+  if ( L < delegate ) {
     cut2lr2c(A, lo, hi, depthLimit, compare);
     // cut2Nk1nc(A, lo, hi, depthLimit, compare);
     // cut2k2c(A, lo, hi, depthLimit, compare);
@@ -42,69 +41,7 @@ void cut7c(void **A, int lo, int hi, int depthLimit,
     return;
   }
 
-  //  int middlex = lo + (L>>1); // lo + L/2;
-
-  /*
-  const int use1pivot = 500;
-  const int use3sample = 700;
-  const int use5sample = 900;
-
-
-  int maxlx, minrx;
-  register void *maxl, *middle, *minr;   
-  register int lw, up; // indices
-  i = lw = lo; j = up = hi;
-  int lo1, hi1, k;
-
-  if ( L <= use5sample ) { // using 5 elements
-    int e1, e2, e3, e4, e5;
-    e1 = maxlx = lo; e5 = minrx = hi;
-    e3 = middlex;
-    int quartSegmentLng = L >> 2; // L/4
-    e2 = e3 - quartSegmentLng;
-    e4 = e3 + quartSegmentLng;
-
-    void *ae1 = A[e1], *ae2 = A[e2], *ae3 = A[e3], *ae4 = A[e4], *ae5 = A[e5];
-    void *t;
-    // if (ae1 > ae2) { t = ae1; ae1 = ae2; ae2 = t; }
-    if ( 0 < compare(ae1, ae2) ) { t = ae1; ae1 = ae2; ae2 = t; } // 1-2
-    if ( 0 < compare(ae4, ae5) ) { t = ae4; ae4 = ae5; ae5 = t; } // 4-5
-    if ( 0 < compare(ae1, ae3) ) { t = ae1; ae1 = ae3; ae3 = t; } // 1-3
-    if ( 0 < compare(ae2, ae3) ) { t = ae2; ae2 = ae3; ae3 = t; } // 2-3
-    if ( 0 < compare(ae1, ae4) ) { t = ae1; ae1 = ae4; ae4 = t; } // 1-4
-    if ( 0 < compare(ae3, ae4) ) { t = ae3; ae3 = ae4; ae4 = t; } // 3-4
-    if ( 0 < compare(ae2, ae5) ) { t = ae2; ae2 = ae5; ae5 = t; } // 2-5
-    if ( 0 < compare(ae2, ae3) ) { t = ae2; ae2 = ae3; ae3 = t; } // 2-3
-    if ( 0 < compare(ae4, ae5) ) { t = ae4; ae4 = ae5; ae5 = t; } // 4-5
-    // ... and reassign
-    A[e1] = ae1; A[e2] = ae2; A[e3] = ae3; A[e4] = ae4; A[e5] = ae5;
-    // pivots
-    maxl = A[maxlx]; middle = A[middlex]; minr = A[minrx];
-    lw = lo+1; iswap(lw, middlex, A);
-    // up = hi-1; // iswap(up, mrx, A);
-    up = hi; // iswap(up, mrx, A);
-  } else { // using many elements
-    int probeLng = sqrt(L/5.8);
-    probeLng = (probeLng <= 500 ? probeLng : 500);
-    int halfSegmentLng = probeLng >> 1; // probeLng/2;
-    int quartSegmentLng = probeLng >> 2; // probeLng/4;
-    lo1 = middlex - halfSegmentLng; //  lo + (L>>1) - halfSegmentLng;
-    hi1 = lo1 + probeLng - 1;
-    maxlx = lo1 + quartSegmentLng;
-    // int middlex = lo1 + halfSegmentLng;
-    minrx = hi1 - quartSegmentLng;
-    // mrx = middlex + (quartSegmentLng>>1);
-    int offset = L/probeLng;  
-    // assemble the mini array [lo1, hi1]
-    for (k = 0; k < probeLng; k++) // iswap(lo1 + k, lo + k * offset, A);
-      { int xx = lo1 + k, yy = lo + k * offset; iswap(xx, yy, A); }
-    // sort this mini array to obtain good pivots
-    // protect against constant arrays
-    cut7c(A, lo1, hi1, depthLimit, compare);
-    // pivots
-    maxl = A[maxlx]; middle = A[middlex]; minr = A[minrx];
-  }
-  */
+  
 
   int k, lo1, hi1; // for sampling
   int maxlx, middlex, minrx;  
@@ -114,8 +51,7 @@ void cut7c(void **A, int lo, int hi, int depthLimit,
   i = lo; j = hi;
   z = middlex = lo + (L>>1); // lo + L/2/
   //const int small = 900; 
-{ // small <= L, use a variable number for sampling
-  // int probeLng = sqrt(L/5.8); 
+{ 
     int probeLng = sqrt(L/5.6); 
     int halfSegmentLng = probeLng >> 1; // probeLng/2;
     int quartSegmentLng = probeLng >> 2; // probeLng/4;
@@ -212,7 +148,7 @@ void cut7c(void **A, int lo, int hi, int depthLimit,
       if ( compare(minr, alw) <= 0 ) {
 	A[up] = A[--j]; A[j] = alw;
       } else A[up] = alw;
-     }
+    }
 
     // fall through
     lw--;
@@ -295,3 +231,4 @@ void cut7c(void **A, int lo, int hi, int depthLimit,
 } // end 3-pivot module end cut7
 
 #undef iswap
+#undef delegate

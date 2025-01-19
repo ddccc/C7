@@ -13,6 +13,7 @@ static void cut2pc();
 void cut2p(void **A, int lo, int hi, int (*compare)()) { 
   // printf("cut2 %d %d %d\n", lo, hi, hi-lo);
   int L = hi - lo;
+  if ( L <= 0 ) return;
   int depthLimit = 1 + 2.9 * floor(log(L));
   if ( L < cut2pLimit ) { 
     // quicksort0(A, lo, hi, compare);

@@ -18,6 +18,7 @@ void cut2kc(); // is called also
 void cut2k(void **A, int lo, int hi, int (*compare)()) { 
   // printf("cut2k %d %d %d\n", lo, hi, hi-lo);
   int L = hi - lo;
+  if ( L <= 0 ) return;
   int depthLimit = 2.9 * floor(log(L));
   cut2kc(A, lo, hi, depthLimit, compare);
 } // end cut2k

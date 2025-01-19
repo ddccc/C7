@@ -8,6 +8,7 @@ void *myMalloc();
 static void c2c();
 // c2 is a support function to call up the workhorse c2c
 void c2(void **A, int N, int M, int (*compare)()) { 
+  if ( M <= N ) return;
   // printf("cut2 %d %d %d\n", N, M, M-N);
   int L = M - N + 1;
   void **C = myMalloc("c2", L*sizeof(A)); // copy file

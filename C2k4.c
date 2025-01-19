@@ -17,6 +17,7 @@ static void cut2k4np(void **A, void **hip, int depthLimit,
 // with a defense against quadratic behavior due to duplicates
 // cut2k3 is a support function to call up the workhorse cut2k3np
 void cut2k4(void **A, int lo, int hi, int (*compare)()) {
+  if ( hi <= lo ) return;
     int size = hi - lo + 1;
     int depthLimit = 2.9 * floor(log(size));
     cut2k4np(A+lo, A+hi, depthLimit, compare);

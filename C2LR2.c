@@ -22,6 +22,7 @@ void cut2d0cd(void **A, int lo, int hi, int p, int q, int r,
 
 void cut2lr2(void **A, int lo, int hi, int (*compare)()) {
     int size = hi - lo;
+    if ( size <= 0 ) return;
     int depthLimit = 2.9 * floor(log(size));
     if ( size < dflgmLimit ) { 
       // cut2d0c(A, lo, hi, depthLimit, compare);

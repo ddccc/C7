@@ -86,6 +86,7 @@ static void c21c();
 void c21(void **A, int N, int M, int (*compare)()) { 
   // printf("c21 %d %d %d\n", N, M, M-N);
   int L = M - N;
+  if ( L <= 0 ) return;
   if ( L < cut2Limitx ) { 
     quicksort0(A, N, M, compare);
     return;

@@ -21,6 +21,7 @@ static void cut2NHc();
 void cut2NH(void **A, int N, int M, int (*compare)()) { 
   // printf("cut2 %d %d %d\n", N, M, M-N);
   int L = M - N;
+  if ( L <= 0 ) return;
   int depthLimit = 2.9 * floor(log(L));
   cut2NHc(A, N, M, depthLimit, compare);
 } // end cut2

@@ -87,18 +87,7 @@ int binarySearch(void **A, void *item, int low, int high, int (*compareXY)()) {
 /*
 void insertionsort(void **A, int lo, int hi, int (*compareXY)()) {
   // printf("\n\nin lo %i hi %i\n", lo, hi);
-  // competition:           39997   12.97
   int first = lo + 9; 
-                         // 39997 13.05 13.08 13.09 12.91 12.96 12.77 12.77
-                         //       12.63 ??
-  // int first = lo + 8; 
-                         // 39962 12.86 12.92 13.15 13.07 13.14 13.05 13.07
-  //                              12.81 12.73 12.75 12.68 12.60 12.57 12.44
-  // int first = lo + 7; // 39934 13.13 
-  // int first = lo + 6; // 39937 13.14
-  // int first = lo + 5; // 39946 13.24
-  // int first = lo + 4; // 40012 13.28
-  // printf("first %i\n", first); 
   if ( hi <= first ) {
     // printf("Do insertionsort0\n");
     insertionsort0(A, lo, hi, compareXY);

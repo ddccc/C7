@@ -2,17 +2,19 @@
 // Date: Wed May 12 14:03:17 2021 Sat Jul 23 09:51:37 2022
 // (C) OntoOO/ Dennis de Champeaux
 
-#include "C2LR2.h"
-
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
-static const int cut4dLimit = 1600; 
+//#define cut4dLimit 1700 // 10.11
+#define cut4dLimit 1600 // 10.05
+//#define cut4dLimit 1550 // 10.15
 
-static void cut4dc();
+
+void cut4dc();
 // cut4d is doing 4-partitioning using 3 pivots
 void cut4d(void **A, int N, int M, int (*compareXY)()) {
   // printf("cut4d %d %d \n", N, M);
   int L = M - N; 
+  if ( L <= 0 ) return;
   int depthLimit = 1 + 2.9 * floor(log(L));
   cut4dc(A, N, M, depthLimit, compareXY);
 } // end cut4d
@@ -44,8 +46,10 @@ void cut4dc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
   i = N; j = M;
   z = middlex = N + (L>>1); // N + L/2/
 
-  // int probeLng = sqrt(L/5.8); 
-    int probeLng = sqrt(L/3.0); 
+  // int probeLng = sqrt(L/3.5); // 10.13
+  int probeLng = sqrt(L/3.0); // 10.05
+  // int probeLng = sqrt(L/2.5); // 10.17
+
     int halfSegmentLng = probeLng >> 1; // probeLng/2;
     int quartSegmentLng = probeLng >> 2; // probeLng/4;
     N1 = middlex - halfSegmentLng; //  N + (L>>1) - halfSegmentLng;
@@ -290,5 +294,5 @@ void cut4dc(void **A, int N, int M, int depthLimit, int (*compareXY)()) {
 } // end cut4dc
 
 #undef iswap
-
+#undef cut4dLimit
 

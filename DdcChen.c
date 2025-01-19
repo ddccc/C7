@@ -24,6 +24,7 @@ static void chenL();
 static void chenR();
 void ddcchenc(void **A, int N, int M, int depthLimit, int (*compare)()) {
   // printf("\nddcchenc %d %d %d\n", N, M, M-N);
+  if ( M <= N ) return;
   int L;
   L = M - N + 1;
 

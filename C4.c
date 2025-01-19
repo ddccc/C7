@@ -2,17 +2,17 @@
 // Date: 2012 // Sat Jul 23 08:17:35 2022
 // (C) OntoOO/ Dennis de Champeaux
 
-#include "C2LR2.h"
-
 #define iswap(p, q, A) { void *t3t = A[p]; A[p] = A[q]; A[q] = t3t; }
 
-static const int cut4Limit = 1500; // 1-pivot prefix bound
+
+#define cut4Limit 1000 // 10.61
 
 static void cut4c();
 // cut4 is doing 4-partitioning using 3 pivots
 void cut4(void **A, int lo, int hi, int (*compareXY)()) {
   // printf("cut4 %d %d \n", lo, hi);
   int L = hi - lo; 
+  if ( L <= 0 ) return;
   /*
   if ( L < cut4Limit ) {
     // cut2k2(A, lo, hi, compareXY);
@@ -44,12 +44,10 @@ void cut4c(void **A, int lo, int hi, int depthLimit, int (*compareXY)())
   }
   depthLimit--;
 
-  //  if ( L < 1024 * 200 ) {
   if ( L < cut4Limit ) {
     cut2lr2c(A, lo, hi, depthLimit, compareXY);
     // cut2Nk1nc(A, lo, hi, depthLimit, compareXY);
     // cut2k2c(A, lo, hi, depthLimit, compareXY);
-    // cut2lr(A, lo, hi, depthLimit, compareXY);
     return;
   }
  
@@ -60,40 +58,13 @@ void cut4c(void **A, int lo, int hi, int depthLimit, int (*compareXY)())
   register int i, j, lw, up, z; // indices
   i = lo; j = hi;
   z = middlex = lo + (L>>1); // lo + L/2/
-  /*
-          Obsolete because of the size of cut4Limit
-  // const int small = 900; 
 
-  // const int small = 4000; 
-  if ( L < small ) { // use 5 elements for sampling
-    int e1, e2, e3, e4, e5;
-    e1 = maxlx = lo; e5 = minrx = hi; mrx = middlex+1;
-    e3 = middlex;
-    int quartSegmentLng = L >> 2; // L/4
-    e2 = e3 - quartSegmentLng;
-    e4 = e3 + quartSegmentLng;
-    void *ae1 = A[e1], *ae2 = A[e2], *ae3 = A[e3], *ae4 = A[e4], *ae5 = A[e5];
-    void *t;
-    // if (ae1 > ae2) { t = ae1; ae1 = ae2; ae2 = t; }
-    if ( 0 < compareXY(ae1, ae2) ) { t = ae1; ae1 = ae2; ae2 = t; } // 1-2
-    if ( 0 < compareXY(ae4, ae5) ) { t = ae4; ae4 = ae5; ae5 = t; } // 4-5
-    if ( 0 < compareXY(ae1, ae3) ) { t = ae1; ae1 = ae3; ae3 = t; } // 1-3
-    if ( 0 < compareXY(ae2, ae3) ) { t = ae2; ae2 = ae3; ae3 = t; } // 2-3
-    if ( 0 < compareXY(ae1, ae4) ) { t = ae1; ae1 = ae4; ae4 = t; } // 1-4
-    if ( 0 < compareXY(ae3, ae4) ) { t = ae3; ae3 = ae4; ae4 = t; } // 3-4
-    if ( 0 < compareXY(ae2, ae5) ) { t = ae2; ae2 = ae5; ae5 = t; } // 2-5
-    if ( 0 < compareXY(ae2, ae3) ) { t = ae2; ae2 = ae3; ae3 = t; } // 2-3
-    if ( 0 < compareXY(ae4, ae5) ) { t = ae4; ae4 = ae5; ae5 = t; } // 4-5
-    // ... and reassign
-    A[e1] = ae1; A[e2] = ae2; A[e3] = ae3; A[e4] = ae4; A[e5] = ae5;
-    iswap(mrx, e4, A);
-    lw = z-1; up = mrx+1;
-  } else 
-  */
+
     { // small <= L, use a variable number for sampling
-      // int probeLng = sqrt(L/5.8); 
-      // int probeLng = sqrt(L/5.6); 
-      int probeLng = sqrt(L/3.0); 
+
+      // int probeLng = sqrt(L/5.0); // 10.62
+      int probeLng = sqrt(L/4.0); // 10.55
+      // int probeLng = sqrt(L/3.0); // 10.66
       int halfSegmentLng = probeLng >> 1; // probeLng/2;
       int quartSegmentLng = probeLng >> 2; // probeLng/4;
       lo1 = middlex - halfSegmentLng; //  lo + (L>>1) - halfSegmentLng;
@@ -687,3 +658,4 @@ void cut4c(void **A, int lo, int hi, int depthLimit, int (*compareXY)())
 } // end cut4c
 
 #undef iswap
+#undef cut4Limit

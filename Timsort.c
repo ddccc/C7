@@ -97,25 +97,29 @@ typedef struct timsortData {
     int minGallop;
 } TimsortData, *TimsortDataPtr;
 
+#define COMPAREFN int (*compareXY ) (const void *, const void * )
 
 // forward declarations
-static void timsort2(int low, int high, TimsortDataPtr td, COMPAREFN compareXY);
-static void binarySort(ObjPtr a[], int low, int high, int start, COMPAREFN compareXY);
-static int countRunAndMakeAscending(ObjPtr a[], int low, int high, COMPAREFN compareXY);
+// static void timsort2(int low, int high, TimsortDataPtr td, COMPAREFN compareXY);
+// static void binarySort(ObjPtr a[], int low, int high, int start, COMPAREFN compareXY);
+static void timsort2(int low, int high, TimsortDataPtr td, COMPAREFN);
+static void binarySort(ObjPtr a[], int low, int high, int start, COMPAREFN);
+
+static int countRunAndMakeAscending(ObjPtr a[], int low, int high, COMPAREFN);
 static void reverseRange(ObjPtr a[], int lo, int hi);
 static int minRunLength(int n);
 static void pushRun(int lo, int rl, TimsortDataPtr td);
-static void mergeCollapse(TimsortDataPtr td, COMPAREFN compareXY);
-static void mergeForceCollapse(TimsortDataPtr td, COMPAREFN compareXY);
-static void mergeAt(int i, TimsortDataPtr td, COMPAREFN compareXY);
+static void mergeCollapse(TimsortDataPtr td, COMPAREFN);
+static void mergeForceCollapse(TimsortDataPtr td, COMPAREFN);
+static void mergeAt(int i, TimsortDataPtr td, COMPAREFN);
 static int gallopLeft(ObjPtr key, ObjPtr a[], int base, int len, int hint,
-        TimsortDataPtr td, COMPAREFN compareXY);
+        TimsortDataPtr td, COMPAREFN);
 static int gallopRight(ObjPtr key, ObjPtr a[], int base, int len, int hint,
-        TimsortDataPtr td, COMPAREFN compareXY);
+        TimsortDataPtr td, COMPAREFN);
 static void mergeLo(int base1, int len1, int base2, int len2,
-        TimsortDataPtr td, COMPAREFN compareXY);
+        TimsortDataPtr td, COMPAREFN);
 static void mergeHi(int base1, int len1, int base2, int len2,
-        TimsortDataPtr td, COMPAREFN compareXY);
+        TimsortDataPtr td, COMPAREFN);
 static void ensureCapacity(int minCapacity, TimsortDataPtr td);
 
 
@@ -159,7 +163,7 @@ static void ensureCapacity(int minCapacity, TimsortDataPtr td);
 
 // THE ENTRY POINT FOR THE C VERSION OF TIMSORT
 
-void timsort(ObjPtr a[], int low, int high, COMPAREFN compareXY) {
+void timsort(ObjPtr a[], int low, int high, COMPAREFN) {
     int nRemaining  = high - low + 1;
     if (nRemaining < 2)
         return;  // Arrays of size 0 and 1 are always sorted
@@ -217,7 +221,7 @@ void timsort(ObjPtr a[], int low, int high, COMPAREFN compareXY) {
  * @param workLen usable size of work array
  * @since 1.8
  */
-static void timsort2(int low, int high, TimsortDataPtr td, COMPAREFN compareXY) {
+static void timsort2(int low, int high, TimsortDataPtr td, COMPAREFN) {
     ObjPtr *a = td->a;
     //    assert(a != NULL && low >= 0 && low <= high);
 
@@ -273,7 +277,7 @@ static void timsort2(int low, int high, TimsortDataPtr td, COMPAREFN compareXY) 
  *        not already known to be sorted ({@code lo <= start <= hi})
  */
 //@SuppressWarnings({"fallthrough", "rawtypes", "unchecked"})
-static void binarySort(ObjPtr a[], int low, int high, int start, COMPAREFN compareXY) {
+static void binarySort(ObjPtr a[], int low, int high, int start, COMPAREFN) {
   // assert(low <= start && start <= high);
     if (start == low)
         start++;
@@ -347,7 +351,7 @@ static void binarySort(ObjPtr a[], int low, int high, int start, COMPAREFN compa
  *          the specified array
  */
 //@SuppressWarnings({"unchecked", "rawtypes"})
-static int countRunAndMakeAscending(ObjPtr a[], int low, int high, COMPAREFN compareXY) {
+static int countRunAndMakeAscending(ObjPtr a[], int low, int high, COMPAREFN) {
   // assert(low < high);
     int runHi = low + 1;
     if (runHi == high)
@@ -437,7 +441,7 @@ static void pushRun(int first, int len, TimsortDataPtr td) {
  * the analysis in "On the Worst-Case Complexity of TimSort" by
  * Nicolas Auger, Vincent Jug, Cyril Nicaud, and Carine Pivoteau.
  */
-static void mergeCollapse(TimsortDataPtr td, COMPAREFN compareXY) {
+static void mergeCollapse(TimsortDataPtr td, COMPAREFN) {
     while (td->stackSize > 1) {
         int n = td->stackSize - 2;
         if (n > 0 && td->runLen[n-1] <= td->runLen[n] + td->runLen[n+1] ||
@@ -455,7 +459,7 @@ static void mergeCollapse(TimsortDataPtr td, COMPAREFN compareXY) {
  * Merges all runs on the stack until only one remains.  This method is
  * called once, to complete the sort.
  */
-static void mergeForceCollapse(TimsortDataPtr td, COMPAREFN compareXY) {
+static void mergeForceCollapse(TimsortDataPtr td, COMPAREFN) {
     while (td->stackSize > 1) {
         int n = td->stackSize - 2;
         if (n > 0 && td->runLen[n - 1] < td->runLen[n + 1])
@@ -472,7 +476,7 @@ static void mergeForceCollapse(TimsortDataPtr td, COMPAREFN compareXY) {
  * @param i stack index of the first of the two runs to merge
  */
 //@SuppressWarnings("unchecked")
-static void mergeAt(int i, TimsortDataPtr td, COMPAREFN compareXY) {
+static void mergeAt(int i, TimsortDataPtr td, COMPAREFN) {
   // assert(td->stackSize >= 2);
   // assert(i >= 0);
   // assert(i == td->stackSize - 2 || i == td->stackSize - 3);
@@ -541,7 +545,7 @@ static void mergeAt(int i, TimsortDataPtr td, COMPAREFN compareXY) {
  *    should follow it.
  */
 static int gallopLeft(ObjPtr key, ObjPtr a[], int base, int len, int hint,
-        TimsortDataPtr td, COMPAREFN compareXY) {
+        TimsortDataPtr td, COMPAREFN) {
   // assert(len > 0 && hint >= 0 && hint < len);
 
     int lastOfs = 0;
@@ -611,7 +615,7 @@ static int gallopLeft(ObjPtr key, ObjPtr a[], int base, int len, int hint,
  * @return the int k,  0 <= k <= n such that a[b + k - 1] <= key < a[b + k]
  */
 static int gallopRight(ObjPtr key, ObjPtr a[], int base, int len, int hint,
-        TimsortDataPtr td, COMPAREFN compareXY) {
+        TimsortDataPtr td, COMPAREFN) {
   // assert(len > 0 && hint >= 0 && hint < len);
 
     int ofs = 1;
@@ -686,7 +690,7 @@ static int gallopRight(ObjPtr key, ObjPtr a[], int base, int len, int hint,
  */
 //@SuppressWarnings({"unchecked", "rawtypes"})
 static void mergeLo(int base1, int len1, int base2, int len2,
-        TimsortDataPtr td, COMPAREFN compareXY) {
+        TimsortDataPtr td, COMPAREFN) {
   // assert(len1 > 0 && len2 > 0 && base1 + len1 == base2);
 
     // Copy first run into temp array
@@ -813,7 +817,7 @@ ExitOuter:
  */
 //@SuppressWarnings({"unchecked", "rawtypes"})
 static void mergeHi(int base1, int len1, int base2, int len2,
-        TimsortDataPtr td, COMPAREFN compareXY) {
+        TimsortDataPtr td, COMPAREFN) {
   // assert(len1 > 0 && len2 > 0 && base1 + len1 == base2);
 
     // Copy second run into temp array
@@ -988,4 +992,4 @@ static void ensureCapacity(int minCapacity, TimsortDataPtr td) {
 }
 
 #undef ObjPtr
-
+#undef COMPAREFN
